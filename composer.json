@@ -1,0 +1,12 @@
+{
+    "name": "ajifatur/faturhelper",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Aji Fatur",
+            "email": "ajifatur32@gmail.com"
+        }
+    ],
+    "require": {}
+}
