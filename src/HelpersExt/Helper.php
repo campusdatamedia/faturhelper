@@ -6,6 +6,7 @@
  * @method string|int|null role(string|int $key)
  * @method string slug(string $text)
  * @method string slugify(string $text, array $array)
+ * @method array|null package(string|null $name)
  * @method string mime(string $type)
  * @method string quill(string $html, string $path)
  */
@@ -123,6 +124,35 @@ if(!function_exists('slugify')) {
 
         // Return
         return $slug;
+    }
+}
+
+/**
+ * Get the package.
+ *
+ * @param  string|null $name
+ * @return array|null
+ */
+if(!function_exists('package')) {
+    function package($name = null) {
+        // Get the composer lock
+        $composer = File::get(base_path('composer.lock'));
+
+        // Get packages
+        $array = json_decode($composer, true);
+        $packages = array_key_exists('packages', $array) ? $array['packages'] : [];
+
+        // Get the package if name is not null
+        if($name != null) {
+            $index = '';
+            if(count($packages)>0){
+                foreach($packages as $key=>$package) {
+                    if($package['name'] == $name) $index = $key;
+                }
+            }
+            return array_key_exists($index, $packages) ? $packages[$index] : null;
+        }
+        else return $packages;
     }
 }
 

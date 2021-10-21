@@ -1,7 +1,5 @@
 <?php
 
-namespace Ajifatur\Helpers;
-
 /**
  * @method static string|null change(string $date)
  * @method static array|null split(string $date)
@@ -12,6 +10,9 @@ namespace Ajifatur\Helpers;
  * @method static string|array month(int|null $number)
  * @method static string full(string $datetime)
  */
+
+namespace Ajifatur\Helpers;
+
 class DateTime
 {
     const DATESEPARATOR = ' - ';
