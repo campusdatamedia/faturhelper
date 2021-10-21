@@ -1,12 +1,46 @@
 <?php
 
 /**
+ * @method bool|void has_access(string $permission_code, int $role, bool $isAbort = true)
  * @method string method(string $method)
+ * @method string|int|null role(string|int $key)
+ * @method string slug(string $text)
+ * @method string slugify(string $text, array $array)
  * @method string mime(string $type)
  * @method string quill(string $html, string $path)
  */
 
 use Illuminate\Support\Facades\File;
+
+/**
+ * Check the access for the permission.
+ *
+ * @param  string $permission_code
+ * @param  int    $role
+ * @param  bool   $isAbort
+ * @return string
+ */
+if(!function_exists('has_access')) {
+    function has_access($permission_code, $role, $isAbort = true) {
+        // Get the permission
+        $permission = config('faturhelper.models.permission')::where('code','=',$permission_code)->first();
+
+        // If the permission is not exist
+        if(!$permission) {
+            if($isAbort) abort(403);
+            else return false;
+        }
+
+        // Check role permission
+        if(in_array($role, $permission->roles()->pluck('role_id')->toArray())) {
+            return true;
+        }
+        else {
+            if($isAbort) abort(403);
+            else return false;
+        }
+    }
+}
 
 /**
  * Get the method from object.
@@ -18,6 +52,77 @@ if(!function_exists('method')) {
     function method($method) {
         $explode = explode('\\', $method);
         return end($explode);
+    }
+}
+
+/**
+ * Get the role ID or name.
+ *
+ * @param  string|int $key
+ * @return string|int|null
+ */
+if(!function_exists('role')) {
+    function role($key) {
+        // Get the role by ID
+        if(is_int($key)) {
+            $role = config('faturhelper.models.role')::find($key);
+            return $role ? $role->name : null;
+        }
+        // Get the role by key
+        elseif(is_string($key)) {
+            $role = config('faturhelper.models.role')::where('code','=',$key)->first();
+            return $role ? $role->id : null;
+        }
+        else return null;
+    }
+}
+
+/**
+ * Get the slug from the text.
+ *
+ * @param  string $text
+ * @return string
+ */
+if(!function_exists('slug')) {
+    function slug($text) {
+        // Convert the text to lowercase
+        $result = strtolower($text);
+
+        // Filter text characters
+        $result = preg_replace("/[^a-z0-9\s-]/", "", $result);
+
+        // Trim the text
+        $result = preg_replace("/\s+/", " ",$result);
+
+        // Replace whitespace to dash
+        $result = str_replace(" ", "-", $result);
+
+        // Return
+        return $result;
+    }
+}
+
+/**
+ * Slugify the text.
+ *
+ * @param  string $text
+ * @param  array  $array
+ * @return string
+ */
+if(!function_exists('slugify')) {
+    function slugify($text, $array) {
+        // Convert the text to slug
+        $slug = slug($text);
+
+        // Check the slug from exist slugs
+        $i = 1;
+        while(in_array($slug, $array)) {
+            $i++;
+            $slug = slug($text).'-'.$i;
+        }
+
+        // Return
+        return $slug;
     }
 }
 
