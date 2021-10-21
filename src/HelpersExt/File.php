@@ -6,6 +6,7 @@
  * @method static string setName(string $filename, array $array)
  * @method static int directorySize(string $path, array $exception)
  * @method static string byte(int $bytes)
+ * @method static array json(string $path)
  */
 
 namespace Ajifatur\Helpers;
@@ -128,5 +129,20 @@ class File
             return round($bytes / $tb) . ' TB';
         else
             return $bytes . ' B';
+    }
+
+    /**
+     * Get datasets from JSON file.
+     *
+     * @param  string $path
+     * @return array
+     */
+    public static function json($path)
+    {
+        $array = [];
+        if(LaravelFile::exists(base_path('vendor/ajifatur/faturhelper/json/'.$path))) {
+            $array = json_decode(LaravelFile::get(base_path('vendor/ajifatur/faturhelper/json/'.$path)), true);
+        }
+        return $array;
     }
 }

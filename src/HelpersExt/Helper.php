@@ -4,6 +4,10 @@
  * @method bool|void has_access(string $permission_code, int $role, bool $isAbort = true)
  * @method string method(string $method)
  * @method string|int|null role(string|int $key)
+ * @method string|array gender(string|null $code)
+ * @method string|array status(string|null $code)
+ * @method string|array religion(string|null $code)
+ * @method string|array relationship(string|null $code)
  * @method string slug(string $text)
  * @method string slugify(string $text, array $array)
  * @method array|null package(string|null $name)
@@ -15,6 +19,7 @@
  */
 
 use Illuminate\Support\Facades\File;
+use Ajifatur\Helpers\File as FileExt;
 
 /**
  * Check the access for the permission.
@@ -78,6 +83,98 @@ if(!function_exists('role')) {
             return $role ? $role->id : null;
         }
         else return null;
+    }
+}
+
+/**
+ * Get the gender.
+ *
+ * @param  string|null $code
+ * @return string|array
+ */
+if(!function_exists('gender')) {
+    function gender($code = null) {
+        // Get genders from datasets
+        $array = FileExt::json('gender.json');
+
+        // Set the gender / genders
+        if($code == null) return $array;
+        else {
+            $index = '';
+            foreach($array as $key=>$value) {
+                if($value['key'] == $code) $index = $key;
+            }
+            return array_key_exists($index, $array) ? $array[$index]['name'] : '';
+        }
+    }
+}
+
+/**
+ * Get the status.
+ *
+ * @param  string|null $code
+ * @return string|array
+ */
+if(!function_exists('status')) {
+    function status($code = null) {
+        // Get status from datasets
+        $array = FileExt::json('status.json');
+
+        // Set the status
+        if($code == null) return $array;
+        else {
+            $index = '';
+            foreach($array as $key=>$value) {
+                if($value['key'] == $code) $index = $key;
+            }
+            return array_key_exists($index, $array) ? $array[$index]['name'] : '';
+        }
+    }
+}
+
+/**
+ * Get the religion.
+ *
+ * @param  string|null $code
+ * @return string|array
+ */
+if(!function_exists('religion')) {
+    function religion($code = null) {
+        // Get religions from datasets
+        $array = FileExt::json('religion.json');
+
+        // Set the religion / religion
+        if($code == null) return $array;
+        else {
+            $index = '';
+            foreach($array as $key=>$value) {
+                if($value['key'] == $code) $index = $key;
+            }
+            return array_key_exists($index, $array) ? $array[$index]['name'] : '';
+        }
+    }
+}
+
+/**
+ * Get the relationship.
+ *
+ * @param  string|null $code
+ * @return string|array
+ */
+if(!function_exists('relationship')) {
+    function relationship($code = null) {
+        // Get relationships from datasets
+        $array = FileExt::json('relationship.json');
+
+        // Set the relationship / relationships
+        if($code == null) return $array;
+        else {
+            $index = '';
+            foreach($array as $key=>$value) {
+                if($value['key'] == $code) $index = $key;
+            }
+            return array_key_exists($index, $array) ? $array[$index]['name'] : '';
+        }
     }
 }
 
@@ -168,10 +265,7 @@ if(!function_exists('package')) {
 if(!function_exists('mime')) {
     function mime($type) {
         // Get MIME from datasets
-        $array = [];
-        if(File::exists(base_path('vendor/ajifatur/faturhelper/json/mime.json'))) {
-            $array = json_decode(File::get(base_path('vendor/ajifatur/faturhelper/json/mime.json')),true);
-        }
+        $array = FileExt::json('mime.json');
 
         // Get the extension by type
         $mime = '';

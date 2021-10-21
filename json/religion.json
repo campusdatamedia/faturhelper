@@ -1,0 +1,10 @@
+[
+    {"key": 1, "name": "Islam"},
+    {"key": 2, "name": "Kristen"},
+    {"key": 3, "name": "Katolik"},
+    {"key": 4, "name": "Protestan"},
+    {"key": 5, "name": "Hindu"},
+    {"key": 6, "name": "Buddha"},
+    {"key": 7, "name": "Konghucu"},
+    {"key": 99, "name": "Kepercayaan"}
+]
