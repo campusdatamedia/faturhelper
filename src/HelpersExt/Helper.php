@@ -9,6 +9,9 @@
  * @method array|null package(string|null $name)
  * @method string mime(string $type)
  * @method string quill(string $html, string $path)
+ * @method string hex_to_rgb(string $code)
+ * @method object rgb_to_hsl(string $code)
+ * @method string reverse_color(string $color)
  */
 
 use Illuminate\Support\Facades\File;
@@ -19,7 +22,7 @@ use Illuminate\Support\Facades\File;
  * @param  string $permission_code
  * @param  int    $role
  * @param  bool   $isAbort
- * @return string
+ * @return bool|void
  */
 if(!function_exists('has_access')) {
     function has_access($permission_code, $role, $isAbort = true) {
@@ -184,7 +187,8 @@ if(!function_exists('mime')) {
 /**
  * Set HTML entities from Quill Editor and upload the image.
  *
- * @param  string $method
+ * @param  string $html
+ * @param  string $path
  * @return string
  */
 if(!function_exists('quill')) {
@@ -216,5 +220,90 @@ if(!function_exists('quill')) {
         
         // Return
         return htmlentities($dom->saveHTML());
+    }
+}
+
+/**
+ * Convert Hex to RGB.
+ *
+ * @param  string $code
+ * @return string
+ */
+if(!function_exists('hex_to_rgb')) {
+    function hex_to_rgb($code) {
+        if($code[0] == '#')
+            $code = substr($code, 1);
+
+        if(strlen($code) == 3)
+            $code = $code[0] . $code[0] . $code[1] . $code[1] . $code[2] . $code[2];
+
+        $r = hexdec($code[0] . $code[1]);
+        $g = hexdec($code[2] . $code[3]);
+        $b = hexdec($code[4] . $code[5]);
+
+        return $b + ($g << 0x8) + ($r << 0x10);
+    }
+}
+
+/**
+ * Convert RGB to HSL.
+ *
+ * @param  string $code
+ * @return object
+ */
+if(!function_exists('rgb_to_hsl')) {
+    function rgb_to_hsl($code) {
+        $r = 0xFF & ($code >> 0x10);
+        $g = 0xFF & ($code >> 0x8);
+        $b = 0xFF & $code;
+
+        $r = ((float)$r) / 255.0;
+        $g = ((float)$g) / 255.0;
+        $b = ((float)$b) / 255.0;
+
+        $maxC = max($r, $g, $b);
+        $minC = min($r, $g, $b);
+
+        $l = ($maxC + $minC) / 2.0;
+
+        if($maxC == $minC) {
+            $s = 0;
+            $h = 0;
+        }
+        else {
+            if($l < .5)
+                $s = ($maxC - $minC) / ($maxC + $minC);
+            else
+                $s = ($maxC - $minC) / (2.0 - $maxC - $minC);
+
+            if($r == $maxC)
+                $h = ($g - $b) / ($maxC - $minC);
+            if($g == $maxC)
+                $h = 2.0 + ($b - $r) / ($maxC - $minC);
+            if($b == $maxC)
+                $h = 4.0 + ($r - $g) / ($maxC - $minC);
+
+            $h = $h / 6.0; 
+        }
+
+        $h = (int)round(255.0 * $h);
+        $s = (int)round(255.0 * $s);
+        $l = (int)round(255.0 * $l);
+
+        return (object) Array('hue' => $h, 'saturation' => $s, 'lightness' => $l);
+    }
+}
+
+/**
+ * Reverse the color to be dark or light.
+ *
+ * @param  string $color
+ * @return string
+ */
+if(!function_exists('reverse_color')) {
+    function reverse_color($color) {
+        $hsl = rgb_to_hsl(hex_to_rgb($color));
+        if($hsl->lightness > 200) return '#000000';
+        else return '#ffffff';
     }
 }
