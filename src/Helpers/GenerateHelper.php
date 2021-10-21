@@ -31,7 +31,7 @@ if(!function_exists('generate_age')){
     function generate_age($date){
         $birthdate = new DateTime($date);
         $today = new DateTime('today');
-        $old = $today->diff($birthdate)->old;
+        $old = $today->diff($birthdate)->y;
         return $old;
     }
 }
