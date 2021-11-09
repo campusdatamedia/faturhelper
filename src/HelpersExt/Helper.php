@@ -98,7 +98,7 @@ if(!function_exists('gender')) {
         $array = FileExt::json('gender.json');
 
         // Set the gender / genders
-        if($code == null) return $array;
+        if($code === null) return $array;
         else {
             $index = '';
             foreach($array as $key=>$value) {
@@ -121,7 +121,7 @@ if(!function_exists('status')) {
         $array = FileExt::json('status.json');
 
         // Set the status
-        if($code == null) return $array;
+        if($code === null) return $array;
         else {
             $index = '';
             foreach($array as $key=>$value) {
@@ -144,7 +144,7 @@ if(!function_exists('religion')) {
         $array = FileExt::json('religion.json');
 
         // Set the religion / religion
-        if($code == null) return $array;
+        if($code === null) return $array;
         else {
             $index = '';
             foreach($array as $key=>$value) {
@@ -167,7 +167,7 @@ if(!function_exists('relationship')) {
         $array = FileExt::json('relationship.json');
 
         // Set the relationship / relationships
-        if($code == null) return $array;
+        if($code === null) return $array;
         else {
             $index = '';
             foreach($array as $key=>$value) {
@@ -243,7 +243,10 @@ if(!function_exists('package')) {
         $packages = array_key_exists('packages', $array) ? $array['packages'] : [];
 
         // Get the package if name is not null
-        if($name != null) {
+        if($name === null) {
+            return $packages;
+        }
+        else {
             $index = '';
             if(count($packages)>0){
                 foreach($packages as $key=>$package) {
@@ -252,7 +255,6 @@ if(!function_exists('package')) {
             }
             return array_key_exists($index, $packages) ? $packages[$index] : null;
         }
-        else return $packages;
     }
 }
 
