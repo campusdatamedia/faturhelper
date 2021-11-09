@@ -10,6 +10,7 @@
  * @method string|array relationship(string|null $code)
  * @method string slug(string $text)
  * @method string slugify(string $text, array $array)
+ * @method string access_token()
  * @method array|null package(string|null $name)
  * @method string mime(string $type)
  * @method string quill(string $html, string $path)
@@ -18,6 +19,7 @@
  * @method string reverse_color(string $color)
  */
 
+use Illuminate\Support\Str;
 use Illuminate\Support\Facades\File;
 use Ajifatur\Helpers\File as FileExt;
 
@@ -224,6 +226,29 @@ if(!function_exists('slugify')) {
 
         // Return
         return $slug;
+    }
+}
+
+/**
+ * Generate the access token for user.
+ *
+ * @return string
+ */
+if(!function_exists('access_token')) {
+    function access_token() {
+        // Generate token
+        $token = Str::random(40);
+
+        // Get exist tokens
+        $exist_tokens = config('faturhelper.models.user')::pluck('access_token')->toArray();
+
+        // Check the token from exist tokens
+        while(in_array($token, $exist_tokens)) {
+            $token = Str::random(40);
+        }
+
+        // Return
+        return $token;
     }
 }
 
