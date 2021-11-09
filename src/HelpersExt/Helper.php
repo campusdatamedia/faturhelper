@@ -8,6 +8,7 @@
  * @method string|array status(string|null $code)
  * @method string|array religion(string|null $code)
  * @method string|array relationship(string|null $code)
+ * @method string|array platform(string|null $code)
  * @method string slug(string $text)
  * @method string slugify(string $text, array $array)
  * @method string access_token()
@@ -169,6 +170,29 @@ if(!function_exists('relationship')) {
         $array = FileExt::json('relationship.json');
 
         // Set the relationship / relationships
+        if($code === null) return $array;
+        else {
+            $index = '';
+            foreach($array as $key=>$value) {
+                if($value['key'] == $code) $index = $key;
+            }
+            return array_key_exists($index, $array) ? $array[$index]['name'] : '';
+        }
+    }
+}
+
+/**
+ * Get the platform.
+ *
+ * @param  string|null $code
+ * @return string|array
+ */
+if(!function_exists('platform')) {
+    function platform($code = null) {
+        // Get platforms from datasets
+        $array = FileExt::json('platform.json');
+
+        // Set the platform / platforms
         if($code === null) return $array;
         else {
             $index = '';
