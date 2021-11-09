@@ -8,6 +8,7 @@
  * @method string|array status(string|null $code)
  * @method string|array religion(string|null $code)
  * @method string|array relationship(string|null $code)
+ * @method string|array country_code(string|null $code)
  * @method string|array platform(string|null $code)
  * @method string slug(string $text)
  * @method string slugify(string $text, array $array)
@@ -177,6 +178,52 @@ if(!function_exists('relationship')) {
                 if($value['key'] == $code) $index = $key;
             }
             return array_key_exists($index, $array) ? $array[$index]['name'] : '';
+        }
+    }
+}
+
+/**
+ * Get the country.
+ *
+ * @param  string|null $code
+ * @return string|array
+ */
+if(!function_exists('country')) {
+    function country($code = null) {
+        // Get countries from datasets
+        $array = FileExt::json('country-code.json');
+
+        // Set the country / countries
+        if($code === null) return $array;
+        else {
+            $index = '';
+            foreach($array as $key=>$value) {
+                if($value['code'] == $code) $index = $key;
+            }
+            return array_key_exists($index, $array) ? $array[$index]['name'] : '';
+        }
+    }
+}
+
+/**
+ * Get the dial code.
+ *
+ * @param  string|null $code
+ * @return string|array
+ */
+if(!function_exists('dial_code')) {
+    function dial_code($code = null) {
+        // Get dial codes from datasets
+        $array = FileExt::json('country-code.json');
+
+        // Set the dial code / dial codes
+        if($code === null) return $array;
+        else {
+            $index = '';
+            foreach($array as $key=>$value) {
+                if($value['code'] == $code) $index = $key;
+            }
+            return array_key_exists($index, $array) ? $array[$index]['dial_code'] : '';
         }
     }
 }
