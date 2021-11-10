@@ -12,9 +12,9 @@
 FaturHelper is the project that contains some helpers/functions/methods to help my work easier.
 
 ## Prerequisite
-- PHP >= 7.2
+- PHP >= 7.4
 - DBMS MySQL >= 6.0
-- Laravel >= 7.0
+- Laravel >= 8.0
 
 ## Installation
 
