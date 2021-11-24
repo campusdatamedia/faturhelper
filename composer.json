@@ -5,8 +5,10 @@
     "authors": [
         {
             "name": "Aji Fatur",
-            "email": "ajifatur32@gmail.com"
+            "email": "ajifatur2@gmail.com"
         }
     ],
-    "require": {}
+    "require": {
+        "laravel/socialite": "^5.2"
+    }
 }

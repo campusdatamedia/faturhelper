@@ -22,6 +22,6 @@ class UserAttribute extends Model
      * @var array
      */
     protected $fillable = [
-        'birthdate', 'gender', 'phone_number',
+        'birthdate', 'gender', 'country_code', 'dial_code', 'phone_number',
     ];
 }

@@ -19,6 +19,7 @@
  * @method string hex_to_rgb(string $code)
  * @method object rgb_to_hsl(string $code)
  * @method string reverse_color(string $color)
+ * @method string custom_view(string $view)
  */
 
 use Illuminate\Support\Str;
@@ -497,5 +498,20 @@ if(!function_exists('reverse_color')) {
         $hsl = rgb_to_hsl(hex_to_rgb($color));
         if($hsl->lightness > 200) return '#000000';
         else return '#ffffff';
+    }
+}
+
+/**
+ * Custom the view.
+ *
+ * @param  string $view
+ * @return string
+ */
+if(!function_exists('custom_view')) {
+    function custom_view($view) {
+        if(config('faturhelper.package.view') == '')
+            return $view;
+        else
+            return config('faturhelper.package.view')."::".$view;
     }
 }
