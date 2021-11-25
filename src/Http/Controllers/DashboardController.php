@@ -4,18 +4,23 @@ namespace Ajifatur\FaturHelper\Http\Controllers;
 
 use Auth;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Artisan;
 
 class DashboardController extends \App\Http\Controllers\Controller
 {
     /**
      * Show the dashboard page.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index()
     {
+        // Get the random quote
+        $quote = quote('random');
+
         // View
-        return view('admin/dashboard/index');
+        return view(custom_view('admin/dashboard/index'), [
+            'quote' => $quote
+        ]);
     }
 }

@@ -15,6 +15,7 @@
  * @method string access_token()
  * @method array|null package(string|null $name)
  * @method string mime(string $type)
+ * @method string quote(string|null $random)
  * @method string quill(string $html, string $path)
  * @method string hex_to_rgb(string $code)
  * @method object rgb_to_hsl(string $code)
@@ -374,6 +375,27 @@ if(!function_exists('mime')) {
 
         // Return
         return $mime;
+    }
+}
+
+/**
+ * Get the quote.
+ *
+ * @param  string|null $type
+ * @return string
+ */
+if(!function_exists('quote')) {
+    function quote($random = null) {
+        // Get quotes from datasets
+        $array = FileExt::json('quote.json');
+
+        // If random
+        if($random === 'random') {
+            return $array[rand(0, count($array)-1)];
+        }
+        else {
+            return $array;
+        }
     }
 }
 
