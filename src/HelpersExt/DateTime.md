@@ -1,6 +1,16 @@
 # DateTime
 
-Use the object:
+Methods:
+- change
+- split
+- merge
+- diff
+- toString
+- elapsed
+- month
+- full
+
+How to use the object:
 
 ```php
 use Ajifatur\Helpers\DateTime as DateTimeExt;
