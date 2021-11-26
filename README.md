@@ -40,6 +40,11 @@ if(File::exists(base_path('vendor/ajifatur/faturhelper/src'))){
 
 ### Enjoy!
 
+## Docs
+- [Helper](https://github.com/ajifatur/faturhelper/blob/master/readme/Helper.md)
+- [Helper: DateTime](https://github.com/ajifatur/faturhelper/blob/master/readme/DateTime.md)
+- [Helper: File](https://github.com/ajifatur/faturhelper/blob/master/readme/File.md)
+
 ## Partners
 - [Campus Digital](https://campusdigital.id)
 - [PersonalityTalk](https://psikologanda.com)
