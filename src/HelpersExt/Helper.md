@@ -246,5 +246,25 @@ echo hex_to_rgb('#333333'); // Output: 3355443
 Convert RGB to HSL:
 
 ``` php
-echo rgb_to_hsl('3355443'); // Output: {["hue"] => 0, ["saturation"] => 0, ["lightness"] => 51}
+print_r(rgb_to_hsl('3355443')); // Output: {["hue"] => 0, ["saturation"] => 0, ["lightness"] => 51}
+```
+
+## reverse_color
+
+Reverse the color to be dark or light:
+
+``` php
+echo reverse_color('#333333'); // Output: #ffffff
+```
+
+## custom_view
+
+Custom the view according to the faturhelper.package.view:
+
+``` php
+faturhelper.package.view = '';
+echo custom_view('admin/dashboard'); // Output: admin/dashboard
+
+faturhelper.package.view = 'faturcms';
+echo custom_view('admin/dashboard'); // Output: faturcms::admin/dashboard
 ```
