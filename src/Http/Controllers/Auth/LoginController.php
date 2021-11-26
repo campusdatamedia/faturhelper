@@ -39,8 +39,8 @@ class LoginController extends \App\Http\Controllers\Controller
     {
         // Validator
         $validator = Validator::make($request->all(), [
-            'username' => 'required|string|min:6',
-            'password' => 'required|string|min:6',
+            'username' => 'required|string',
+            'password' => 'required|string',
         ]);
 
         // Return if has errors
@@ -116,7 +116,7 @@ class LoginController extends \App\Http\Controllers\Controller
      * else, create a new user object.
      * @param  object $user
      * @param  string $provider
-     * @return \Ajifatur\Campusnet\Models\User
+     * @return \Ajifatur\FaturHelper\Models\User
      */
     public function findOrCreateUser($user, $provider)
     {
