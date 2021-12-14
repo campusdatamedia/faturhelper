@@ -59,21 +59,42 @@ class LoginController extends \App\Http\Controllers\Controller
 
             // Auth attempt
             if(Auth::attempt($credentials)) {
-                // Regenerate session
-                $request->session()->regenerate();
-
-                // Update user's last visit
+                // Get the user
                 $user = User::find($request->user()->id);
-                if($user) {
+
+                // Check if the user is admin
+                if($user && $user->role->is_admin == 1) {
+                    // Regenerate session
+                    $request->session()->regenerate();
+
+                    // Update user's last visit
                     $user->last_visit = date('Y-m-d H:i:s');
                     $user->save();
-                }
 
-                // Redirect
-                if($request->user()->role->is_admin == 1)
+                    // Redirect
                     return redirect()->route('admin.dashboard');
-                else
-                    return redirect('/');
+                }
+                // Check if the user is non-admin
+                elseif($user && $user->role->is_admin == 0) {
+                    // If non-admin is disallowed to log in
+                    if(config()->has('faturhelper.auth.non_admin_can_login') && config('faturhelper.auth.non_admin_can_login') == false) {
+                        return redirect()->back()->withErrors([
+                            'message' => 'Hanya Admin yang diizinkan log in!'
+                        ])->withInput();
+                    }
+                    // If non-admin is allowed to log in
+                    elseif(config()->has('faturhelper.auth.non_admin_can_login') && config('faturhelper.auth.non_admin_can_login') == true) {
+                        // Regenerate session
+                        $request->session()->regenerate();
+
+                        // Update user's last visit
+                        $user->last_visit = date('Y-m-d H:i:s');
+                        $user->save();
+
+                        // Redirect
+                        return redirect('/');
+                    }
+                }
             }
             else {
                 return redirect()->back()->withErrors([

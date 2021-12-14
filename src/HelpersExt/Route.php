@@ -2,6 +2,9 @@
 
 /**
  * @method static void login()
+ * @method static void logout()
+ * @method static void dashboard()
+ * @method static void user()
  */
 
 namespace Ajifatur\Helpers;
@@ -38,7 +41,7 @@ class RouteExt
     public static function logout()
     {
         Route::group(['middleware' => ['guest']], function() {
-            Route::post('/logout', self::NAMESPACE.'\Auth\LoginController@logout')->name('logout');
+            Route::post('/logout', self::NAMESPACE.'\Auth\LoginController@logout')->name('auth.logout');
         });
 
         Route::group(['middleware' => ['admin']], function() {
