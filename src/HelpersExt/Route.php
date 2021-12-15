@@ -18,7 +18,7 @@ class RouteExt
      *
      * @var string
      */
-    protected const NAMESPACE = '\Ajifatur\FaturHelper\Http\Controllers';
+    const NAMESPACE = '\Ajifatur\FaturHelper\Http\Controllers';
 
     /**
      * Set the login route.
@@ -27,7 +27,7 @@ class RouteExt
      */
     public static function login()
     {
-        Route::group(['middleware' => ['guest']], function() {
+        Route::group(['middleware' => ['faturhelper.guest']], function() {
             Route::get('/login', self::NAMESPACE.'\Auth\LoginController@show')->name('auth.login');
             Route::post('/login', self::NAMESPACE.'\Auth\LoginController@authenticate');
         });
@@ -40,11 +40,11 @@ class RouteExt
      */
     public static function logout()
     {
-        Route::group(['middleware' => ['guest']], function() {
+        Route::group(['middleware' => ['faturhelper.guest']], function() {
             Route::post('/logout', self::NAMESPACE.'\Auth\LoginController@logout')->name('auth.logout');
         });
 
-        Route::group(['middleware' => ['admin']], function() {
+        Route::group(['middleware' => ['faturhelper.admin']], function() {
             Route::post('/admin/logout', self::NAMESPACE.'\Auth\LoginController@logout')->name('admin.logout');
         });
     }
@@ -56,7 +56,7 @@ class RouteExt
      */
     public static function dashboard()
     {
-        Route::group(['middleware' => ['admin']], function() {
+        Route::group(['middleware' => ['faturhelper.admin']], function() {
             Route::get('/admin', self::NAMESPACE.'\DashboardController@index')->name('admin.dashboard');
         });
     }
@@ -68,7 +68,7 @@ class RouteExt
      */
     public static function user()
     {
-        Route::group(['middleware' => ['admin']], function() {
+        Route::group(['middleware' => ['faturhelper.admin']], function() {
             Route::get('/admin/profile', self::NAMESPACE.'\UserSettingController@index')->name('admin.profile');
             Route::get('/admin/settings/profile', self::NAMESPACE.'\UserSettingController@profile')->name('admin.settings.profile');
             Route::post('/admin/settings/profile/update', self::NAMESPACE.'\UserSettingController@updateProfile')->name('admin.settings.profile.update');

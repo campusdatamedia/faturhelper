@@ -25,7 +25,7 @@
 
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\File;
-use Ajifatur\Helpers\File as FileExt;
+use Ajifatur\Helpers\FileExt;
 
 /**
  * Check the access for the permission.

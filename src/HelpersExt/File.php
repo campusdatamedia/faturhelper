@@ -11,9 +11,9 @@
 
 namespace Ajifatur\Helpers;
 
-use Illuminate\Support\Facades\File as LaravelFile;
+use Illuminate\Support\Facades\File;
 
-class File
+class FileExt
 {
     /**
      * Get the file from directory.
@@ -25,7 +25,7 @@ class File
     public static function get($path, $exception = [])
     {
         // Get all files
-        $files = LaravelFile::allFiles($path);
+        $files = File::allFiles($path);
 
         // Remove exception files
         if(count($exception) > 0) {
@@ -89,7 +89,7 @@ class File
     public static function directorySize($path, $exception = [])
     {
         // Get all files
-        $files = LaravelFile::allFiles($path);
+        $files = File::allFiles($path);
 
         // Remove exception files, also count directory size
         $dir_size = 0;
@@ -97,7 +97,7 @@ class File
             if(in_array($file->getRelativePathname(), $exception))
                 unset($files[$key]);
             else
-                $dir_size += LaravelFile::size($path.'/'.$file->getRelativePathname());
+                $dir_size += File::size($path.'/'.$file->getRelativePathname());
         }
 
         // Return
@@ -140,8 +140,8 @@ class File
     public static function json($path)
     {
         $array = [];
-        if(LaravelFile::exists(base_path('vendor/ajifatur/faturhelper/json/'.$path))) {
-            $array = json_decode(LaravelFile::get(base_path('vendor/ajifatur/faturhelper/json/'.$path)), true);
+        if(File::exists(base_path('vendor/ajifatur/faturhelper/json/'.$path))) {
+            $array = json_decode(File::get(base_path('vendor/ajifatur/faturhelper/json/'.$path)), true);
         }
         return $array;
     }

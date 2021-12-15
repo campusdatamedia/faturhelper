@@ -11,7 +11,7 @@ Methods:
 How to use the object:
 
 ```php
-use Ajifatur\Helpers\File as FileExt;
+use Ajifatur\Helpers\FileExt;
 ```
 
 ## get

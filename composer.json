@@ -8,6 +8,11 @@
             "email": "ajifatur2@gmail.com"
         }
     ],
+    "autoload": {
+        "psr-4": {
+            "Ajifatur\\FaturHelper\\": "src/"
+        }
+    },
     "require": {
         "laravel/socialite": "^5.2"
     }

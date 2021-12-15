@@ -13,7 +13,7 @@
 
 namespace Ajifatur\Helpers;
 
-class DateTime
+class DateTimeExt
 {
     const DATESEPARATOR = ' - ';
     const TIMESEPARATOR = ' ';

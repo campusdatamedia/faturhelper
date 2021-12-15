@@ -13,7 +13,7 @@ Methods:
 How to use the object:
 
 ```php
-use Ajifatur\Helpers\DateTime as DateTimeExt;
+use Ajifatur\Helpers\DateTimeExt;
 ```
 
 ## change

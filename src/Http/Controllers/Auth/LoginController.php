@@ -58,7 +58,7 @@ class LoginController extends \App\Http\Controllers\Controller
                 'password' => $request->password
             ];
 
-            // Add credentials to non-admin if non-admin is disallowed to log in
+            // Add credentials if non-admin is disallowed to log in
             if(config()->has('faturhelper.auth.non_admin_can_login') && config('faturhelper.auth.non_admin_can_login') === false) {
                 $credentials['role_id'] = Role::where('is_admin','=',1)->pluck('id')->toArray();
             }
