@@ -6,6 +6,7 @@ use Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Laravel\Socialite\Facades\Socialite;
+use Ajifatur\FaturHelper\Models\Role;
 use Ajifatur\FaturHelper\Models\User;
 use Ajifatur\FaturHelper\Models\UserAccount;
 
@@ -57,44 +58,26 @@ class LoginController extends \App\Http\Controllers\Controller
                 'password' => $request->password
             ];
 
+            // Add credentials to non-admin if non-admin is disallowed to log in
+            if(config()->has('faturhelper.auth.non_admin_can_login') && config('faturhelper.auth.non_admin_can_login') === false) {
+                $credentials['role_id'] = Role::where('is_admin','=',1)->pluck('id')->toArray();
+            }
+
             // Auth attempt
             if(Auth::attempt($credentials)) {
-                // Get the user
+                // Regenerate session
+                $request->session()->regenerate();
+
+                // Update user's last visit
                 $user = User::find($request->user()->id);
+                $user->last_visit = date('Y-m-d H:i:s');
+                $user->save();
 
-                // Check if the user is admin
-                if($user && $user->role->is_admin == 1) {
-                    // Regenerate session
-                    $request->session()->regenerate();
-
-                    // Update user's last visit
-                    $user->last_visit = date('Y-m-d H:i:s');
-                    $user->save();
-
-                    // Redirect
+                // Redirect
+                if($user && $user->role->is_admin == 1)
                     return redirect()->route('admin.dashboard');
-                }
-                // Check if the user is non-admin
-                elseif($user && $user->role->is_admin == 0) {
-                    // If non-admin is disallowed to log in
-                    if(config()->has('faturhelper.auth.non_admin_can_login') && config('faturhelper.auth.non_admin_can_login') == false) {
-                        return redirect()->back()->withErrors([
-                            'message' => 'Hanya Admin yang diizinkan log in!'
-                        ])->withInput();
-                    }
-                    // If non-admin is allowed to log in
-                    elseif(config()->has('faturhelper.auth.non_admin_can_login') && config('faturhelper.auth.non_admin_can_login') == true) {
-                        // Regenerate session
-                        $request->session()->regenerate();
-
-                        // Update user's last visit
-                        $user->last_visit = date('Y-m-d H:i:s');
-                        $user->save();
-
-                        // Redirect
-                        return redirect('/');
-                    }
-                }
+                elseif($user && $user->role->is_admin == 0)
+                    return redirect('/');
             }
             else {
                 return redirect()->back()->withErrors([
