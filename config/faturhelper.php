@@ -10,9 +10,11 @@ return [
     */
 
     'models' => [
+        'menuheader' => \Ajifatur\FaturHelper\Models\MenuHeader::class,
+        'menuitem' => \Ajifatur\FaturHelper\Models\MenuItem::class,
         'permission' => \Ajifatur\FaturHelper\Models\Permission::class,
         'role' => \Ajifatur\FaturHelper\Models\Role::class,
-        'user' => \Ajifatur\Campusnet\Models\User::class,
+        'user' => \Ajifatur\FaturHelper\Models\User::class,
     ],
 
     /*

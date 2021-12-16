@@ -10,6 +10,8 @@
  * @method string|array relationship(string|null $code)
  * @method string|array country_code(string|null $code)
  * @method string|array platform(string|null $code)
+ * @method array menu()
+ * @method void eval_sidebar(string $condition, string $true, string $false)
  * @method string slug(string $text)
  * @method string slugify(string $text, array $array)
  * @method string access_token()
@@ -250,6 +252,75 @@ if(!function_exists('platform')) {
             }
             return array_key_exists($index, $array) ? $array[$index]['name'] : '';
         }
+    }
+}
+
+/**
+ * Get the menu.
+ *
+ * @return array
+ */
+if(!function_exists('menu')) {
+    function menu() {
+		$menus = [];
+
+		// Get menu headers
+		$menuheaders = config('faturhelper.models.menuheader')::orderBy('num_order','asc')->get();
+		if(count($menuheaders) > 0) {
+			foreach($menuheaders as $menuheader) {
+				// Get menu items
+				$menuitems = $menuheader->items()->where('parent','=',0)->orderBy('num_order','asc')->get();
+				$items = [];
+				if(count($menuitems) > 0) {
+					foreach($menuitems as $menuitem) {
+						// Get menu subitems
+						$menusubitems = DB::table('menuitems')->where('menuheader_id','=',$menuheader->id)->where('parent','=',$menuitem->id)->orderBy('num_order','asc')->get();
+						$subitems = [];
+						if(count($menusubitems) > 0) {
+							foreach($menusubitems as $menusubitem) {
+								// Push to array
+								array_push($subitems, [
+									'name' => $menusubitem->name,
+									'route' => $menusubitem->route != '' ? $menusubitem->routeparams != '' ? route($menusubitem->route, json_decode($menusubitem->routeparams, true)) : route($menusubitem->route) : '',
+									'conditions' => $menusubitem->conditions,
+								]);
+							}
+						}
+
+						// Push to array
+						array_push($items, [
+							'name' => $menuitem->name,
+							'route' => $menuitem->route != '' ? $menuitem->routeparams != '' ? route($menuitem->route, json_decode($menuitem->routeparams, true)) : route($menuitem->route) : '',
+							'icon' => $menuitem->icon,
+							'conditions' => $menuitem->conditions,
+							'children' => $subitems
+						]);
+					}
+				}
+
+				// Push to array
+				array_push($menus, [
+					'header' => $menuheader->name,
+					'items' => $items
+				]);
+			}
+		}
+
+		return $menus;
+    }
+}
+
+/**
+ * Eval the sidebar.
+ *
+ * @param  string $condition
+ * @param  string $true
+ * @param  string $false
+ * @return void
+ */
+if(!function_exists('eval_sidebar')) {
+    function eval_sidebar($condition, $true, $false = '') {
+        return eval("if(".$condition.") echo '".$true."'; else echo '".$false."';");
     }
 }
 

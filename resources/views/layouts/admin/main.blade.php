@@ -4,7 +4,7 @@
     @include('faturhelper::layouts/admin/_head')
     @yield('css')
 
-    <title>@yield('title') :: FPM | Fatur Package Manager</title>
+    <title>@yield('title') :: {{ config('app.name') }}</title>
 </head>
 <body>
 	<div class="wrapper">
