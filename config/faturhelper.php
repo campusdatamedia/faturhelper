@@ -36,7 +36,8 @@ return [
     */
 
     'auth' => [
-        'non_admin_can_login' => false
+        'non_admin_can_login' => false,
+        'socialite' => false
     ],
     
 ];

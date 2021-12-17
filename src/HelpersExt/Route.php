@@ -28,8 +28,15 @@ class RouteExt
     public static function login()
     {
         Route::group(['middleware' => ['faturhelper.guest']], function() {
+            // Login
             Route::get('/login', self::NAMESPACE.'\Auth\LoginController@show')->name('auth.login');
             Route::post('/login', self::NAMESPACE.'\Auth\LoginController@authenticate');
+
+            // Login via (Socialite)
+            if(config('faturhelper.auth.socialite') === true) {
+                Route::get('/auth/{provider}', self::NAMESPACE.'\Auth\LoginController@redirectToProvider')->name('auth.login.provider');
+                Route::get('/auth/{provider}/callback', self::NAMESPACE.'\Auth\LoginController@handleProviderCallback')->name('auth.login.provider.callback');
+            }
         });
     }
 
