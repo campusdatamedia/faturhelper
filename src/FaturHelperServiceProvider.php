@@ -7,6 +7,7 @@ use Illuminate\Pagination\Paginator;
 use Illuminate\Routing\Router;
 use Illuminate\Support\Facades\File;
 use Ajifatur\FaturHelper\Http\Middleware\Admin;
+use Ajifatur\FaturHelper\Http\Middleware\NonAdmin;
 use Ajifatur\FaturHelper\Http\Middleware\Guest;
 
 class FaturHelperServiceProvider extends ServiceProvider
@@ -22,8 +23,9 @@ class FaturHelperServiceProvider extends ServiceProvider
         $this->loadViewsFrom(__DIR__.'/../resources/views', 'faturhelper');
 
         // Add middlewares
-        $router->aliasMiddleware('faturhelper.guest', Guest::class);
         $router->aliasMiddleware('faturhelper.admin', Admin::class);
+        $router->aliasMiddleware('faturhelper.nonadmin', NonAdmin::class);
+        $router->aliasMiddleware('faturhelper.guest', Guest::class);
 		
 		// Use Bootstrap on paginator
 		Paginator::useBootstrap();

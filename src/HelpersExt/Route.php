@@ -40,7 +40,7 @@ class RouteExt
      */
     public static function logout()
     {
-        Route::group(['middleware' => ['faturhelper.guest']], function() {
+        Route::group(['middleware' => ['faturhelper.nonadmin']], function() {
             Route::post('/logout', self::NAMESPACE.'\Auth\LoginController@logout')->name('auth.logout');
         });
 

@@ -274,7 +274,7 @@ if(!function_exists('menu')) {
 				if(count($menuitems) > 0) {
 					foreach($menuitems as $menuitem) {
 						// Get menu subitems
-						$menusubitems = DB::table('menuitems')->where('menuheader_id','=',$menuheader->id)->where('parent','=',$menuitem->id)->orderBy('num_order','asc')->get();
+						$menusubitems = $menuheader->items()->where('parent','=',$menuitem->id)->orderBy('num_order','asc')->get();
 						$subitems = [];
 						if(count($menusubitems) > 0) {
 							foreach($menusubitems as $menusubitem) {
