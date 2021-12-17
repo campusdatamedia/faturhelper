@@ -262,6 +262,7 @@ if(!function_exists('platform')) {
  */
 if(!function_exists('menu')) {
     function menu() {
+        // Declare menu
 		$menus = [];
 
 		// Get menu headers
@@ -273,28 +274,32 @@ if(!function_exists('menu')) {
 				$items = [];
 				if(count($menuitems) > 0) {
 					foreach($menuitems as $menuitem) {
-						// Get menu subitems
-						$menusubitems = $menuheader->items()->where('parent','=',$menuitem->id)->orderBy('num_order','asc')->get();
-						$subitems = [];
-						if(count($menusubitems) > 0) {
-							foreach($menusubitems as $menusubitem) {
-								// Push to array
-								array_push($subitems, [
-									'name' => $menusubitem->name,
-									'route' => $menusubitem->route != '' ? $menusubitem->routeparams != '' ? route($menusubitem->route, json_decode($menusubitem->routeparams, true)) : route($menusubitem->route) : '',
-									'conditions' => $menusubitem->conditions,
-								]);
-							}
-						}
-
-						// Push to array
-						array_push($items, [
-							'name' => $menuitem->name,
-							'route' => $menuitem->route != '' ? $menuitem->routeparams != '' ? route($menuitem->route, json_decode($menuitem->routeparams, true)) : route($menuitem->route) : '',
-							'icon' => $menuitem->icon,
-							'conditions' => $menuitem->conditions,
-							'children' => $subitems
-						]);
+                        if($menuitem->visible_conditions == '' || ($menuitem->visible_conditions != '' && (bool)eval_sidebar($menuitem->visible_conditions, true, false))) {
+                            // Get menu subitems
+                            $menusubitems = $menuheader->items()->where('parent','=',$menuitem->id)->orderBy('num_order','asc')->get();
+                            $subitems = [];
+                            if(count($menusubitems) > 0) {
+                                foreach($menusubitems as $menusubitem) {
+                                    // Push to array
+                                    array_push($subitems, [
+                                        'name' => $menusubitem->name,
+                                        'route' => $menusubitem->route != '' ? $menusubitem->routeparams != '' ? route($menusubitem->route, json_decode($menusubitem->routeparams, true)) : route($menusubitem->route) : '',
+                                        'visible_conditions' => $menusubitem->visible_conditions,
+                                        'active_conditions' => $menusubitem->active_conditions,
+                                    ]);
+                                }
+                            }
+                        
+                            // Push to array
+                            array_push($items, [
+                                'name' => $menuitem->name,
+                                'route' => $menuitem->route != '' ? $menuitem->routeparams != '' ? route($menuitem->route, json_decode($menuitem->routeparams, true)) : route($menuitem->route) : '',
+                                'icon' => $menuitem->icon,
+                                'visible_conditions' => $menuitem->visible_conditions,
+                                'active_conditions' => $menuitem->active_conditions,
+                                'children' => $subitems
+                            ]);
+                        }
 					}
 				}
 
@@ -306,6 +311,7 @@ if(!function_exists('menu')) {
 			}
 		}
 
+        // Return
 		return $menus;
     }
 }
@@ -320,7 +326,7 @@ if(!function_exists('menu')) {
  */
 if(!function_exists('eval_sidebar')) {
     function eval_sidebar($condition, $true, $false = '') {
-        return eval("if(".$condition.") echo '".$true."'; else echo '".$false."';");
+        return eval("if(".$condition.") return '".$true."'; else return '".$false."';");
     }
 }
 
