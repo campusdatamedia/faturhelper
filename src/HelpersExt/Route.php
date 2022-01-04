@@ -5,6 +5,7 @@
  * @method static void logout()
  * @method static void dashboard()
  * @method static void user()
+ * @method static void api()
  */
 
 namespace Ajifatur\Helpers;
@@ -84,5 +85,18 @@ class RouteExt
             Route::get('/admin/settings/password', self::NAMESPACE.'\UserSettingController@password')->name('admin.settings.password');
             Route::post('/admin/settings/password/update', self::NAMESPACE.'\UserSettingController@updatePassword')->name('admin.settings.password.update');
         });
+    }
+
+    /**
+     * Set the API route.
+     *
+     * @return void
+     */
+    public static function api()
+    {
+        // Country Code
+        Route::get('/country-code', function() {
+            return response()->json(country(), 200);
+        })->name('api.country-code');
     }
 }

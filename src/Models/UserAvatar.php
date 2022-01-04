@@ -14,7 +14,7 @@ class UserAvatar extends Model
      *
      * @var string
      */
-    protected $table = 'useravatars';
+    protected $table = 'user_avatars';
 
     /**
      * The attributes that are mass assignable.

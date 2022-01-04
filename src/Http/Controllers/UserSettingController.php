@@ -23,7 +23,7 @@ class UserSettingController extends \App\Http\Controllers\Controller
         $user = User::findOrFail(Auth::user()->id);
 
         // View
-        return view(custom_view('admin/user-setting/index'), [
+        return view('faturhelper::admin/user-setting/index', [
             'user' => $user
         ]);
     }
@@ -36,7 +36,7 @@ class UserSettingController extends \App\Http\Controllers\Controller
     public function profile()
     {
         // View
-        return view(custom_view('admin/user-setting/profile'));
+        return view('faturhelper::admin/user-setting/profile');
     }
 
     /**
@@ -90,7 +90,7 @@ class UserSettingController extends \App\Http\Controllers\Controller
     public function account()
     {
         // View
-        return view(custom_view('admin/user-setting/account'));
+        return view('faturhelper::admin/user-setting/account');
     }
 
     /**
@@ -136,7 +136,7 @@ class UserSettingController extends \App\Http\Controllers\Controller
     public function password()
     {
         // View
-        return view(custom_view('admin/user-setting/password'));
+        return view('faturhelper::admin/user-setting/password');
     }
 
     /**

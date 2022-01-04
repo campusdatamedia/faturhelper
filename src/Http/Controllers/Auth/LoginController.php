@@ -27,7 +27,7 @@ class LoginController extends \App\Http\Controllers\Controller
     public function show()
     {
         // View
-        return view(custom_view('auth/login'));
+        return view('faturhelper::auth/login');
     }
 
     /**
