@@ -22,6 +22,6 @@ class MenuItem extends Model
      * @var array
      */
     protected $fillable = [
-        'name', 'route', 'routeparams', 'icon', 'conditions', 'parent', 'num_order'
+        'name', 'route', 'routeparams', 'icon', 'visible_conditions', 'active_conditions', 'parent', 'num_order'
     ];
 }

@@ -50,7 +50,10 @@ class LoginController extends \App\Http\Controllers\Controller
         }
         else {
             // Check login type
-            $loginType = filter_var($request->username, FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
+            if(config('faturhelper.auth.allow_login_by_email') === true)
+                $loginType = filter_var($request->username, FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
+            else
+                $loginType = 'username';
     
             // Set credentials
             $credentials = [
