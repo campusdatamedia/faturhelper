@@ -27,7 +27,7 @@
                 <div class="sortable" data-url="{{ route('admin.menu.header.sort') }}">
                     @csrf
                     @foreach($menu_headers as $menu_header)
-                    <div class="card border mb-2" data-id="{{ $menu_header->id }}">
+                    <div class="card border mb-2 {{ $menu_header->name == '' ? 'ui-state-disabled' : '' }}" data-id="{{ $menu_header->id }}">
                         <div class="card-header bg-transparent d-flex justify-content-between align-items-center p-2">
                             <h6 class="mb-0">
                                 <a href="#" class="{{ $menu_header->name == '' ? 'text-dark' : '' }}" data-bs-toggle="collapse" data-bs-target="#collapse-menu-header-{{ $menu_header->id }}">
@@ -44,20 +44,43 @@
                         <div class="card-body p-2 collapse show" id="collapse-menu-header-{{ $menu_header->id }}">
 
                             <!-- Menu Item -->
-                            @if(count($menu_header->items)>0)
-                                <div class="list-group sortable" data-url="{{ route('admin.menu.item.sort') }}">
-                                    @foreach($menu_header->items()->orderBy('num_order','asc')->get() as $menu_item)
-                                        <div class="list-group-item d-flex justify-content-between align-items-center p-2" data-id="{{ $menu_item->id }}">
+                            @if(count($menu_header->items) > 0)
+                                <div class="sortable" data-url="{{ route('admin.menu.item.sort') }}">
+                                @foreach($menu_header->items()->where('parent','=',0)->orderBy('num_order','asc')->get() as $menu_item)
+                                    @php
+                                        $submenu_items = $menu_header->items()->where('parent','=',$menu_item->id)->orderBy('num_order','asc')->get();
+                                    @endphp
+                                    <div class="card border mb-2" data-id="{{ $menu_item->id }}">
+                                        <div class="card-header bg-transparent d-flex justify-content-between align-items-center p-2">
                                             <div>
                                                 <i class="{{ $menu_item->icon }} me-1" data-bs-toggle="tooltip" title="{{ $menu_item->name }}"></i>
-                                                <a href="#">{{ $menu_item->name }}</a>
+                                                <a href="{{ $menu_item->route != '' ? is_array(json_decode($menu_item->routeparams, true)) ? route($menu_item->route, json_decode($menu_item->routeparams, true)) : route($menu_item->route) : '#' }}">{{ $menu_item->name }}</a>
                                             </div>
                                             <div class="btn-group">
                                                 <a href="{{ route('admin.menu.item.edit', ['header_id' => $menu_header->id, 'item_id' => $menu_item->id]) }}" class="btn btn-sm btn-outline-secondary" data-bs-toggle="tooltip" title="Edit Item"><i class="bi-pencil"></i></a>
                                                 <a href="#" class="btn btn-sm btn-outline-secondary btn-delete-menu-item" data-id="{{ $menu_item->id }}" data-bs-toggle="tooltip" title="Hapus Item"><i class="bi-trash"></i></a>
                                             </div>
                                         </div>
-                                    @endforeach
+                                        @if(count($submenu_items) > 0)
+                                            <div class="card-body p-2">
+                                                <div class="list-group sortable" data-url="{{ route('admin.menu.item.sort') }}">
+                                                    @foreach($submenu_items as $submenu_item)
+                                                        <div class="list-group-item d-flex justify-content-between align-items-center p-2" data-id="{{ $submenu_item->id }}">
+                                                            <div>
+                                                                <i class="{{ $submenu_item->icon }} me-1" data-bs-toggle="tooltip" title="{{ $submenu_item->name }}"></i>
+                                                                <a href="{{ $submenu_item->route != '' ? is_array(json_decode($submenu_item->routeparams, true)) ? route($submenu_item->route, json_decode($submenu_item->routeparams, true)) : route($submenu_item->route) : '#' }}">{{ $submenu_item->name }}</a>
+                                                            </div>
+                                                            <div class="btn-group">
+                                                                <a href="{{ route('admin.menu.item.edit', ['header_id' => $menu_header->id, 'item_id' => $submenu_item->id]) }}" class="btn btn-sm btn-outline-secondary" data-bs-toggle="tooltip" title="Edit Item"><i class="bi-pencil"></i></a>
+                                                                <a href="#" class="btn btn-sm btn-outline-secondary btn-delete-menu-item" data-id="{{ $submenu_item->id }}" data-bs-toggle="tooltip" title="Hapus Item"><i class="bi-trash"></i></a>
+                                                            </div>
+                                                        </div>
+                                                    @endforeach
+                                                </div>
+                                            </div>
+                                        @endif
+                                    </div>
+                                @endforeach
                                 </div>
                             @else
                                 <em class="text-danger">Belum ada item.</em>

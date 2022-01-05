@@ -139,7 +139,7 @@ class MenuHeaderController extends \App\Http\Controllers\Controller
             foreach($request->get('ids') as $key=>$id) {
                 $menu_header = MenuHeader::find($id);
                 if($menu_header) {
-                    $menu_header->num_order = $key + 1;
+                    $menu_header->num_order = $key + 2;
                     $menu_header->save();
                 }
             }
