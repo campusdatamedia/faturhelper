@@ -14,7 +14,7 @@ class MenuItem extends Model
      *
      * @var string
      */
-    protected $table = 'menuitems';
+    protected $table = 'menu_items';
 
     /**
      * The attributes that are mass assignable.

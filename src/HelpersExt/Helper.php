@@ -25,6 +25,7 @@
  * @method object rgb_to_hsl(string $code)
  * @method string reverse_color(string $color)
  * @method string custom_view(string $view)
+ * @method array datasets(string $category)
  */
 
 use Illuminate\Support\Str;
@@ -635,5 +636,34 @@ if(!function_exists('custom_view')) {
             return $view;
         else
             return config('faturhelper.package.view')."::".$view;
+    }
+}
+
+/**
+ * Get the datasets.
+ *
+ * @param  string $category
+ * @return array
+ */
+if(!function_exists('datasets')) {
+    function datasets($category) {
+        $array = [
+            'small' => [
+                'gender' => 'Jenis Kelamin',
+                'platform' => 'Platform',
+                'relationship' => 'Hubungan',
+                'religion' => 'Agama',
+                'status' => 'Status'
+            ],
+            'large' => [
+                'bootstrap-icons' => 'Bootstrap Icon',
+                'country-code' => 'Kode Negara',
+                'mime' => 'MIME',
+                'quote' => 'Kutipan Inspiratif',
+                'timezone' => 'Zona Waktu',
+            ]
+        ];
+
+        return $array[$category];
     }
 }

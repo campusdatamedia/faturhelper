@@ -20,7 +20,7 @@ class PermissionController extends \App\Http\Controllers\Controller
     public function index(Request $request)
     {
         // Check the access
-        has_access(method(__METHOD__), Auth::user()->role_id);
+        // has_access(method(__METHOD__), Auth::user()->role_id);
 
         // Get permissions
         $permissions = Permission::orderBy('num_order','asc')->get();
@@ -29,7 +29,7 @@ class PermissionController extends \App\Http\Controllers\Controller
         $roles = Role::orderBy('num_order','asc')->get();
 
         // View
-        return view(custom_view('admin/permission/index'), [
+        return view('faturhelper::admin/permission/index', [
             'permissions' => $permissions,
             'roles' => $roles,
         ]);
@@ -43,10 +43,10 @@ class PermissionController extends \App\Http\Controllers\Controller
     public function create()
     {
         // Check the access
-        has_access(method(__METHOD__), Auth::user()->role_id);
+        // has_access(method(__METHOD__), Auth::user()->role_id);
 
         // View
-        return view(custom_view('admin/permission/create'));
+        return view('faturhelper::admin/permission/create');
     }
 
     /**
@@ -93,13 +93,13 @@ class PermissionController extends \App\Http\Controllers\Controller
     public function edit($id)
     {
         // Check the access
-        has_access(method(__METHOD__), Auth::user()->role_id);
+        // has_access(method(__METHOD__), Auth::user()->role_id);
 
         // Get the permission
         $permission = Permission::findOrFail($id);
 
         // View
-        return view(custom_view('admin/permission/edit'), [
+        return view('faturhelper::admin/permission/edit', [
             'permission' => $permission
         ]);
     }
@@ -146,7 +146,7 @@ class PermissionController extends \App\Http\Controllers\Controller
     public function delete(Request $request)
     {
         // Check the access
-        has_access(method(__METHOD__), Auth::user()->role_id);
+        // has_access(method(__METHOD__), Auth::user()->role_id);
         
         // Get the permission
         $permission = Permission::find($request->id);

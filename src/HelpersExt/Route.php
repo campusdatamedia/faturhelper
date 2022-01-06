@@ -89,6 +89,43 @@ class RouteExt
     }
 
     /**
+     * Set the roles route.
+     *
+     * @return void
+     */
+    public static function roles()
+    {
+        Route::group(['middleware' => ['faturhelper.admin']], function() {
+            Route::get('/admin/role', self::NAMESPACE.'\RoleController@index')->name('admin.role.index');
+            Route::get('/admin/role/create', self::NAMESPACE.'\RoleController@create')->name('admin.role.create');
+            Route::post('/admin/role/store', self::NAMESPACE.'\RoleController@store')->name('admin.role.store');
+            Route::get('/admin/role/edit/{id}', self::NAMESPACE.'\RoleController@edit')->name('admin.role.edit');
+            Route::post('/admin/role/update', self::NAMESPACE.'\RoleController@update')->name('admin.role.update');
+            Route::post('/admin/role/delete', self::NAMESPACE.'\RoleController@delete')->name('admin.role.delete');
+            Route::post('/admin/role/sort', self::NAMESPACE.'\RoleController@sort')->name('admin.role.sort');
+        });
+    }
+
+    /**
+     * Set the permissions route.
+     *
+     * @return void
+     */
+    public static function permissions()
+    {
+        Route::group(['middleware' => ['faturhelper.admin']], function() {
+            Route::get('/admin/permission', self::NAMESPACE.'\PermissionController@index')->name('admin.permission.index');
+            Route::get('/admin/permission/create', self::NAMESPACE.'\PermissionController@create')->name('admin.permission.create');
+            Route::post('/admin/permission/store', self::NAMESPACE.'\PermissionController@store')->name('admin.permission.store');
+            Route::get('/admin/permission/edit/{id}', self::NAMESPACE.'\PermissionController@edit')->name('admin.permission.edit');
+            Route::post('/admin/permission/update', self::NAMESPACE.'\PermissionController@update')->name('admin.permission.update');
+            Route::post('/admin/permission/delete', self::NAMESPACE.'\PermissionController@delete')->name('admin.permission.delete');
+            Route::post('/admin/permission/sort', self::NAMESPACE.'\PermissionController@sort')->name('admin.permission.sort');
+            Route::post('/admin/permission/change', self::NAMESPACE.'\PermissionController@change')->name('admin.permission.change');
+        });
+    }
+
+    /**
      * Set the menu route.
      *
      * @return void

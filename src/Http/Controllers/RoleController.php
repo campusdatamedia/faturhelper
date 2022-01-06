@@ -25,7 +25,7 @@ class RoleController extends \App\Http\Controllers\Controller
         $roles = Role::orderBy('num_order','asc')->get();
 
         // View
-        return view(custom_view('admin/role/index'), [
+        return view('faturhelper::admin/role/index', [
             'roles' => $roles
         ]);
     }
@@ -41,7 +41,7 @@ class RoleController extends \App\Http\Controllers\Controller
         has_access(method(__METHOD__), Auth::user()->role_id);
 
         // View
-        return view(custom_view('admin/role/create'));
+        return view('faturhelper::admin/role/create');
     }
 
     /**
@@ -96,7 +96,7 @@ class RoleController extends \App\Http\Controllers\Controller
         $role = Role::findOrFail($id);
 
         // View
-        return view(custom_view('admin/role/edit'), [
+        return view('faturhelper::admin/role/edit', [
             'role' => $role
         ]);
     }
@@ -155,5 +155,28 @@ class RoleController extends \App\Http\Controllers\Controller
 
         // Redirect
         return redirect()->route('admin.role.index')->with(['message' => 'Berhasil menghapus data.']);
+    }
+
+    /**
+     * Sort the resource from storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function sort(Request $request)
+    {
+        // Loop menu headers
+        if(count($request->get('ids')) > 0) {
+            foreach($request->get('ids') as $key=>$id) {
+                $role = Role::find($id);
+                if($role) {
+                    $role->num_order = $key + 1;
+                    $role->save();
+                }
+            }
+
+            echo 'Berhasil mengurutkan data.';
+        }
+        else echo 'Terjadi kesalahan dalam mengurutkan data.';
     }
 }

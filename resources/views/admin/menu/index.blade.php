@@ -130,7 +130,7 @@
     // Button Delete Menu Item
     Spandiv.ButtonDelete(".btn-delete-menu-item", ".form-delete-menu-item");
 
-    // Sortable Topic
+    // Sortable Menu Header and Menu Item
     Spandiv.Sortable(".sortable");
 </script>
 

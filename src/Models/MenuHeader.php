@@ -14,7 +14,7 @@ class MenuHeader extends Model
      *
      * @var string
      */
-    protected $table = 'menuheaders';
+    protected $table = 'menu_headers';
 
     /**
      * The attributes that are mass assignable.
