@@ -163,13 +163,16 @@ class RouteExt
      */
     public static function api()
     {
+        // Update the system
+        Route::get('/system/update', self::NAMESPACE.'\SystemController@update')->name('api.system.update');
+
         // Bootstrap Icons
-        Route::get('/bootstrap-icons', function() {
+        Route::get('/dataset/bootstrap-icons', function() {
             return response()->json(bootstrap_icons(), 200);
         })->name('api.bootstrap-icons');
 
         // Country Code
-        Route::get('/country-code', function() {
+        Route::get('/dataset/country-code', function() {
             return response()->json(country(), 200);
         })->name('api.country-code');
     }
