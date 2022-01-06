@@ -10,6 +10,26 @@ use Symfony\Component\Process\Exception\ProcessFailedException;
 class SystemController extends \App\Http\Controllers\Controller
 {
     /**
+     * Display a listing of the resource.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function index(Request $request)
+    {
+        // Check the access
+        // has_access(method(__METHOD__), Auth::user()->role_id);
+
+        // Get packages
+        $packages = package();
+
+        // View
+        return view('faturhelper::admin/system/index', [
+            'packages' => $packages
+        ]);
+    }
+
+    /**
      * Update the system / package.
      *
      * @param  \Illuminate\Http\Request  $request

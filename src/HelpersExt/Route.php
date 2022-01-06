@@ -1,13 +1,16 @@
 <?php
 
 /**
+ * @method static void auth()
+ * @method static void admin()
  * @method static void login()
  * @method static void logout()
  * @method static void dashboard()
  * @method static void user()
+ * @method static void menu()
  * @method static void roles()
  * @method static void permissions()
- * @method static void menu()
+ * @method static void systems()
  * @method static void api()
  */
 
@@ -17,12 +20,39 @@ use Illuminate\Support\Facades\Route;
 
 class RouteExt
 {
+
     /**
      * The default namespace.
      *
      * @var string
      */
     const NAMESPACE = '\Ajifatur\FaturHelper\Http\Controllers';
+
+    /**
+     * Group the auth route.
+     *
+     * @return void
+     */
+    public static function auth()
+    {
+        self::login();
+        self::logout();
+    }
+
+    /**
+     * Group the admin route.
+     *
+     * @return void
+     */
+    public static function admin()
+    {
+        self::dashboard();
+        self::user();
+        self::menu();
+        self::roles();
+        self::permissions();
+        self::systems();
+    }
 
     /**
      * Set the login route.
@@ -91,6 +121,35 @@ class RouteExt
     }
 
     /**
+     * Set the menu route.
+     *
+     * @return void
+     */
+    public static function menu()
+    {
+        Route::group(['middleware' => ['faturhelper.admin']], function() {
+            // Menu
+            Route::get('/admin/menu', self::NAMESPACE.'\MenuController@index')->name('admin.menu.index');
+
+            // Menu Header
+            Route::get('/admin/menu/header/create', self::NAMESPACE.'\MenuHeaderController@create')->name('admin.menu.header.create');
+            Route::post('/admin/menu/header/store', self::NAMESPACE.'\MenuHeaderController@store')->name('admin.menu.header.store');
+            Route::get('/admin/menu/header/edit/{id}', self::NAMESPACE.'\MenuHeaderController@edit')->name('admin.menu.header.edit');
+            Route::post('/admin/menu/header/update', self::NAMESPACE.'\MenuHeaderController@update')->name('admin.menu.header.update');
+            Route::post('/admin/menu/header/delete', self::NAMESPACE.'\MenuHeaderController@delete')->name('admin.menu.header.delete');
+            Route::post('/admin/menu/header/sort', self::NAMESPACE.'\MenuHeaderController@sort')->name('admin.menu.header.sort');
+
+            // Menu Item
+            Route::get('/admin/menu/item/create/{header_id}', self::NAMESPACE.'\MenuItemController@create')->name('admin.menu.item.create');
+            Route::post('/admin/menu/item/store', self::NAMESPACE.'\MenuItemController@store')->name('admin.menu.item.store');
+            Route::get('/admin/menu/item/edit/{header_id}/{item_id}', self::NAMESPACE.'\MenuItemController@edit')->name('admin.menu.item.edit');
+            Route::post('/admin/menu/item/update', self::NAMESPACE.'\MenuItemController@update')->name('admin.menu.item.update');
+            Route::post('/admin/menu/item/delete', self::NAMESPACE.'\MenuItemController@delete')->name('admin.menu.item.delete');
+            Route::post('/admin/menu/item/sort', self::NAMESPACE.'\MenuItemController@sort')->name('admin.menu.item.sort');
+        });
+    }
+
+    /**
      * Set the roles route.
      *
      * @return void
@@ -128,31 +187,14 @@ class RouteExt
     }
 
     /**
-     * Set the menu route.
+     * Set the systems route.
      *
      * @return void
      */
-    public static function menu()
+    public static function systems()
     {
         Route::group(['middleware' => ['faturhelper.admin']], function() {
-            // Menu
-            Route::get('/admin/menu', self::NAMESPACE.'\MenuController@index')->name('admin.menu.index');
-
-            // Menu Header
-            Route::get('/admin/menu/header/create', self::NAMESPACE.'\MenuHeaderController@create')->name('admin.menu.header.create');
-            Route::post('/admin/menu/header/store', self::NAMESPACE.'\MenuHeaderController@store')->name('admin.menu.header.store');
-            Route::get('/admin/menu/header/edit/{id}', self::NAMESPACE.'\MenuHeaderController@edit')->name('admin.menu.header.edit');
-            Route::post('/admin/menu/header/update', self::NAMESPACE.'\MenuHeaderController@update')->name('admin.menu.header.update');
-            Route::post('/admin/menu/header/delete', self::NAMESPACE.'\MenuHeaderController@delete')->name('admin.menu.header.delete');
-            Route::post('/admin/menu/header/sort', self::NAMESPACE.'\MenuHeaderController@sort')->name('admin.menu.header.sort');
-
-            // Menu Item
-            Route::get('/admin/menu/item/create/{header_id}', self::NAMESPACE.'\MenuItemController@create')->name('admin.menu.item.create');
-            Route::post('/admin/menu/item/store', self::NAMESPACE.'\MenuItemController@store')->name('admin.menu.item.store');
-            Route::get('/admin/menu/item/edit/{header_id}/{item_id}', self::NAMESPACE.'\MenuItemController@edit')->name('admin.menu.item.edit');
-            Route::post('/admin/menu/item/update', self::NAMESPACE.'\MenuItemController@update')->name('admin.menu.item.update');
-            Route::post('/admin/menu/item/delete', self::NAMESPACE.'\MenuItemController@delete')->name('admin.menu.item.delete');
-            Route::post('/admin/menu/item/sort', self::NAMESPACE.'\MenuItemController@sort')->name('admin.menu.item.sort');
+            Route::get('/admin/system', self::NAMESPACE.'\SystemController@index')->name('admin.system.index');
         });
     }
 
@@ -164,7 +206,7 @@ class RouteExt
     public static function api()
     {
         // Update the system
-        Route::get('/system/update', self::NAMESPACE.'\SystemController@update')->name('api.system.update');
+        Route::post('/system/update', self::NAMESPACE.'\SystemController@update')->name('api.system.update');
 
         // Bootstrap Icons
         Route::get('/dataset/bootstrap-icons', function() {
