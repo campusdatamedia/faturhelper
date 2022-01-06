@@ -42,9 +42,10 @@
                         </div>
                     </div>
                     <div class="row mb-3">
-                        <label class="col-lg-2 col-md-3 col-form-label">Icon <span class="text-danger">*</span></label>
+                        <label class="col-lg-2 col-md-3 col-form-label">Icon</label>
                         <div class="col-lg-10 col-md-9">
-                            <input type="text" name="icon" class="form-control form-control-sm {{ $errors->has('icon') ? 'border-danger' : '' }}" value="{{ old('icon') }}">
+                            <div class="h3"><i class="{{ old('icon') }}"></i></div>
+                            <select name="icon" class="form-select form-select-sm {{ $errors->has('icon') ? 'border-danger' : '' }}" id="select2"></select>
                             @if($errors->has('icon'))
                             <div class="small text-danger">{{ $errors->first('icon') }}</div>
                             @endif
@@ -96,5 +97,25 @@
         </div>
 	</div>
 </div>
+
+@endsection
+
+@section('js')
+
+<script type="text/javascript">
+    // Get Bootstrap Icons
+    Spandiv.Select2ServerSide("#select2", {
+        url: "{{ route('api.bootstrap-icons') }}",
+        value: "{{ old('icon') }}",
+        valueProp: "name",
+        nameProp: "name"
+    });
+
+    // Change Bootstrap Icons
+    $(document).on("change", "select[name=icon]", function() {
+        var value = $(this).val();
+        $(this).siblings(".h3").find("i").attr("class",value);
+    });
+</script>
 
 @endsection

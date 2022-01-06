@@ -8,6 +8,8 @@
  * @method string|array status(string|null $code)
  * @method string|array religion(string|null $code)
  * @method string|array relationship(string|null $code)
+ * @method array bootstrap_icons()
+ * @method string|array country(string|null $code)
  * @method string|array country_code(string|null $code)
  * @method string|array platform(string|null $code)
  * @method array menu()
@@ -183,6 +185,27 @@ if(!function_exists('relationship')) {
             }
             return array_key_exists($index, $array) ? $array[$index]['name'] : '';
         }
+    }
+}
+
+/**
+ * Get the Bootstrap Icons.
+ *
+ * @return array
+ */
+if(!function_exists('bootstrap_icons')) {
+    function bootstrap_icons() {
+        // Get Bootstrap Icons from datasets
+        $array = FileExt::json('bootstrap-icons.json');
+
+        // Change array
+        $new_array = [];
+        foreach($array as $key=>$data) {
+            $new_array[$key]['name'] = "bi-".$data;
+        }
+
+        // Return
+        return $new_array;
     }
 }
 
