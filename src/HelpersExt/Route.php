@@ -5,6 +5,8 @@
  * @method static void logout()
  * @method static void dashboard()
  * @method static void user()
+ * @method static void roles()
+ * @method static void permissions()
  * @method static void menu()
  * @method static void api()
  */
