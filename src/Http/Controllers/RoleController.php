@@ -184,7 +184,7 @@ class RoleController extends \App\Http\Controllers\Controller
             foreach($request->get('ids') as $key=>$id) {
                 $role = Role::find($id);
                 if($role) {
-                    $role->num_order = $key + 1;
+                    $role->num_order = $key + 2;
                     $role->save();
                 }
             }
