@@ -26,7 +26,7 @@
                 <div class="list-group sortable" data-url="{{ route('admin.role.sort') }}">
                     @csrf
                     @foreach($roles as $role)
-                        <div class="list-group-item d-flex justify-content-between align-items-center p-2" data-id="{{ $role->id }}">
+                        <div class="list-group-item d-flex justify-content-between align-items-center p-2 {{ $role->code == 'super-admin' ? 'ui-state-disabled' : '' }}" data-id="{{ $role->id }}">
                             <div>
                                 {{ $role->name }}
                                 <br>

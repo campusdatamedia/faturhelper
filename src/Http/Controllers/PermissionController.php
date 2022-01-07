@@ -20,7 +20,7 @@ class PermissionController extends \App\Http\Controllers\Controller
     public function index(Request $request)
     {
         // Check the access
-        // has_access(method(__METHOD__), Auth::user()->role_id);
+        has_access(method(__METHOD__), Auth::user()->role_id);
 
         // Get permissions
         $permissions = Permission::orderBy('num_order','asc')->get();
@@ -43,7 +43,7 @@ class PermissionController extends \App\Http\Controllers\Controller
     public function create()
     {
         // Check the access
-        // has_access(method(__METHOD__), Auth::user()->role_id);
+        has_access(method(__METHOD__), Auth::user()->role_id);
 
         // View
         return view('faturhelper::admin/permission/create');
@@ -93,7 +93,7 @@ class PermissionController extends \App\Http\Controllers\Controller
     public function edit($id)
     {
         // Check the access
-        // has_access(method(__METHOD__), Auth::user()->role_id);
+        has_access(method(__METHOD__), Auth::user()->role_id);
 
         // Get the permission
         $permission = Permission::findOrFail($id);
@@ -146,7 +146,7 @@ class PermissionController extends \App\Http\Controllers\Controller
     public function delete(Request $request)
     {
         // Check the access
-        // has_access(method(__METHOD__), Auth::user()->role_id);
+        has_access(method(__METHOD__), Auth::user()->role_id);
         
         // Get the permission
         $permission = Permission::find($request->id);
@@ -189,16 +189,28 @@ class PermissionController extends \App\Http\Controllers\Controller
      */
     public function change(Request $request)
     {
-        // Get the permission
-        $permission = Permission::find($request->permission);
+        // Check the access
+        has_access(method(__METHOD__), Auth::user()->role_id);
 
-        // Change status
-        if($permission) {
-            $permission->roles()->toggle($request->role);
-            echo 'Berhasil mengganti status hak akses.';
+        // Get the role
+        $role = Role::find($request->role);
+
+        // Check role hierarchy
+        if($role->num_order >= Auth::user()->role->num_order) {
+            // Get the permission
+            $permission = Permission::find($request->permission);
+
+            // Change status
+            if($permission) {
+                $permission->roles()->toggle($request->role);
+                echo 'Berhasil mengganti status hak akses.';
+            }
+            else {
+                echo 'Terjadi kesalahan dalam mengganti status hak akses.';
+            }
         }
         else {
-            echo 'Terjadi kesalahan dalam mengganti status hak akses.';
+            echo 'Tidak bisa mengganti status hak akses pada tingkatan role yang lebih tinggi.';
         }
     }
 }

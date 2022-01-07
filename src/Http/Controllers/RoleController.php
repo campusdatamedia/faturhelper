@@ -95,10 +95,17 @@ class RoleController extends \App\Http\Controllers\Controller
         // Get the role
         $role = Role::findOrFail($id);
 
-        // View
-        return view('faturhelper::admin/role/edit', [
-            'role' => $role
-        ]);
+        // Check role hierarchy
+        if($role->num_order >= Auth::user()->role->num_order) {
+            // View
+            return view('faturhelper::admin/role/edit', [
+                'role' => $role
+            ]);
+        }
+        else {
+            // Redirect
+            return redirect()->route('admin.role.index')->with(['message' => 'Tidak bisa mengubah data yang tingkatannya lebih tinggi.']);
+        }
     }
 
     /**
@@ -150,11 +157,18 @@ class RoleController extends \App\Http\Controllers\Controller
         // Get the role
         $role = Role::find($request->id);
 
-        // Delete the role
-        $role->delete();
+        // Check role hierarchy
+        if($role->num_order >= Auth::user()->role->num_order) {
+            // Delete the role
+            $role->delete();
 
-        // Redirect
-        return redirect()->route('admin.role.index')->with(['message' => 'Berhasil menghapus data.']);
+            // Redirect
+            return redirect()->route('admin.role.index')->with(['message' => 'Berhasil menghapus data.']);
+        }
+        else {
+            // Redirect
+            return redirect()->route('admin.role.index')->with(['message' => 'Tidak bisa menghapus data yang tingkatannya lebih tinggi.']);
+        }
     }
 
     /**

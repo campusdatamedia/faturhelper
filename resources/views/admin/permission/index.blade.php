@@ -18,7 +18,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
                 @endif
-                <p class="fst-italic small text-muted"><i class="bi-info-circle me-1"></i> Tekan dan geser hak akses di bawah ini untuk mengurutkannya.</p>
+                <!-- <p class="fst-italic small text-muted"><i class="bi-info-circle me-1"></i> Tekan dan geser hak akses di bawah ini untuk mengurutkannya.</p> -->
                 <div class="table-responsive">
                     <table class="table table-sm table-sm table-hover table-bordered">
                         <thead class="bg-light">
@@ -76,7 +76,7 @@
 
 <!-- Toast -->
 <div class="toast-container position-fixed top-0 end-0 d-none">
-    <div class="toast align-items-center text-white bg-success border-0" id="toast-sort" role="alert" aria-live="assertive" aria-atomic="true">
+    <div class="toast align-items-center text-white bg-success border-0" id="toast" role="alert" aria-live="assertive" aria-atomic="true">
         <div class="d-flex">
             <div class="toast-body"></div>
             <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
@@ -96,7 +96,7 @@
     Spandiv.Sortable(".sortable");
     
     // Change Status
-    $(document).on("change", ".form-check-input", function(e){
+    $(document).on("click", ".form-check-input", function(e) {
         e.preventDefault();
         var permission = $(this).data("permission");
         var role = $(this).data("role");
@@ -104,8 +104,17 @@
             type: "post",
             url: "{{ route('admin.permission.change') }}",
             data: {_token: "{{ csrf_token() }}", permission: permission, role: role},
-            success: function(response){
-                Spandiv.Toast("#toast-sort", response);
+            success: function(response) {
+                if(response == "Berhasil mengganti status hak akses.") {
+                    $("#toast").hasClass("bg-danger") ? $("#toast").removeClass("bg-danger") : '';
+                    !$("#toast").hasClass("bg-success") ? $("#toast").addClass("bg-success") : '';
+                    e.target.checked = !e.target.checked;
+                }
+                else {
+                    $("#toast").hasClass("bg-success") ? $("#toast").removeClass("bg-success") : '';
+                    !$("#toast").hasClass("bg-danger") ? $("#toast").addClass("bg-danger") : '';
+                }
+                Spandiv.Toast("#toast", response);
             }
         });
     });
