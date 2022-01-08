@@ -29,7 +29,7 @@ class RouteExt
     const NAMESPACE = '\Ajifatur\FaturHelper\Http\Controllers';
 
     /**
-     * Group the auth route.
+     * Group the auth routes.
      *
      * @return void
      */
@@ -40,7 +40,7 @@ class RouteExt
     }
 
     /**
-     * Group the admin route.
+     * Group the admin routes.
      *
      * @return void
      */
@@ -55,7 +55,7 @@ class RouteExt
     }
 
     /**
-     * Set the login route.
+     * Set the login routes.
      *
      * @return void
      */
@@ -75,7 +75,7 @@ class RouteExt
     }
 
     /**
-     * Set the logout route.
+     * Set the logout routes.
      *
      * @return void
      */
@@ -91,7 +91,7 @@ class RouteExt
     }
 
     /**
-     * Set the dashboard route.
+     * Set the dashboard routes.
      *
      * @return void
      */
@@ -103,7 +103,7 @@ class RouteExt
     }
 
     /**
-     * Set the user profile and settings route.
+     * Set the user profile and settings routes.
      *
      * @return void
      */
@@ -121,7 +121,7 @@ class RouteExt
     }
 
     /**
-     * Set the menu route.
+     * Set the menu routes.
      *
      * @return void
      */
@@ -150,7 +150,7 @@ class RouteExt
     }
 
     /**
-     * Set the roles route.
+     * Set the role routes.
      *
      * @return void
      */
@@ -163,12 +163,13 @@ class RouteExt
             Route::get('/admin/role/edit/{id}', self::NAMESPACE.'\RoleController@edit')->name('admin.role.edit');
             Route::post('/admin/role/update', self::NAMESPACE.'\RoleController@update')->name('admin.role.update');
             Route::post('/admin/role/delete', self::NAMESPACE.'\RoleController@delete')->name('admin.role.delete');
+            Route::get('/admin/role/reorder', self::NAMESPACE.'\RoleController@reorder')->name('admin.role.reorder');
             Route::post('/admin/role/sort', self::NAMESPACE.'\RoleController@sort')->name('admin.role.sort');
         });
     }
 
     /**
-     * Set the permissions route.
+     * Set the permission routes.
      *
      * @return void
      */
@@ -181,13 +182,14 @@ class RouteExt
             Route::get('/admin/permission/edit/{id}', self::NAMESPACE.'\PermissionController@edit')->name('admin.permission.edit');
             Route::post('/admin/permission/update', self::NAMESPACE.'\PermissionController@update')->name('admin.permission.update');
             Route::post('/admin/permission/delete', self::NAMESPACE.'\PermissionController@delete')->name('admin.permission.delete');
+            Route::get('/admin/permission/reorder', self::NAMESPACE.'\PermissionController@reorder')->name('admin.permission.reorder');
             Route::post('/admin/permission/sort', self::NAMESPACE.'\PermissionController@sort')->name('admin.permission.sort');
             Route::post('/admin/permission/change', self::NAMESPACE.'\PermissionController@change')->name('admin.permission.change');
         });
     }
 
     /**
-     * Set the systems route.
+     * Set the system routes.
      *
      * @return void
      */
@@ -199,7 +201,7 @@ class RouteExt
     }
 
     /**
-     * Set the API route.
+     * Set the API routes.
      *
      * @return void
      */

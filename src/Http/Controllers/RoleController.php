@@ -172,6 +172,26 @@ class RoleController extends \App\Http\Controllers\Controller
     }
 
     /**
+     * Display a listing of the resource to be sorted.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function reorder(Request $request)
+    {
+        // Check the access
+        has_access(method(__METHOD__), Auth::user()->role_id);
+
+        // Get roles
+        $roles = Role::orderBy('num_order','asc')->get();
+
+        // View
+        return view('faturhelper::admin/role/reorder', [
+            'roles' => $roles
+        ]);
+    }
+
+    /**
      * Sort the resource from storage.
      *
      * @param  \Illuminate\Http\Request  $request

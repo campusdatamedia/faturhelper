@@ -6,7 +6,10 @@
 
 <div class="d-sm-flex justify-content-between align-items-center mb-3">
     <h1 class="h3 mb-2 mb-sm-0">Kelola Hak Akses</h1>
-    <a href="{{ route('admin.permission.create') }}" class="btn btn-sm btn-primary"><i class="bi-plus me-1"></i> Tambah Hak Akses</a>
+    <div class="btn-group">
+        <a href="{{ route('admin.permission.create') }}" class="btn btn-sm btn-primary"><i class="bi-plus me-1"></i> Tambah Hak Akses</a>
+        <a href="{{ route('admin.permission.reorder') }}" class="btn btn-sm btn-success"><i class="bi-shuffle me-1"></i> Urutkan Hak Akses</a>
+    </div>
 </div>
 <div class="row">
 	<div class="col-12">
@@ -18,37 +21,38 @@
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
                 @endif
-                <!-- <p class="fst-italic small text-muted"><i class="bi-info-circle me-1"></i> Tekan dan geser hak akses di bawah ini untuk mengurutkannya.</p> -->
                 <div class="table-responsive">
-                    <table class="table table-sm table-sm table-hover table-bordered">
+                    <table class="table table-sm table-hover table-bordered" id="datatable">
                         <thead class="bg-light">
                             <tr>
+                                <th width="30"><input type="checkbox" class="form-check-input checkbox-all"></th>
                                 <th>Akses</th>
                                 @foreach($roles as $role)
-                                <th width="70" class="small">
+                                <th width="50" class="small">
                                     {{ $role->name }}
                                     <br>
                                     <span class="fw-normal fst-italic text-muted">({{ $role->code }})</span>
                                 </th>
                                 @endforeach
-                                <th width="60">Opsi</th>
+                                <th width="50">Opsi</th>
                             </tr>
                         </thead>
-                        <tbody class="sortable" data-url="{{ route('admin.permission.sort') }}">
+                        <tbody>
                             @if(count($permissions) > 0)
                                 @foreach($permissions as $permission)
                                 <tr data-id="{{ $permission->id }}">
+                                    <td align="center"><input type="checkbox" class="form-check-input checkbox-one"></td>
                                     <td>
                                         {{ $permission->name }}
                                         <br>
                                         <span class="small text-muted">{{ $permission->code }}</span>
                                     </td>
                                     @foreach($roles as $role)
-                                    <td width="70" align="center">
+                                    <td align="center">
                                         <input class="form-check-input" type="checkbox" data-role="{{ $role->id }}" data-permission="{{ $permission->id }}" {{ in_array($role->id, $permission->roles()->pluck('role_id')->toArray()) ? 'checked' : '' }}>
                                     </td>
                                     @endforeach
-                                    <td width="60">
+                                    <td align="center">
                                         <div class="btn-group">
                                             <a href="{{ route('admin.permission.edit', ['id' => $permission->id]) }}" class="btn btn-sm btn-warning" data-bs-toggle="tooltip" title="Edit"><i class="bi-pencil"></i></a>
                                             <a href="#" class="btn btn-sm btn-danger btn-delete" data-id="{{ $permission->id }}" data-bs-toggle="tooltip" title="Hapus"><i class="bi-trash"></i></a>
@@ -89,15 +93,16 @@
 @section('js')
 
 <script type="text/javascript">
+    // DataTable
+    Spandiv.DataTableRowsGroup("#datatable");
+
     // Button Delete
     Spandiv.ButtonDelete(".btn-delete", ".form-delete");
 
-    // Sortable Permission
-    Spandiv.Sortable(".sortable");
-    
     // Change Status
     $(document).on("click", ".form-check-input", function(e) {
         e.preventDefault();
+        if(typeof Pace !== "undefined") Pace.restart();
         var permission = $(this).data("permission");
         var role = $(this).data("role");
         $.ajax({
@@ -125,9 +130,7 @@
 @section('css')
 
 <style type="text/css">
-    .table-sm > :not(caption) > * > * {padding: .25rem .5rem;}
-    .table tr th {text-align: center;}
-    .table tr th, .table tr td {vertical-align: middle;}
+    .table tr td:not(:first-child) .form-check-input {height: 1.25rem; width: 1.25rem;}
 </style>
 
 @endsection

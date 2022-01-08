@@ -159,6 +159,26 @@ class PermissionController extends \App\Http\Controllers\Controller
     }
 
     /**
+     * Display a listing of the resource to be sorted.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function reorder(Request $request)
+    {
+        // Check the access
+        has_access(method(__METHOD__), Auth::user()->role_id);
+
+        // Get permissions
+        $permissions = Permission::orderBy('num_order','asc')->get();
+
+        // View
+        return view('faturhelper::admin/permission/reorder', [
+            'permissions' => $permissions
+        ]);
+    }
+
+    /**
      * Sort the resource from storage.
      *
      * @param  \Illuminate\Http\Request  $request
