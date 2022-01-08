@@ -38,7 +38,7 @@ class SystemController extends \App\Http\Controllers\Controller
     public function update(Request $request)
     {
         // Run process
-        $process = new Process(["sudo", "/opt/plesk/php/7.4/bin/php", "/usr/lib64/plesk-9.0/composer.phar", "update", "ajifatur/faturhelper"], base_path());
+        $process = new Process(["/opt/plesk/php/7.4/bin/php", "/usr/lib64/plesk-9.0/composer.phar", "update", "ajifatur/faturhelper"], base_path());
         $process->setTimeout(null);
         $process->run();
       
