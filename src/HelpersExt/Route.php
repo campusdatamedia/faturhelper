@@ -11,6 +11,7 @@
  * @method static void roles()
  * @method static void permissions()
  * @method static void systems()
+ * @method static void dataset()
  * @method static void api()
  */
 
@@ -52,6 +53,7 @@ class RouteExt
         self::roles();
         self::permissions();
         self::systems();
+        self::dataset();
     }
 
     /**
@@ -197,6 +199,18 @@ class RouteExt
     {
         Route::group(['middleware' => ['faturhelper.admin']], function() {
             Route::get('/admin/system', self::NAMESPACE.'\SystemController@index')->name('admin.system.index');
+        });
+    }
+
+    /**
+     * Set the dataset routes.
+     *
+     * @return void
+     */
+    public static function dataset()
+    {
+        Route::group(['middleware' => ['faturhelper.admin']], function() {
+            Route::get('/admin/dataset', self::NAMESPACE.'\DatasetController@index')->name('admin.dataset.index');
         });
     }
 

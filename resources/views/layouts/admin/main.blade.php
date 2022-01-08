@@ -24,6 +24,10 @@
 		</div>
 	</div>
 
+    @if(Auth::user()->role_id == role('super-admin'))
+        @include('faturhelper::layouts/admin/_offcanvas')
+    @endif
+    
     @include('faturhelper::layouts/admin/_js')
     @yield('js')
 

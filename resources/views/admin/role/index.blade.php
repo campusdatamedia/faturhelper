@@ -27,9 +27,10 @@
                             <tr>
                                 <th width="30"><input type="checkbox" class="form-check-input checkbox-all"></th>
                                 <th>Nama</th>
-                                <th width="70">Kode</th>
-                                <th width="70">Sebagai Admin?</th>
-                                <th width="70">Jumlah Pengguna</th>
+                                <th width="80">Kode</th>
+                                <th width="80">Sebagai Admin?</th>
+                                <th width="80">Jumlah Pengguna</th>
+                                <th width="80">Jumlah Hak Akses</th>
                                 <th width="60">Opsi</th>
                             </tr>
                         </thead>
@@ -41,6 +42,7 @@
                                 <td>{{ $role->code }}</td>
                                 <td><span class="badge {{ $role->is_admin == 1 ? 'bg-success' : 'bg-danger' }}">{{ $role->is_admin == 1 ? 'Ya' : 'Tidak' }}</span></td>
                                 <td align="right">{{ number_format($role->users()->count(),0,',',',') }}</td>
+                                <td align="right">{{ number_format($role->permissions()->count(),0,',',',') }}</td>
                                 <td align="center">
                                     <div class="btn-group">
                                         <a href="{{ route('admin.role.edit', ['id' => $role->id]) }}" class="btn btn-sm btn-warning" data-bs-toggle="tooltip" title="Edit"><i class="bi-pencil"></i></a>

@@ -67,7 +67,7 @@
                         <label class="col-lg-3 col-md-4 col-form-label">Nomor Telepon <span class="text-danger">*</span></label>
                         <div class="col-lg-9 col-md-8">
                             <div class="input-group">
-                                <select name="country_code" class="form-select form-control-sm {{ $errors->has('country_code') ? 'border-danger' : '' }}" id="select2" style="width: 40%"></select>
+                                <select name="country_code" class="form-select form-select-sm {{ $errors->has('country_code') ? 'border-danger' : '' }}" id="select2" style="width: 40%"></select>
                                 <input type="text" name="phone_number" class="form-control form-control-sm {{ $errors->has('phone_number') ? 'border-danger' : '' }}" value="{{ Auth::user()->attribute ? Auth::user()->attribute->phone_number : '' }}">
                             </div>
                             @if($errors->has('phone_number'))
@@ -103,6 +103,7 @@
         nameProp: "name",
         bracketProp: "dial_code"
     });
+    
     // Datepicker
     Spandiv.DatePicker("input[name=birthdate]");
 </script>
