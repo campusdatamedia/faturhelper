@@ -6,7 +6,7 @@
 
     <title>@yield('title') :: {{ config('app.name') }}</title>
 </head>
-<body>
+<body data-theme="{{ setting('theme') }}">
 	<div class="wrapper">
         @include('faturhelper::layouts/admin/_sidebar')
         

@@ -12,6 +12,7 @@
  * @method string|array country(string|null $code)
  * @method string|array country_code(string|null $code)
  * @method string|array platform(string|null $code)
+ * @method string setting(string $code)
  * @method string meta(string $code)
  * @method array menu()
  * @method void eval_sidebar(string $condition, string $true, string $false)
@@ -276,6 +277,20 @@ if(!function_exists('platform')) {
             }
             return array_key_exists($index, $array) ? $array[$index]['name'] : '';
         }
+    }
+}
+
+/**
+ * Get the setting.
+ *
+ * @param  string $key
+ * @return string
+ */
+if(!function_exists('setting')) {
+    function setting($key) {
+        // Get the setting by key
+        $setting = config('faturhelper.models.setting')::where('code','=',$key)->first();
+        return $setting ? $setting->content : '';
     }
 }
 

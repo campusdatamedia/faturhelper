@@ -100,7 +100,7 @@
     Spandiv.ButtonDelete(".btn-delete", ".form-delete");
 
     // Change Status
-    $(document).on("click", ".form-check-input", function(e) {
+    $(document).on("click", "#datatable .form-check-input", function(e) {
         e.preventDefault();
         if(typeof Pace !== "undefined") Pace.restart();
         var permission = $(this).data("permission");

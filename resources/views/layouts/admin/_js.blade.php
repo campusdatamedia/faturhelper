@@ -10,3 +10,20 @@
 	// Enable Everywhere
 	Spandiv.EnableEverywhere();
 </script>
+<script>
+	// Change theme
+	$(document).on("change", "input[name=theme]", function(e) {
+		e.preventDefault();
+        if(typeof Pace !== "undefined") Pace.restart();
+		var theme = $(this).val();
+		$.ajax({
+			type: "post",
+			url: "{{ route('admin.setting.update') }}",
+			data: {_token: "{{ csrf_token() }}", isAjax: true, code: "theme", content: theme},
+			success: function(response) {
+				if(response === "Success!")
+					$("body").attr("data-theme",theme);
+			}
+		});
+	});
+</script>

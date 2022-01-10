@@ -9,6 +9,21 @@
 	</div>
 	<div class="offcanvas-body">
 		<div class="mb-3">
+			<small class="d-block text-uppercase font-weight-bold text-muted mb-2">Tema</small>
+			@php $themes = ['default', 'colored', 'red', 'blue', 'green', 'cyan', 'purple', 'pink', 'gray', 'light']; @endphp
+			<div class="row">
+				@foreach($themes as $theme)
+				<div class="col-6">
+					<div class="form-check form-switch mb-1">
+						<input type="radio" class="form-check-input" name="theme" value="{{ $theme }}" id="theme-{{ $theme }}" {{ setting('theme') == $theme ? 'checked' : '' }}>
+						<label class="form-check-label" for="theme-{{ $theme }}">{{ ucfirst($theme) }}</label>
+		            </div>
+				</div>
+				@endforeach
+			</div>
+		</div>
+		<hr>
+		<div class="mb-3">
 			<small class="d-block text-uppercase font-weight-bold text-muted mb-2">Master</small>
 			<ul class="list-unstyled p-0">
 				<li><a href="{{ route('admin.menu.index') }}">Menu</a></li>

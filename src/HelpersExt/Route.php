@@ -10,6 +10,7 @@
  * @method static void menu()
  * @method static void roles()
  * @method static void permissions()
+ * @method static void settings()
  * @method static void metas()
  * @method static void systems()
  * @method static void database()
@@ -56,6 +57,7 @@ class RouteExt
         self::menu();
         self::roles();
         self::permissions();
+        self::settings();
         self::metas();
         self::systems();
         self::database();
@@ -195,6 +197,19 @@ class RouteExt
             Route::get('/admin/permission/reorder', self::NAMESPACE.'\PermissionController@reorder')->name('admin.permission.reorder');
             Route::post('/admin/permission/sort', self::NAMESPACE.'\PermissionController@sort')->name('admin.permission.sort');
             Route::post('/admin/permission/change', self::NAMESPACE.'\PermissionController@change')->name('admin.permission.change');
+        });
+    }
+
+    /**
+     * Set the setting routes.
+     *
+     * @return void
+     */
+    public static function settings()
+    {
+        Route::group(['middleware' => ['faturhelper.admin']], function() {
+            // Route::get('/admin/setting', self::NAMESPACE.'\MetaController@index')->name('admin.setting.index');
+            Route::post('/admin/setting/update', self::NAMESPACE.'\SettingController@update')->name('admin.setting.update');
         });
     }
 
