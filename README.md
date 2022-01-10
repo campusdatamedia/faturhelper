@@ -63,6 +63,13 @@ Ajifatur\FaturHelper\FaturHelperServiceProvider::class,
 - [Helper: DateTime](https://github.com/ajifatur/faturhelper/blob/master/readme/DateTime.md)
 - [Helper: File](https://github.com/ajifatur/faturhelper/blob/master/readme/File.md)
 
+## Thanks to
+- [Laravel](https://laravel.com)
+- [AdminKit.io](https://adminkit.io)
+- [ajifatur/assets](https://github.com/ajifatur/assets)
+- [laravel/socialite](https://github.com/laravel/socialite)
+- [rap2hpoutre/laravel-log-viewer](https://github.com/rap2hpoutre/laravel-log-viewer)
+
 ## Partners
 - [Campus Data Media](https://campus.co.id)
 - [Campus Digital](https://campusdigital.id)
