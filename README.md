@@ -16,7 +16,7 @@ FaturHelper is the project that contains some helpers/functions/methods to help 
 - DBMS MySQL >= 6.0
 - Laravel >= 8.0
 
-## Installation
+## Installation (v2)
 
 ### Download From Composer:
 
@@ -28,14 +28,32 @@ composer require ajifatur/faturhelper
 
 ### Configuration:
 
-Add this script into your Laravel AppServiceProvider inside of **register** method:
+Add this script into `app/Providers/AppServiceProvider.php` inside of `register` method:
 
 ``` php
-if(File::exists(base_path('vendor/ajifatur/faturhelper/src'))){
-    foreach(glob(base_path('vendor/ajifatur/faturhelper/src').'/Helpers/*.php') as $filename){
+if(File::exists(base_path('vendor/ajifatur/faturhelper/src'))) {
+    foreach(glob(base_path('vendor/ajifatur/faturhelper/src').'/Helpers/*.php') as $filename) {
         require_once $filename;
     }
 }
+```
+
+## Installation (v3)
+
+### Download From Composer:
+
+Run this script into your CLI:
+
+```sh
+composer require ajifatur/faturhelper
+```
+
+### Configuration:
+
+Add Service Provider to `config/app.php` in `providers` section:
+
+``` php
+Ajifatur\FaturHelper\FaturHelperServiceProvider::class,
 ```
 
 ### Enjoy!
@@ -46,6 +64,8 @@ if(File::exists(base_path('vendor/ajifatur/faturhelper/src'))){
 - [Helper: File](https://github.com/ajifatur/faturhelper/blob/master/readme/File.md)
 
 ## Partners
+- [Campus Data Media](https://campus.co.id)
 - [Campus Digital](https://campusdigital.id)
 - [PersonalityTalk](https://psikologanda.com)
 - [Kompetensiku](https://kompetensiku.id)
+- [Spandiv](https://spandiv.xyz)
