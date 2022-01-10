@@ -12,6 +12,7 @@
  * @method string|array country(string|null $code)
  * @method string|array country_code(string|null $code)
  * @method string|array platform(string|null $code)
+ * @method string meta(string $code)
  * @method array menu()
  * @method void eval_sidebar(string $condition, string $true, string $false)
  * @method string slug(string $text)
@@ -24,7 +25,6 @@
  * @method string hex_to_rgb(string $code)
  * @method object rgb_to_hsl(string $code)
  * @method string reverse_color(string $color)
- * @method string custom_view(string $view)
  * @method array datasets(string $category)
  */
 
@@ -276,6 +276,20 @@ if(!function_exists('platform')) {
             }
             return array_key_exists($index, $array) ? $array[$index]['name'] : '';
         }
+    }
+}
+
+/**
+ * Get the meta.
+ *
+ * @param  string $key
+ * @return string
+ */
+if(!function_exists('meta')) {
+    function meta($key) {
+        // Get the meta by key
+        $meta = config('faturhelper.models.meta')::where('code','=',$key)->first();
+        return $meta ? $meta->content : '';
     }
 }
 
@@ -621,21 +635,6 @@ if(!function_exists('reverse_color')) {
         $hsl = rgb_to_hsl(hex_to_rgb($color));
         if($hsl->lightness > 200) return '#000000';
         else return '#ffffff';
-    }
-}
-
-/**
- * Custom the view.
- *
- * @param  string $view
- * @return string
- */
-if(!function_exists('custom_view')) {
-    function custom_view($view) {
-        if(config('faturhelper.package.view') == '')
-            return $view;
-        else
-            return config('faturhelper.package.view')."::".$view;
     }
 }
 

@@ -12,7 +12,7 @@
         <div class="card">
             <div class="card-body text-center">
                 @if(Auth::user()->avatar != '' && File::exists(public_path('assets/images/users/'.Auth::user()->avatar)))
-                    <img src="{{ asset('assets/images/avatar/'.Auth::user()->avatar) }}" class="rounded-circle" height="150" width="150" alt="Foto">
+                    <img src="{{ asset('assets/images/users/'.Auth::user()->avatar) }}" class="rounded-circle" height="150" width="150" alt="Foto">
                 @else
                     <div class="d-flex justify-content-center">
                         <div class="avatar rounded-circle me-2 text-center bg-dark" style="height: 150px; width: 150px; line-height: 150px;">

@@ -10,7 +10,9 @@
  * @method static void menu()
  * @method static void roles()
  * @method static void permissions()
+ * @method static void metas()
  * @method static void systems()
+ * @method static void database()
  * @method static void dataset()
  * @method static void artisan()
  * @method static void log()
@@ -54,7 +56,9 @@ class RouteExt
         self::menu();
         self::roles();
         self::permissions();
+        self::metas();
         self::systems();
+        self::database();
         self::dataset();
         self::artisan();
         self::log();
@@ -195,6 +199,19 @@ class RouteExt
     }
 
     /**
+     * Set the meta routes.
+     *
+     * @return void
+     */
+    public static function metas()
+    {
+        Route::group(['middleware' => ['faturhelper.admin']], function() {
+            Route::get('/admin/meta', self::NAMESPACE.'\MetaController@index')->name('admin.meta.index');
+            Route::post('/admin/meta/update', self::NAMESPACE.'\MetaController@update')->name('admin.meta.update');
+        });
+    }
+
+    /**
      * Set the system routes.
      *
      * @return void
@@ -203,6 +220,18 @@ class RouteExt
     {
         Route::group(['middleware' => ['faturhelper.admin']], function() {
             Route::get('/admin/system', self::NAMESPACE.'\SystemController@index')->name('admin.system.index');
+        });
+    }
+
+    /**
+     * Set the database routes.
+     *
+     * @return void
+     */
+    public static function database()
+    {
+        Route::group(['middleware' => ['faturhelper.admin']], function() {
+            Route::get('/admin/database', self::NAMESPACE.'\DatabaseController@index')->name('admin.database.index');
         });
     }
 

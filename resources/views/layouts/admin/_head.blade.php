@@ -1,9 +1,9 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="Responsive Admin &amp; Dashboard Template based on Bootstrap 5">
-    <meta name="author" content="Aji Fatur">
-    <meta name="keywords" content="adminkit, bootstrap, bootstrap 5, admin, dashboard, template, responsive, css, sass, html, theme, front-end, ui kit, web">
+    <meta name="description" content="{{ meta('description') }}">
+    <meta name="keywords" content="{{ meta('keywords') }}">
+    <meta name="author" content="{{ meta('author') }}">
 
     <link rel="preconnect" href="https://fonts.gstatic.com">
   	<!-- <link rel="shortcut icon" href="{{ asset('assets/images/1599633828-icon.png') }}"> -->
