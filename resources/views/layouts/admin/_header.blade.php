@@ -70,12 +70,21 @@
 					</div>
 				</div>
 			</li>
-			<li class="nav-item dropdown">
+			<li class="nav-item nav-item-user dropdown">
 				<a class="nav-icon dropdown-toggle d-inline-block d-sm-none" href="#" data-bs-toggle="dropdown">
 					<i class="align-middle" data-feather="settings"></i>
 				</a>
 				<a class="nav-link dropdown-toggle d-none d-sm-inline-block" href="#" data-bs-toggle="dropdown">
-					<img src="{{ Auth::user()->avatar != '' ? asset('assets/images/users/'.Auth::user()->avatar) : asset('assets/images/default/user.png') }}" class="avatar img-fluid rounded-circle me-1" alt="{{ Auth::user()->name }}" /> <span class="text-dark">{{ Auth::user()->name }}</span>
+					@if(Auth::user()->avatar != '' && File::exists(public_path('assets/images/users/'.Auth::user()->avatar)))
+						<img src="{{ asset('assets/images/users/'.Auth::user()->avatar) }}" class="avatar img-fluid rounded-circle me-1" alt="{{ Auth::user()->name }}" /> <span class="text-dark">{{ Auth::user()->name }}</span>
+					@else
+						<div class="d-flex align-items-center">
+							<div class="avatar avatar-letter rounded-circle me-2 text-center bg-dark">
+								<h2 class="text-white">{{ strtoupper(substr(Auth::user()->name,0,1)) }}</h2>
+							</div>
+							<span class="text-dark">{{ Auth::user()->name }}</span>
+						</div>
+					@endif
 				</a>
 				<div class="dropdown-menu dropdown-menu-end">
 					<a class="dropdown-item" href="{{ route('admin.profile') }}"><i class="align-middle me-1" data-feather="user"></i> Profil</a>

@@ -21,6 +21,14 @@
 			<small class="d-block text-uppercase font-weight-bold text-muted mb-2">Sistem</small>
 			<ul class="list-unstyled p-0">
 				<li><a href="{{ route('admin.system.index') }}">Lingkungan Sistem</a></li>
+				<li><a href="{{ route('admin.log.index') }}" target="_blank">Log</a></li>
+			</ul>
+		</div>
+		<hr>
+		<div class="mb-3">
+			<small class="d-block text-uppercase font-weight-bold text-muted mb-2">Tools</small>
+			<ul class="list-unstyled p-0">
+				<li><a href="{{ route('admin.artisan.index') }}">Artisan</a></li>
 			</ul>
 		</div>
 		<hr>

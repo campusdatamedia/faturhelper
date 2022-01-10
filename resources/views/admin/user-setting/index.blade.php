@@ -11,7 +11,15 @@
     <div class="col-md-4 col-xl-3">
         <div class="card">
             <div class="card-body text-center">
-                <img src="{{ Auth::user()->avatar != '' ? asset('assets/images/avatar/'.Auth::user()->avatar) : asset('assets/images/default/user.png') }}" class="rounded-circle" height="150" width="150" alt="Foto">
+                @if(Auth::user()->avatar != '' && File::exists(public_path('assets/images/users/'.Auth::user()->avatar)))
+                    <img src="{{ asset('assets/images/avatar/'.Auth::user()->avatar) }}" class="rounded-circle" height="150" width="150" alt="Foto">
+                @else
+                    <div class="d-flex justify-content-center">
+                        <div class="avatar rounded-circle me-2 text-center bg-dark" style="height: 150px; width: 150px; line-height: 150px;">
+                            <h2 class="text-white" style="line-height: 150px; font-size: 75px;">{{ strtoupper(substr(Auth::user()->name,0,1)) }}</h2>
+                        </div>
+                    </div>
+                @endif
             </div>
         </div>
     </div>

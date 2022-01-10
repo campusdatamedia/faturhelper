@@ -12,6 +12,8 @@
  * @method static void permissions()
  * @method static void systems()
  * @method static void dataset()
+ * @method static void artisan()
+ * @method static void log()
  * @method static void api()
  */
 
@@ -54,6 +56,8 @@ class RouteExt
         self::permissions();
         self::systems();
         self::dataset();
+        self::artisan();
+        self::log();
     }
 
     /**
@@ -211,6 +215,31 @@ class RouteExt
     {
         Route::group(['middleware' => ['faturhelper.admin']], function() {
             Route::get('/admin/dataset', self::NAMESPACE.'\DatasetController@index')->name('admin.dataset.index');
+        });
+    }
+
+    /**
+     * Set the artisan routes.
+     *
+     * @return void
+     */
+    public static function artisan()
+    {
+        Route::group(['middleware' => ['faturhelper.admin']], function() {
+            Route::get('/admin/artisan', self::NAMESPACE.'\ArtisanController@index')->name('admin.artisan.index');
+            Route::post('/admin/artisan/run', self::NAMESPACE.'\ArtisanController@run')->name('admin.artisan.run');
+        });
+    }
+
+    /**
+     * Set the log routes.
+     *
+     * @return void
+     */
+    public static function log()
+    {
+        Route::group(['middleware' => ['faturhelper.admin']], function() {
+            Route::get('/admin/log', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index')->name('admin.log.index');
         });
     }
 
