@@ -44,7 +44,10 @@ use Ajifatur\Helpers\FileExt;
 if(!function_exists('has_access')) {
     function has_access($permission_code, $role, $isAbort = true) {
         // Get the permission
-        $permission = config('faturhelper.models.permission')::where('code','=',$permission_code)->first();
+        if(config()->has('faturhelper.models.permission') && is_object(config('faturhelper.models.permission')))
+            $permission = config('faturhelper.models.permission')::where('code','=',$permission_code)->first();
+        else
+            $permission = \Ajifatur\FaturHelper\Models\Permission::where('code','=',$permission_code)->first();
 
         // If the permission is not exist
         if(!$permission) {
@@ -86,12 +89,20 @@ if(!function_exists('role')) {
     function role($key) {
         // Get the role by ID
         if(is_int($key)) {
-            $role = config('faturhelper.models.role')::find($key);
+            if(config()->has('faturhelper.models.role') && is_object(config('faturhelper.models.role')))
+                $role = config('faturhelper.models.role')::find($key);
+            else
+                $role = \Ajifatur\FaturHelper\Models\Role::find($key);
+
             return $role ? $role->name : null;
         }
         // Get the role by key
         elseif(is_string($key)) {
-            $role = config('faturhelper.models.role')::where('code','=',$key)->first();
+            if(config()->has('faturhelper.models.role') && is_object(config('faturhelper.models.role')))
+                $role = config('faturhelper.models.role')::where('code','=',$key)->first();
+            else
+                $role = \Ajifatur\FaturHelper\Models\Role::where('code','=',$key)->first();
+
             return $role ? $role->id : null;
         }
         else return null;
@@ -289,7 +300,12 @@ if(!function_exists('platform')) {
 if(!function_exists('setting')) {
     function setting($key) {
         // Get the setting by key
-        $setting = config('faturhelper.models.setting')::where('code','=',$key)->first();
+        if(config()->has('faturhelper.models.setting') && is_object(config('faturhelper.models.setting')))
+            $setting = config('faturhelper.models.setting')::where('code','=',$key)->first();
+        else
+            $setting = \Ajifatur\FaturHelper\Models\Setting::where('code','=',$key)->first();
+
+        // Return
         return $setting ? $setting->content : '';
     }
 }
@@ -303,7 +319,12 @@ if(!function_exists('setting')) {
 if(!function_exists('meta')) {
     function meta($key) {
         // Get the meta by key
-        $meta = config('faturhelper.models.meta')::where('code','=',$key)->first();
+        if(config()->has('faturhelper.models.meta') && is_object(config('faturhelper.models.meta')))
+            $meta = config('faturhelper.models.meta')::where('code','=',$key)->first();
+        else
+            $meta = \Ajifatur\FaturHelper\Models\Meta::where('code','=',$key)->first();
+
+        // Return
         return $meta ? $meta->content : '';
     }
 }
@@ -319,7 +340,12 @@ if(!function_exists('menu')) {
 		$menus = [];
 
 		// Get menu headers
-		$menuheaders = config('faturhelper.models.menuheader')::orderBy('num_order','asc')->get();
+        if(config()->has('faturhelper.models.menuheader') && is_object(config('faturhelper.models.menuheader')))
+		    $menuheaders = config('faturhelper.models.menuheader')::orderBy('num_order','asc')->get();
+        else
+            $menuheaders = \Ajifatur\FaturHelper\Models\MenuHeader::orderBy('num_order','asc')->get();
+
+
 		if(count($menuheaders) > 0) {
 			foreach($menuheaders as $menuheader) {
 				// Get menu items
@@ -443,7 +469,10 @@ if(!function_exists('access_token')) {
         $token = Str::random(40);
 
         // Get exist tokens
-        $exist_tokens = config('faturhelper.models.user')::pluck('access_token')->toArray();
+        if(config()->has('faturhelper.models.user') && is_object(config('faturhelper.models.user')))
+            $exist_tokens = config('faturhelper.models.user')::pluck('access_token')->toArray();
+        else
+            $exist_tokens = \Ajifatur\FaturHelper\Models\User::pluck('access_token')->toArray();
 
         // Check the token from exist tokens
         while(in_array($token, $exist_tokens)) {
@@ -476,7 +505,7 @@ if(!function_exists('package')) {
         }
         else {
             $index = '';
-            if(count($packages)>0){
+            if(count($packages)>0) {
                 foreach($packages as $key=>$package) {
                     if($package['name'] == $name) $index = $key;
                 }

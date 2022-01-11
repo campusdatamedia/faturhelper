@@ -295,7 +295,7 @@ class RouteExt
     public static function api()
     {
         // Update the system
-        Route::post('/system/update', self::NAMESPACE.'\SystemController@update')->name('api.system.update');
+        // Route::post('/system/update', self::NAMESPACE.'\SystemController@update')->name('api.system.update');
 
         // Bootstrap Icons
         Route::get('/dataset/bootstrap-icons', function() {
