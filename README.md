@@ -1,9 +1,9 @@
 # FaturHelper
 
 <p align="center">
-  <a href="https://packagist.org/packages/ajifatur/faturhelper"><img src="https://poser.pugx.org/campusdatamedia/faturhelper/d/total.svg" alt="Total Downloads"></a>
-  <a href="https://packagist.org/packages/ajifatur/faturhelper"><img src="https://poser.pugx.org/campusdatamedia/faturhelper/v/stable.svg" alt="Latest Stable Version"></a>
-  <a href="https://packagist.org/packages/ajifatur/faturhelper"><img src="https://poser.pugx.org/campusdatamedia/faturhelper/license.svg" alt="License"></a>
+  <a href="https://packagist.org/packages/campusdatamedia/faturhelper"><img src="https://poser.pugx.org/campusdatamedia/faturhelper/d/total.svg" alt="Total Downloads"></a>
+  <a href="https://packagist.org/packages/campusdatamedia/faturhelper"><img src="https://poser.pugx.org/campusdatamedia/faturhelper/v/stable.svg" alt="Latest Stable Version"></a>
+  <a href="https://packagist.org/packages/campusdatamedia/faturhelper"><img src="https://poser.pugx.org/campusdatamedia/faturhelper/license.svg" alt="License"></a>
 </p>
 
 
