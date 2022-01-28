@@ -337,22 +337,21 @@ if(!function_exists('meta')) {
 if(!function_exists('menu')) {
     function menu() {
         // Declare menu
-		$menus = [];
+        $menus = [];
 
-		// Get menu headers
+        // Get menu headers
         if(config()->has('faturhelper.models.menuheader') && is_object(config('faturhelper.models.menuheader')))
-		    $menuheaders = config('faturhelper.models.menuheader')::orderBy('num_order','asc')->get();
+            $menuheaders = config('faturhelper.models.menuheader')::orderBy('num_order','asc')->get();
         else
             $menuheaders = \Ajifatur\FaturHelper\Models\MenuHeader::orderBy('num_order','asc')->get();
 
-
-		if(count($menuheaders) > 0) {
-			foreach($menuheaders as $menuheader) {
-				// Get menu items
-				$menuitems = $menuheader->items()->where('parent','=',0)->orderBy('num_order','asc')->get();
-				$items = [];
-				if(count($menuitems) > 0) {
-					foreach($menuitems as $menuitem) {
+        if(count($menuheaders) > 0) {
+            foreach($menuheaders as $menuheader) {
+                // Get menu items
+                $menuitems = $menuheader->items()->where('parent','=',0)->orderBy('num_order','asc')->get();
+                $items = [];
+                if(count($menuitems) > 0) {
+                    foreach($menuitems as $menuitem) {
                         if($menuitem->visible_conditions == '' || ($menuitem->visible_conditions != '' && (bool)eval_sidebar($menuitem->visible_conditions, true, false))) {
                             // Get menu subitems
                             $menusubitems = $menuheader->items()->where('parent','=',$menuitem->id)->orderBy('num_order','asc')->get();
@@ -368,7 +367,7 @@ if(!function_exists('menu')) {
                                     ]);
                                 }
                             }
-                        
+
                             // Push to array
                             array_push($items, [
                                 'name' => $menuitem->name,
@@ -379,19 +378,19 @@ if(!function_exists('menu')) {
                                 'children' => $subitems
                             ]);
                         }
-					}
-				}
+                    }
+                }
 
-				// Push to array
-				array_push($menus, [
-					'header' => $menuheader->name,
-					'items' => $items
-				]);
-			}
-		}
+                // Push to array
+                array_push($menus, [
+                    'header' => $menuheader->name,
+                    'items' => $items
+                ]);
+            }
+        }
 
         // Return
-		return $menus;
+        return $menus;
     }
 }
 
@@ -576,7 +575,7 @@ if(!function_exists('quill')) {
             // Get the "src" attribute
             $code = $image->getAttribute('src');
 
-			// Get the image that not URL
+            // Get the image that not URL
             if(filter_var($code, FILTER_VALIDATE_URL) == false) {
                 // Upload the image
                 list($type, $code) = explode(';', $code);
