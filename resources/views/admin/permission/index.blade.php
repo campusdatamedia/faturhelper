@@ -49,7 +49,7 @@
                                     </td>
                                     @foreach($roles as $role)
                                     <td align="center">
-                                        <input class="form-check-input" type="checkbox" data-role="{{ $role->id }}" data-permission="{{ $permission->id }}" {{ in_array($role->id, $permission->roles()->pluck('role_id')->toArray()) ? 'checked' : '' }}>
+                                        <input class="form-check-input checkbox-role-permission" type="checkbox" data-role="{{ $role->id }}" data-permission="{{ $permission->id }}" {{ in_array($role->id, $permission->roles()->pluck('role_id')->toArray()) ? 'checked' : '' }}>
                                     </td>
                                     @endforeach
                                     <td align="center">
@@ -94,13 +94,15 @@
 
 <script type="text/javascript">
     // DataTable
-    Spandiv.DataTableRowsGroup("#datatable");
+    Spandiv.DataTable("#datatable", {
+        pageLength: -1
+    });
 
     // Button Delete
     Spandiv.ButtonDelete(".btn-delete", ".form-delete");
 
     // Change Status
-    $(document).on("click", "#datatable .form-check-input", function(e) {
+    $(document).on("click", "#datatable .form-check-input.checkbox-role-permission", function(e) {
         e.preventDefault();
         if(typeof Pace !== "undefined") Pace.restart();
         var permission = $(this).data("permission");

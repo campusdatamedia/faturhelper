@@ -7,10 +7,6 @@
 <script src="https://ajifatur.github.io/assets/spandiv.min.js"></script>
 <!-- <script src="{{ asset('spandiv/spandiv.js') }}"></script> -->
 <script>
-	// Enable Everywhere
-	Spandiv.EnableEverywhere();
-</script>
-<script>
 	// Change theme
 	$(document).on("change", "input[name=theme]", function(e) {
 		e.preventDefault();
