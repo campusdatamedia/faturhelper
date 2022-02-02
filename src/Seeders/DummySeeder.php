@@ -13,6 +13,8 @@ class DummySeeder extends Seeder
      */
     public function run()
     {
-        $this->call(DummyUserSeeder::class);
+        $this->call(\Ajifatur\FaturHelper\Seeders\Dummy\RoleSeeder::class);
+        $this->call(\Ajifatur\FaturHelper\Seeders\Dummy\UserSeeder::class);
+        $this->call(\Ajifatur\FaturHelper\Seeders\Dummy\MenuSeeder::class);
     }
 }

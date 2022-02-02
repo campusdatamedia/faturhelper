@@ -1,12 +1,12 @@
 <?php
 
-namespace Ajifatur\FaturHelper\Seeders;
+namespace Ajifatur\FaturHelper\Seeders\Dummy;
 
 use Illuminate\Database\Seeder;
 use Ajifatur\FaturHelper\Models\User;
 use Ajifatur\FaturHelper\Models\Role;
 
-class DummyUserSeeder extends Seeder
+class UserSeeder extends Seeder
 {
     /**
      * Seed the application's database.
@@ -29,6 +29,7 @@ class DummyUserSeeder extends Seeder
                 $user->email = 'admin@admin.com';
                 $user->password = bcrypt('password');
                 $user->status = 1;
+                $user->save();
             }
         }
     }

@@ -18,7 +18,7 @@ class DatabaseController extends \App\Http\Controllers\Controller
     public function index(Request $request)
     {
         // Check the access
-        // has_access(method(__METHOD__), Auth::user()->role_id);
+        has_access(method(__METHOD__), Auth::user()->role_id);
 
         // Get tables
         $tables = DB::select('SHOW TABLES');

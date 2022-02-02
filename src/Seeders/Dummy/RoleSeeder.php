@@ -1,6 +1,6 @@
 <?php
 
-namespace Ajifatur\FaturHelper\Seeders;
+namespace Ajifatur\FaturHelper\Seeders\Dummy;
 
 use Illuminate\Database\Seeder;
 use Ajifatur\FaturHelper\Models\Role;
@@ -21,7 +21,7 @@ class RoleSeeder extends Seeder
         foreach($roles as $role) {
             Role::firstOrCreate(
                 ['code' => $role['code']],
-                ['name' => $role['name'], 'is_admin' => $role['is_admin'], 'num_order' => $role['num_order']],
+                ['name' => $role['name'], 'is_admin' => $role['is_admin'], 'num_order' => $role['num_order']]
             );
         }
     }

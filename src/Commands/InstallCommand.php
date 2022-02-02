@@ -58,8 +58,8 @@ class InstallCommand extends Command
         $this->call('migrate');
 
         // Seed
-        $this->call('db:seed', ['--class' => \Ajifatur\FaturHelper\Seeders\DatabaseSeeder::class]);
         $this->call('db:seed', ['--class' => \Ajifatur\FaturHelper\Seeders\DummySeeder::class]);
+        $this->call('db:seed', ['--class' => \Ajifatur\FaturHelper\Seeders\DatabaseSeeder::class]);
 
         // Success info
         $this->info('Successfully installing FaturHelper! Enjoy!');
