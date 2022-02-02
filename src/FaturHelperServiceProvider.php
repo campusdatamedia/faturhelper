@@ -5,6 +5,7 @@ namespace Ajifatur\FaturHelper;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Routing\Router;
+use Illuminate\Support\Facades\File;
 use Ajifatur\FaturHelper\Http\Middleware\Admin;
 use Ajifatur\FaturHelper\Http\Middleware\NonAdmin;
 use Ajifatur\FaturHelper\Http\Middleware\Guest;
@@ -41,12 +42,29 @@ class FaturHelperServiceProvider extends ServiceProvider
         // Register service providers
         app()->register(\Rap2hpoutre\LaravelLogViewer\LaravelLogViewerServiceProvider::class);
 
+        // Load helpers
+        $this->loadHelpers();
+
         // Register commands
         $this->commands(Commands\InstallCommand::class);
 
         if($this->app->runningInConsole()) {
             // Register publishable resources
             $this->registerPublishableResources();
+        }
+    }
+
+    /**
+     * Load helpers.
+     * 
+     * @return void
+     */
+    protected function loadHelpers()
+    {
+        if(File::exists(base_path('vendor/ajifatur/faturhelper/src/Helpers'))) {
+            foreach(glob(base_path('vendor/ajifatur/faturhelper/src').'/Helpers/*.php') as $filename) {
+                require_once $filename;
+            }
         }
     }
     
