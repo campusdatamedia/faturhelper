@@ -8,6 +8,9 @@
 		<button type="button" class="btn-close btn-close-white text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
 	</div>
 	<div class="offcanvas-body">
+		<div class="d-grid gap-2 mb-3">
+			<a href="https://github.com/ajifatur/faturhelper" class="btn btn-outline-primary btn-lg" target="_blank"><i class="bi-github me-1"></i> Kunjungi Kami</a>
+		</div>
 		<div class="mb-3">
 			<small class="d-block text-uppercase font-weight-bold text-muted mb-2">Tema</small>
 			@php $themes = ['default', 'colored', 'red', 'blue', 'green', 'cyan', 'purple', 'pink', 'gray', 'light']; @endphp
@@ -36,6 +39,7 @@
 		<div class="mb-3">
 			<small class="d-block text-uppercase font-weight-bold text-muted mb-2">Sistem</small>
 			<ul class="list-unstyled p-0">
+				<li><a href="{{ route('admin.setting.index') }}">Pengaturan</a></li>
 				<li><a href="{{ route('admin.system.index') }}">Lingkungan Sistem</a></li>
 				<li><a href="{{ route('admin.database.index') }}">Database</a></li>
 				<li><a href="{{ route('admin.log.index') }}" target="_blank">Log</a></li>
@@ -65,9 +69,6 @@
 				<li><a href="{{ route('admin.dataset.index', ['json' => $key]) }}">{{ $dataset }}</a></li>
 				@endforeach
 			</ul>
-		</div>
-		<div class="d-grid gap-2 mb-3">
-			<a href="https://github.com/ajifatur/faturhelper" class="btn btn-outline-primary btn-lg" target="_blank"><i class="bi-github me-1"></i> Kunjungi Kami</a>
 		</div>
 	</div>
 </div>

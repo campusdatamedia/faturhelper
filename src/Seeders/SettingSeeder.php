@@ -15,6 +15,8 @@ class SettingSeeder extends Seeder
     public function run()
     {
         $settings = [
+            ['code' => 'name', 'content' => 'FaturHelper'],
+            ['code' => 'timezone', 'content' => 'UTC'],
             ['code' => 'theme', 'content' => 'default'],
         ];
 

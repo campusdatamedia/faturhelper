@@ -95,6 +95,12 @@ class RoleController extends \App\Http\Controllers\Controller
         // Get the role
         $role = Role::findOrFail($id);
 
+        // Check role code
+        if($role->code == 'super-admin') {
+            // Redirect
+            return redirect()->route('admin.role.index')->with(['message' => 'Tidak bisa mengubah Super Admin.']);
+        }
+
         // Check role hierarchy
         if($role->num_order >= Auth::user()->role->num_order) {
             // View
@@ -156,6 +162,12 @@ class RoleController extends \App\Http\Controllers\Controller
         
         // Get the role
         $role = Role::find($request->id);
+
+        // Check role code
+        if($role->code == 'super-admin') {
+            // Redirect
+            return redirect()->route('admin.role.index')->with(['message' => 'Tidak bisa menghapus Super Admin.']);
+        }
 
         // Check role hierarchy
         if($role->num_order >= Auth::user()->role->num_order) {

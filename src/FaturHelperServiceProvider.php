@@ -12,14 +12,20 @@ use Ajifatur\FaturHelper\Http\Middleware\Guest;
 
 class FaturHelperServiceProvider extends ServiceProvider
 {
-	/**
-	 * Bootstrap any package services.
-	 *
-	 * @return void
-	 */
-	public function boot(Router $router)
-	{
-		// Add views
+    /**
+     * Bootstrap any package services.
+     *
+     * @return void
+     */
+    public function boot(Router $router)
+    {
+        // Config
+        config([
+            'app.name' => setting('name'),
+            'app.timezone' => setting('timezone')
+        ]);
+
+        // Add views
         $this->loadViewsFrom(__DIR__.'/../resources/views', 'faturhelper');
 
         // Add migrations
@@ -29,10 +35,10 @@ class FaturHelperServiceProvider extends ServiceProvider
         $router->aliasMiddleware('faturhelper.admin', Admin::class);
         $router->aliasMiddleware('faturhelper.nonadmin', NonAdmin::class);
         $router->aliasMiddleware('faturhelper.guest', Guest::class);
-		
-		// Use Bootstrap on paginator
-		Paginator::useBootstrap();
-	}
+
+        // Use Bootstrap on paginator
+        Paginator::useBootstrap();
+    }
 
     /**
      * Register the application services.

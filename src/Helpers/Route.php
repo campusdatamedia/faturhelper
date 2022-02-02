@@ -208,7 +208,7 @@ class RouteExt
     public static function settings()
     {
         Route::group(['middleware' => ['faturhelper.admin']], function() {
-            // Route::get('/admin/setting', self::NAMESPACE.'\MetaController@index')->name('admin.setting.index');
+            Route::get('/admin/setting', self::NAMESPACE.'\SettingController@index')->name('admin.setting.index');
             Route::post('/admin/setting/update', self::NAMESPACE.'\SettingController@update')->name('admin.setting.update');
         });
     }

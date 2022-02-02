@@ -9,7 +9,7 @@
 
 ## Introduction
 
-FaturHelper is the project that contains some helpers/functions/methods to help my work easier.
+FaturHelper is the project that contains some helpers/functions/methods to help my Laravel work easier.
 
 ## Prerequisite
 - PHP >= 7.4
