@@ -15,16 +15,13 @@
                     <table class="table table-sm table-hover table-bordered" id="datatable">
                         <thead class="bg-light">
                             <tr>
-                                <th width="30"><input type="checkbox" class="form-check-input checkbox-all"></th>
                                 <th>Tabel</th>
                                 <th>Field</th>
-                                <th width="30">Opsi</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach($tables as $table)
                             <tr>
-                                <td align="center"><input type="checkbox" class="form-check-input checkbox-one"></td>
                                 <td>{{ $table->name }}</td>
                                 <td>
                                     @foreach($table->columns as $key=>$column)
@@ -34,7 +31,6 @@
                                         @endif
                                     @endforeach
                                 </td>
-                                <td align="center">-</td>
                             </tr>
                             @endforeach
                         </tbody>
@@ -51,7 +47,9 @@
 
 <script type="text/javascript">
     // DataTable
-    Spandiv.DataTable("#datatable");
+    Spandiv.DataTable("#datatable", {
+        orderAll: true
+    });
 
     // Button Delete
     Spandiv.ButtonDelete(".btn-delete", ".form-delete");

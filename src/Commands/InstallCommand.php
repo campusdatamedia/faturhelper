@@ -50,6 +50,41 @@ class InstallCommand extends Command
         $this->call('vendor:publish', ['--provider' => FaturHelperServiceProvider::class, '--tag' => 'assets']);
         $this->call('vendor:publish', ['--provider' => FaturHelperServiceProvider::class, '--tag' => 'templates']);
 
+        // Update app/models/User.php
+        $this->info('Updating app/models/User.php.');
+        if(File::exists(app_path('models/User.php'))) {
+            $contents = File::get(app_path('models/User.php'));
+            if(is_int(strpos($contents, "extends Authenticatable")) == true && is_int(strpos($contents, "extends \Ajifatur\FaturHelper\Models\User")) == false) {
+                $contents = str_replace("extends Authenticatable", "extends \Ajifatur\FaturHelper\Models\User", $contents);
+                File::put(app_path('models/User.php'), $contents);
+            }
+        }
+
+        // Update routes/web.php
+        $this->info('Updating routes/web.php.');
+        if(File::exists(base_path('routes/web.php'))) {
+            $contents = File::get(base_path('routes/web.php'));
+            if(is_int(strpos($contents, "\Ajifatur\Helpers\RouteExt::auth();")) == false) {
+                $contents = $contents . "\n" . "\Ajifatur\Helpers\RouteExt::auth();";
+                File::put(base_path('routes/web.php'), $contents);
+            }
+            $contents = File::get(base_path('routes/web.php'));
+            if(is_int(strpos($contents, "\Ajifatur\Helpers\RouteExt::admin();")) == false) {
+                $contents = $contents . "\n" . "\Ajifatur\Helpers\RouteExt::admin();";
+                File::put(base_path('routes/web.php'), $contents);
+            }
+        }
+
+        // Update routes/api.php
+        $this->info('Updating routes/api.php.');
+        if(File::exists(base_path('routes/api.php'))) {
+            $contents = File::get(base_path('routes/api.php'));
+            if(is_int(strpos($contents, "\Ajifatur\Helpers\RouteExt::api();")) == false) {
+                $contents = $contents . "\n" . "\Ajifatur\Helpers\RouteExt::api();";
+                File::put(base_path('routes/api.php'), $contents);
+            }
+        }
+
         // Composer dump autoload
         $composer = new Composer($filesystem);
         $composer->dumpAutoloads();
