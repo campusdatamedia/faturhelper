@@ -51,7 +51,13 @@ class SettingController extends \App\Http\Controllers\Controller
 
         // Validation
         $validator = Validator::make($request->all(), [
-            'setting.*' => 'required',
+            'setting.name' => 'required',
+            'setting.timezone' => 'required',
+            'setting.address' => 'required',
+            'setting.city' => 'required',
+            'setting.email' => 'required|email',
+            'setting.phone_number' => 'required|numeric',
+            'setting.whatsapp' => 'required|numeric',
         ]);
         
         // Check errors
@@ -69,6 +75,11 @@ class SettingController extends \App\Http\Controllers\Controller
                     File::put(config_path('app.php'), $contents);
                 }
 
+                // If the value is script
+                if($key == 'google_maps' || $key == 'google_tag_manager')
+                    $value = htmlentities($value);
+
+                // Update or create
                 $setting = Setting::updateOrCreate(
                     ['code' => $key],
                     ['content' => $value]

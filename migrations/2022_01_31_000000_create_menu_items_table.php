@@ -13,19 +13,21 @@ class CreateMenuItemsTable extends Migration
      */
     public function up()
     {
-        Schema::create('menu_items', function (Blueprint $table) {
-            $table->id();
-            $table->integer('menuheader_id');
-            $table->string('name');
-            $table->string('route');
-            $table->text('routeparams')->nullable();
-            $table->string('icon');
-            $table->text('visible_conditions')->nullable();
-            $table->text('active_conditions')->nullable();
-            $table->integer('parent');
-            $table->integer('num_order');
-            $table->timestamps();
-        });
+        if(!Schema::hasTable('menu_items')) {
+            Schema::create('menu_items', function (Blueprint $table) {
+                $table->id();
+                $table->integer('menuheader_id');
+                $table->string('name');
+                $table->string('route');
+                $table->text('routeparams')->nullable();
+                $table->string('icon');
+                $table->text('visible_conditions')->nullable();
+                $table->text('active_conditions')->nullable();
+                $table->integer('parent');
+                $table->integer('num_order');
+                $table->timestamps();
+            });
+        }
     }
 
     /**

@@ -13,12 +13,14 @@ class CreateMenuHeadersTable extends Migration
      */
     public function up()
     {
-        Schema::create('menu_headers', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
-            $table->integer('num_order');
-            $table->timestamps();
-        });
+        if(!Schema::hasTable('menu_headers')) {
+            Schema::create('menu_headers', function (Blueprint $table) {
+                $table->id();
+                $table->string('name');
+                $table->integer('num_order');
+                $table->timestamps();
+            });
+        }
     }
 
     /**

@@ -13,12 +13,14 @@ class CreateMetasTable extends Migration
      */
     public function up()
     {
-        Schema::create('metas', function (Blueprint $table) {
-            $table->id();
-            $table->string('code');
-            $table->text('content')->nullable();
-            $table->timestamps();
-        });
+        if(!Schema::hasTable('metas')) {
+            Schema::create('metas', function (Blueprint $table) {
+                $table->id();
+                $table->string('code');
+                $table->text('content')->nullable();
+                $table->timestamps();
+            });
+        }
     }
 
     /**

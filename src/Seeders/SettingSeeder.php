@@ -16,7 +16,19 @@ class SettingSeeder extends Seeder
     {
         $settings = [
             ['code' => 'name', 'content' => 'FaturHelper'],
+            ['code' => 'tagline', 'content' => ''],
             ['code' => 'timezone', 'content' => 'UTC'],
+            ['code' => 'address', 'content' => ''],
+            ['code' => 'city', 'content' => ''],
+            ['code' => 'email', 'content' => ''],
+            ['code' => 'phone_number', 'content' => ''],
+            ['code' => 'whatsapp', 'content' => ''],
+            ['code' => 'instagram', 'content' => ''],
+            ['code' => 'youtube', 'content' => ''],
+            ['code' => 'facebook', 'content' => ''],
+            ['code' => 'twitter', 'content' => ''],
+            ['code' => 'google_maps', 'content' => ''],
+            ['code' => 'google_tag_manager', 'content' => ''],
             ['code' => 'theme', 'content' => 'default'],
         ];
 

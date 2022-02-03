@@ -15,7 +15,8 @@
                     <img src="{{ asset('assets/images/users/'.Auth::user()->avatar) }}" class="rounded-circle" height="150" width="150" alt="Foto">
                 @else
                     <div class="d-flex justify-content-center">
-                        <div class="avatar rounded-circle me-2 text-center bg-dark" style="height: 150px; width: 150px; line-height: 150px;">
+                        <div class="avatar rounded-circle me-2 text-center bg-dark" style="height: 150px; width: 150px; line-height: 150px; cursor: pointer;">
+                            <div class="avatar-overlay"><i class="bi-camera"></i></div>
                             <h2 class="text-white" style="line-height: 150px; font-size: 75px;">{{ strtoupper(substr(Auth::user()->name,0,1)) }}</h2>
                         </div>
                     </div>
@@ -61,5 +62,15 @@
         </div>
     </div>
 </div>
+
+@endsection
+
+@section('css')
+
+<style>
+    .avatar-overlay {height: 150px; width: 150px; position: absolute; border-radius: 100%; background: rgba(42,127,167,0.7); opacity: 0; transition: .5s;}
+    .avatar-overlay:hover {opacity: 1;}
+    .avatar-overlay i {color: #fff; font-size: 3.5rem;}
+</style>
 
 @endsection

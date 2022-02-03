@@ -49,6 +49,7 @@
                                     </td>
                                     @foreach($roles as $role)
                                     <td align="center">
+                                        <span class="d-none">{{ $permission->num_order }}</span>
                                         <input class="form-check-input checkbox-role-permission" type="checkbox" data-role="{{ $role->id }}" data-permission="{{ $permission->id }}" {{ in_array($role->id, $permission->roles()->pluck('role_id')->toArray()) ? 'checked' : '' }}>
                                     </td>
                                     @endforeach

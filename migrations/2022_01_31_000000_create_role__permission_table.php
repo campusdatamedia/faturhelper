@@ -13,10 +13,12 @@ class CreateRolePermissionTable extends Migration
      */
     public function up()
     {
-        Schema::create('role__permission', function (Blueprint $table) {
-            $table->integer('role_id');
-            $table->integer('permission_id');
-        });
+        if(!Schema::hasTable('role__permission')) {
+            Schema::create('role__permission', function (Blueprint $table) {
+                $table->integer('role_id');
+                $table->integer('permission_id');
+            });
+        }
     }
 
     /**

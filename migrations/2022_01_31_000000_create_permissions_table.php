@@ -13,13 +13,15 @@ class CreatePermissionsTable extends Migration
      */
     public function up()
     {
-        Schema::create('permissions', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
-            $table->string('code');
-            $table->integer('num_order');
-            $table->timestamps();
-        });
+        if(!Schema::hasTable('permissions')) {
+            Schema::create('permissions', function (Blueprint $table) {
+                $table->id();
+                $table->string('name');
+                $table->string('code');
+                $table->integer('num_order');
+                $table->timestamps();
+            });
+        }
     }
 
     /**
