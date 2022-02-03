@@ -9,6 +9,11 @@
     <div class="btn-group">
         <a href="{{ route('admin.permission.create') }}" class="btn btn-sm btn-primary"><i class="bi-plus me-1"></i> Tambah Hak Akses</a>
         <a href="{{ route('admin.permission.reorder') }}" class="btn btn-sm btn-success"><i class="bi-shuffle me-1"></i> Urutkan Hak Akses</a>
+        @if(Request::query('default') == 1)
+            <a href="{{ route('admin.permission.index') }}" class="btn btn-sm btn-secondary"><i class="bi-arrow-left me-1"></i> Kembali</a>
+        @else
+            <a href="{{ route('admin.permission.index', ['default' => 1]) }}" class="btn btn-sm btn-secondary"><i class="bi-lock me-1"></i> Default</a>
+        @endif
     </div>
 </div>
 <div class="row">
@@ -61,10 +66,6 @@
                                     </td>
                                 </tr>
                                 @endforeach
-                            @else
-                                <tr>
-                                    <td colspan="{{ count($roles) + 2 }}" align="center"><span class="text-danger fst-italic">Tidak ada data.</span></td>
-                                </tr>
                             @endif
                         </tbody>
                     </table>

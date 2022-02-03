@@ -43,9 +43,9 @@ class PermissionSeeder extends Seeder
         $role = Role::where('code', '=', 'super-admin')->first();
 
         foreach($array as $key=>$data) {
-            $permission = Permission::firstOrCreate(
+            $permission = Permission::updateOrCreate(
                 ['code' => $data['code']],
-                ['name' => $data['name'], 'num_order' => ($key+1)]
+                ['name' => $data['name'], 'default' => 1, 'num_order' => ($key+1)]
             );
 
             if($role) {
