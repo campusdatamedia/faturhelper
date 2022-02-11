@@ -26,6 +26,7 @@ class Logs
                 'user_id' => Auth::guard($guard)->check() ? $request->user()->id : null,
                 'url' => $request->fullUrl(),
                 'method' => $request->method(),
+                'ajax' => $request->ajax(),
                 'ip' => $request->ip()
             ])
         );

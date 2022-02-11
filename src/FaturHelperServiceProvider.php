@@ -45,6 +45,7 @@ class FaturHelperServiceProvider extends ServiceProvider
     {
         // Register service providers
         app()->register(\Rap2hpoutre\LaravelLogViewer\LaravelLogViewerServiceProvider::class);
+        app()->register(\Yajra\DataTables\DataTablesServiceProvider::class);
 
         // Load helpers
         $this->loadHelpers();
