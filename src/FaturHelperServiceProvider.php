@@ -6,9 +6,6 @@ use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvid
 use Illuminate\Pagination\Paginator;
 use Illuminate\Routing\Router;
 use Illuminate\Support\Facades\File;
-use Ajifatur\FaturHelper\Http\Middleware\Admin;
-use Ajifatur\FaturHelper\Http\Middleware\NonAdmin;
-use Ajifatur\FaturHelper\Http\Middleware\Guest;
 
 class FaturHelperServiceProvider extends ServiceProvider
 {
@@ -32,9 +29,10 @@ class FaturHelperServiceProvider extends ServiceProvider
         $this->loadMigrationsFrom(__DIR__.'/../migrations');
 
         // Add middlewares
-        $router->aliasMiddleware('faturhelper.admin', Admin::class);
-        $router->aliasMiddleware('faturhelper.nonadmin', NonAdmin::class);
-        $router->aliasMiddleware('faturhelper.guest', Guest::class);
+        $router->aliasMiddleware('faturhelper.admin', \Ajifatur\FaturHelper\Http\Middleware\Admin::class);
+        $router->aliasMiddleware('faturhelper.nonadmin', \Ajifatur\FaturHelper\Http\Middleware\NonAdmin::class);
+        $router->aliasMiddleware('faturhelper.guest', \Ajifatur\FaturHelper\Http\Middleware\Guest::class);
+        $router->aliasMiddleware('faturhelper.logs', \Ajifatur\FaturHelper\Http\Middleware\Logs::class);
 
         // Use Bootstrap on paginator
         Paginator::useBootstrap();

@@ -73,7 +73,7 @@ class RouteExt
      */
     public static function login()
     {
-        Route::group(['middleware' => ['faturhelper.guest']], function() {
+        Route::group(['middleware' => ['faturhelper.guest', 'faturhelper.logs']], function() {
             // Login
             Route::get('/login', self::NAMESPACE.'\Auth\LoginController@show')->name('auth.login');
             Route::post('/login', self::NAMESPACE.'\Auth\LoginController@authenticate');
@@ -93,7 +93,7 @@ class RouteExt
      */
     public static function logout()
     {
-        Route::group(['middleware' => ['faturhelper.nonadmin']], function() {
+        Route::group(['middleware' => ['faturhelper.nonadmin', 'faturhelper.logs']], function() {
             Route::post('/logout', self::NAMESPACE.'\Auth\LoginController@logout')->name('auth.logout');
         });
 
@@ -109,7 +109,7 @@ class RouteExt
      */
     public static function dashboard()
     {
-        Route::group(['middleware' => ['faturhelper.admin']], function() {
+        Route::group(['middleware' => ['faturhelper.admin', 'faturhelper.logs']], function() {
             Route::get('/admin', self::NAMESPACE.'\DashboardController@index')->name('admin.dashboard');
         });
     }
@@ -121,7 +121,7 @@ class RouteExt
      */
     public static function user()
     {
-        Route::group(['middleware' => ['faturhelper.admin']], function() {
+        Route::group(['middleware' => ['faturhelper.admin', 'faturhelper.logs']], function() {
             Route::get('/admin/profile', self::NAMESPACE.'\UserSettingController@index')->name('admin.profile');
             Route::get('/admin/settings/profile', self::NAMESPACE.'\UserSettingController@profile')->name('admin.settings.profile');
             Route::post('/admin/settings/profile/update', self::NAMESPACE.'\UserSettingController@updateProfile')->name('admin.settings.profile.update');
@@ -139,7 +139,7 @@ class RouteExt
      */
     public static function menu()
     {
-        Route::group(['middleware' => ['faturhelper.admin']], function() {
+        Route::group(['middleware' => ['faturhelper.admin', 'faturhelper.logs']], function() {
             // Menu
             Route::get('/admin/menu', self::NAMESPACE.'\MenuController@index')->name('admin.menu.index');
 
@@ -168,7 +168,7 @@ class RouteExt
      */
     public static function roles()
     {
-        Route::group(['middleware' => ['faturhelper.admin']], function() {
+        Route::group(['middleware' => ['faturhelper.admin', 'faturhelper.logs']], function() {
             Route::get('/admin/role', self::NAMESPACE.'\RoleController@index')->name('admin.role.index');
             Route::get('/admin/role/create', self::NAMESPACE.'\RoleController@create')->name('admin.role.create');
             Route::post('/admin/role/store', self::NAMESPACE.'\RoleController@store')->name('admin.role.store');
@@ -187,7 +187,7 @@ class RouteExt
      */
     public static function permissions()
     {
-        Route::group(['middleware' => ['faturhelper.admin']], function() {
+        Route::group(['middleware' => ['faturhelper.admin', 'faturhelper.logs']], function() {
             Route::get('/admin/permission', self::NAMESPACE.'\PermissionController@index')->name('admin.permission.index');
             Route::get('/admin/permission/create', self::NAMESPACE.'\PermissionController@create')->name('admin.permission.create');
             Route::post('/admin/permission/store', self::NAMESPACE.'\PermissionController@store')->name('admin.permission.store');
@@ -207,7 +207,7 @@ class RouteExt
      */
     public static function settings()
     {
-        Route::group(['middleware' => ['faturhelper.admin']], function() {
+        Route::group(['middleware' => ['faturhelper.admin', 'faturhelper.logs']], function() {
             Route::get('/admin/setting', self::NAMESPACE.'\SettingController@index')->name('admin.setting.index');
             Route::post('/admin/setting/update', self::NAMESPACE.'\SettingController@update')->name('admin.setting.update');
         });
@@ -220,7 +220,7 @@ class RouteExt
      */
     public static function metas()
     {
-        Route::group(['middleware' => ['faturhelper.admin']], function() {
+        Route::group(['middleware' => ['faturhelper.admin', 'faturhelper.logs']], function() {
             Route::get('/admin/meta', self::NAMESPACE.'\MetaController@index')->name('admin.meta.index');
             Route::post('/admin/meta/update', self::NAMESPACE.'\MetaController@update')->name('admin.meta.update');
         });
@@ -233,7 +233,7 @@ class RouteExt
      */
     public static function systems()
     {
-        Route::group(['middleware' => ['faturhelper.admin']], function() {
+        Route::group(['middleware' => ['faturhelper.admin', 'faturhelper.logs']], function() {
             Route::get('/admin/system', self::NAMESPACE.'\SystemController@index')->name('admin.system.index');
         });
     }
@@ -245,7 +245,7 @@ class RouteExt
      */
     public static function database()
     {
-        Route::group(['middleware' => ['faturhelper.admin']], function() {
+        Route::group(['middleware' => ['faturhelper.admin', 'faturhelper.logs']], function() {
             Route::get('/admin/database', self::NAMESPACE.'\DatabaseController@index')->name('admin.database.index');
         });
     }
@@ -257,7 +257,7 @@ class RouteExt
      */
     public static function dataset()
     {
-        Route::group(['middleware' => ['faturhelper.admin']], function() {
+        Route::group(['middleware' => ['faturhelper.admin', 'faturhelper.logs']], function() {
             Route::get('/admin/dataset', self::NAMESPACE.'\DatasetController@index')->name('admin.dataset.index');
         });
     }
@@ -269,7 +269,7 @@ class RouteExt
      */
     public static function artisan()
     {
-        Route::group(['middleware' => ['faturhelper.admin']], function() {
+        Route::group(['middleware' => ['faturhelper.admin', 'faturhelper.logs']], function() {
             Route::get('/admin/artisan', self::NAMESPACE.'\ArtisanController@index')->name('admin.artisan.index');
             Route::post('/admin/artisan/run', self::NAMESPACE.'\ArtisanController@run')->name('admin.artisan.run');
         });
@@ -282,8 +282,9 @@ class RouteExt
      */
     public static function log()
     {
-        Route::group(['middleware' => ['faturhelper.admin']], function() {
+        Route::group(['middleware' => ['faturhelper.admin', 'faturhelper.logs']], function() {
             Route::get('/admin/log', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index')->name('admin.log.index');
+            Route::get('/admin/log/activity', self::NAMESPACE.'\LogController@activity')->name('admin.log.activity');
         });
     }
 

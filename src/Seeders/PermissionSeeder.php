@@ -38,6 +38,7 @@ class PermissionSeeder extends Seeder
             ['code' => 'SystemController::index', 'name' => 'Menampilkan Lingkungan Sistem'],
             ['code' => 'DatabaseController::index', 'name' => 'Menampilkan Database'],
             ['code' => 'ArtisanController::index', 'name' => 'Mengelola Perintah Artisan'],
+            ['code' => 'LogController::activity', 'name' => 'Menampilkan Log Aktivitas'],
         ];
 
         $role = Role::where('code', '=', 'super-admin')->first();
