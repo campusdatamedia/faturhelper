@@ -41,9 +41,6 @@ class LogController extends \App\Http\Controllers\Controller
                 }
             }
 
-            // Reverse sort
-            rsort($logs);
-
             // Return datatables
             return datatables()->of($logs)
                 ->addColumn('user', '
@@ -62,12 +59,22 @@ class LogController extends \App\Http\Controllers\Controller
                 ')
                 ->editColumn('url', '
                     @if($method == "GET" && (isset($ajax) && $ajax == false))
+                        <a class="url-text" href="{{ $url }}" target="_blank" style="word-break: break-all;">
+                            {{ $url }}
+                        </a>
+                    @elseif($method == "GET" && !isset($ajax))
                         <a href="{{ $url }}" target="_blank" style="word-break: break-all;">
-                            {{ strlen($url) > 100 ? substr($url,0,100)."...." : $url }}
+                            {{ $url }}
                         </a>
                     @else
-                        <span style="word-break: break-all;">
-                            {{ strlen($url) > 100 ? substr($url,0,100)."...." : $url }}
+                        <span class="url-text" style="word-break: break-all;">
+                            @if(strlen($url) > 100)
+                                {{ substr($url,0,100) }}
+                                <a href="#" class="btn-read-more text-success">Read More</a>
+                                <span class="more-text d-none">{{ substr($url,100) }} <br> <a href="#" class="btn-read-less text-success">Read Less</a></span>
+                            @else
+                                {{ $url }}
+                            @endif
                         </span>
                     @endif
                 ')

@@ -47,11 +47,26 @@
             {data: 'url', name: 'url'},
             {data: 'method', name: 'method'},
             {data: 'ip', name: 'ip'}
-        ]
+        ],
+        order: [0, 'desc']
     });
 
     // Button Delete
     Spandiv.ButtonDelete(".btn-delete", ".form-delete");
+
+    // Button Read More
+    $(document).on("click", ".btn-read-more", function(e) {
+        e.preventDefault();
+        $(this).parents(".url-text").find(".more-text").removeClass("d-none");
+        $(this).addClass("d-none");
+    });
+
+    // Button Read Less
+    $(document).on("click", ".btn-read-less", function(e) {
+        e.preventDefault();
+        $(this).parents(".url-text").find(".more-text").addClass("d-none");
+        $(this).parents(".url-text").find(".btn-read-more").removeClass("d-none");
+    });
 </script>
 
 @endsection
