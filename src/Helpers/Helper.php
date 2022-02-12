@@ -699,6 +699,7 @@ if(!function_exists('datasets')) {
             ],
             'large' => [
                 'bootstrap-icons' => 'Bootstrap Icon',
+                'color' => 'Warna',
                 'country-code' => 'Kode Negara',
                 'mime' => 'MIME',
                 'quote' => 'Kutipan Inspiratif',
