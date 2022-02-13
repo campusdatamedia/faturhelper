@@ -297,9 +297,6 @@ class RouteExt
      */
     public static function api()
     {
-        // Update the system
-        // Route::post('/system/update', self::NAMESPACE.'\SystemController@update')->name('api.system.update');
-
         // Bootstrap Icons
         Route::get('/dataset/bootstrap-icons', function() {
             return response()->json(bootstrap_icons(), 200);
@@ -309,5 +306,15 @@ class RouteExt
         Route::get('/dataset/country-code', function() {
             return response()->json(country(), 200);
         })->name('api.country-code');
+
+        // User
+        Route::get('/user/role', self::NAMESPACE.'\API\UserController@role')->name('api.user.role');
+        Route::get('/user/status', self::NAMESPACE.'\API\UserController@status')->name('api.user.status');
+
+        // Visitor
+        Route::get('/visitor/device/type', self::NAMESPACE.'\API\VisitorController@deviceType')->name('api.visitor.device.type');
+        Route::get('/visitor/device/family', self::NAMESPACE.'\API\VisitorController@deviceFamily')->name('api.visitor.device.family');
+        Route::get('/visitor/browser', self::NAMESPACE.'\API\VisitorController@browser')->name('api.visitor.device.browser');
+        Route::get('/visitor/platform', self::NAMESPACE.'\API\VisitorController@platform')->name('api.visitor.device.platform');
     }
 }
