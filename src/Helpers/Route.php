@@ -18,7 +18,7 @@
  * @method static void database()
  * @method static void dataset()
  * @method static void artisan()
- * @method static void log()
+ * @method static void logs()
  * @method static void api()
  */
 
@@ -64,7 +64,7 @@ class RouteExt
         self::database();
         self::dataset();
         self::artisan();
-        self::log();
+        self::logs();
     }
 
     /**
@@ -281,11 +281,12 @@ class RouteExt
      *
      * @return void
      */
-    public static function log()
+    public static function logs()
     {
         Route::group(['middleware' => ['faturhelper.admin']], function() {
             Route::get('/admin/log', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index')->name('admin.log.index');
             Route::get('/admin/log/activity', self::NAMESPACE.'\LogController@activity')->name('admin.log.activity');
+            Route::get('/admin/log/authentication', self::NAMESPACE.'\LogController@authentication')->name('admin.log.authentication');
         });
     }
 

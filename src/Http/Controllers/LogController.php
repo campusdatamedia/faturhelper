@@ -92,4 +92,54 @@ class LogController extends \App\Http\Controllers\Controller
         // View
         return view('faturhelper::admin/log/activity');
     }
+
+    /**
+     * Display the authentication log.
+     * 
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function authentication(Request $request)
+    {
+        // Check the access
+        has_access(method(__METHOD__), Auth::user()->role_id);
+
+        if($request->ajax()) {
+            // Array log
+            $logs = [];
+
+            // Get log
+            $contents = preg_split('/\r\n|\r|\n/', file_get_contents(storage_path('logs/authentications.log')));
+            $contents = is_array($contents) ? array_filter($contents) : [];
+
+            // Get log info
+            if(count($contents) > 0) {
+                foreach($contents as $content) {
+                    $info = explode(' local.ERROR: ', trim($content));
+                    if(count($info) == 2) {
+                        $info[0] = str_replace('[','',$info[0]);
+                        $info[0] = str_replace(']','',$info[0]);
+                        $info[1] = json_decode($info[1], true);
+                    }
+                    $log = $info[1];
+                    $log['datetime'] = $info[0];
+                    array_push($logs, $log);
+                }
+            }
+
+            // Return datatables
+            return datatables()->of($logs)
+                ->editColumn('datetime', '
+                    <span class="d-none">{{ $datetime }}</span>
+                    {{ date("d/m/Y", strtotime($datetime)) }}
+                    <br>
+                    <small>{{ date("H:i:s", strtotime($datetime)) }}</small>
+                ')
+                ->rawColumns(['datetime'])
+                ->make(true);
+        }
+
+        // View
+        return view('faturhelper::admin/log/authentication');
+    }
 }

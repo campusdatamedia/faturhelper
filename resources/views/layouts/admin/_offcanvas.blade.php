@@ -29,18 +29,10 @@
 		<div class="mb-3">
 			<small class="d-block text-uppercase font-weight-bold text-muted mb-2">Master</small>
 			<div class="row">
-				<div class="col-6">
-					<ul class="list-unstyled p-0 mb-0">
-						<li><a href="{{ route('admin.role.index') }}">Role</a></li>
-						<li><a href="{{ route('admin.permission.index') }}">Hak Akses</a></li>
-					</ul>
-				</div>
-				<div class="col-6">
-					<ul class="list-unstyled p-0 mb-0">
-						<li><a href="{{ route('admin.menu.index') }}">Menu</a></li>
-						<li><a href="{{ route('admin.meta.index') }}">Meta</a></li>
-					</ul>
-				</div>
+				<div class="col-6"><a href="{{ route('admin.role.index') }}">Role</a></div>
+				<div class="col-6"><a href="{{ route('admin.menu.index') }}">Menu</a></div>
+				<div class="col-6"><a href="{{ route('admin.permission.index') }}">Hak Akses</a></div>
+				<div class="col-6"><a href="{{ route('admin.meta.index') }}">Meta</a></div>
 			</div>
 		</div>
 		<hr>
@@ -65,10 +57,11 @@
 		<hr>
 		<div class="mb-3">
 			<small class="d-block text-uppercase font-weight-bold text-muted mb-2">Log</small>
-			<ul class="list-unstyled p-0 mb-0">
-				<li><a href="{{ route('admin.log.index') }}" target="_blank">Semua Log</a></li>
-				<li><a href="{{ route('admin.log.activity') }}">Aktivitas</a></li>
-			</ul>
+			<div class="row">
+				<div class="col-6"><a href="{{ route('admin.log.activity') }}">Aktivitas</a></div>
+				<div class="col-6"><a href="{{ route('admin.log.authentication') }}">Autentikasi</a></div>
+				<div class="col-6"><a href="{{ route('admin.log.index') }}" target="_blank">Semua Log</a></div>
+			</div>
 		</div>
 		<hr>
 		<div class="mb-3">
