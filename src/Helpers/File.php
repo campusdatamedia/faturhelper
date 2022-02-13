@@ -1,12 +1,12 @@
 <?php
 
 /**
- * @method static array get(string $path, array $exception)
- * @method static array info(string $filename)
+ * @method static array  get(string $path, array $exception)
+ * @method static array  info(string $filename)
  * @method static string setName(string $filename, array $array)
- * @method static int directorySize(string $path, array $exception)
+ * @method static int    directorySize(string $path, array $exception)
  * @method static string byte(int $bytes)
- * @method static array json(string $path)
+ * @method static array  json(string $path)
  */
 
 namespace Ajifatur\Helpers;

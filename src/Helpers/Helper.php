@@ -1,37 +1,32 @@
 <?php
 
 /**
- * @method bool|void has_access(string $permission_code, int $role, bool $isAbort = true)
- * @method string method(string $method)
+ * @method bool|void       has_access(string $permission_code, int $role, bool $isAbort = true)
+ * @method string          method(string $method)
  * @method string|int|null role(string|int $key)
- * @method string|array gender(string|null $code)
- * @method string|array status(string|null $code)
- * @method string|array religion(string|null $code)
- * @method string|array relationship(string|null $code)
- * @method array bootstrap_icons()
- * @method string|array country(string|null $code)
- * @method string|array country_code(string|null $code)
- * @method string|array platform(string|null $code)
- * @method string setting(string $code)
- * @method string meta(string $code)
- * @method array menu()
- * @method void eval_sidebar(string $condition, string $true, string $false)
- * @method string slug(string $text)
- * @method string slugify(string $text, array $array)
- * @method string access_token()
- * @method array|null package(string|null $name)
- * @method string mime(string $type)
- * @method string quote(string|null $random)
- * @method string quill(string $html, string $path)
- * @method string hex_to_rgb(string $code)
- * @method object rgb_to_hsl(string $code)
- * @method string reverse_color(string $color)
- * @method array datasets(string $category)
+ * @method string          setting(string $code)
+ * @method string          meta(string $code)
+ * @method array           menu()
+ * @method void            eval_sidebar(string $condition, string $true, string $false)
+ * @method string          slug(string $text)
+ * @method string          slugify(string $text, array $array)
+ * @method string          access_token()
+ * @method array|null      package(string|null $name)
+ * @method string          quill(string $html, string $path)
+ * @method string          hex_to_rgb(string $code)
+ * @method object          rgb_to_hsl(string $code)
+ * @method string          reverse_color(string $color)
+ * @method string          device_info()
+ * @method string          browser_info()
+ * @method string          platform_info()
+ * @method string          location_info(string $ip)
  */
 
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\File;
 use Ajifatur\Helpers\FileExt;
+use hisorange\BrowserDetect\Parser as Browser;
+use Stevebauman\Location\Facades\Location;
 
 /**
  * Check the access for the permission.
@@ -110,189 +105,7 @@ if(!function_exists('role')) {
 }
 
 /**
- * Get the gender.
- *
- * @param  string|null $code
- * @return string|array
- */
-if(!function_exists('gender')) {
-    function gender($code = null) {
-        // Get genders from datasets
-        $array = FileExt::json('gender.json');
-
-        // Set the gender / genders
-        if($code === null) return $array;
-        else {
-            $index = '';
-            foreach($array as $key=>$value) {
-                if($value['key'] == $code) $index = $key;
-            }
-            return array_key_exists($index, $array) ? $array[$index]['name'] : '';
-        }
-    }
-}
-
-/**
- * Get the status.
- *
- * @param  string|null $code
- * @return string|array
- */
-if(!function_exists('status')) {
-    function status($code = null) {
-        // Get status from datasets
-        $array = FileExt::json('status.json');
-
-        // Set the status
-        if($code === null) return $array;
-        else {
-            $index = '';
-            foreach($array as $key=>$value) {
-                if($value['key'] == $code) $index = $key;
-            }
-            return array_key_exists($index, $array) ? $array[$index]['name'] : '';
-        }
-    }
-}
-
-/**
- * Get the religion.
- *
- * @param  string|null $code
- * @return string|array
- */
-if(!function_exists('religion')) {
-    function religion($code = null) {
-        // Get religions from datasets
-        $array = FileExt::json('religion.json');
-
-        // Set the religion / religion
-        if($code === null) return $array;
-        else {
-            $index = '';
-            foreach($array as $key=>$value) {
-                if($value['key'] == $code) $index = $key;
-            }
-            return array_key_exists($index, $array) ? $array[$index]['name'] : '';
-        }
-    }
-}
-
-/**
- * Get the relationship.
- *
- * @param  string|null $code
- * @return string|array
- */
-if(!function_exists('relationship')) {
-    function relationship($code = null) {
-        // Get relationships from datasets
-        $array = FileExt::json('relationship.json');
-
-        // Set the relationship / relationships
-        if($code === null) return $array;
-        else {
-            $index = '';
-            foreach($array as $key=>$value) {
-                if($value['key'] == $code) $index = $key;
-            }
-            return array_key_exists($index, $array) ? $array[$index]['name'] : '';
-        }
-    }
-}
-
-/**
- * Get the Bootstrap Icons.
- *
- * @return array
- */
-if(!function_exists('bootstrap_icons')) {
-    function bootstrap_icons() {
-        // Get Bootstrap Icons from datasets
-        $array = FileExt::json('bootstrap-icons.json');
-
-        // Change array
-        $new_array = [];
-        foreach($array as $key=>$data) {
-            $new_array[$key]['name'] = "bi-".$data;
-        }
-
-        // Return
-        return $new_array;
-    }
-}
-
-/**
- * Get the country.
- *
- * @param  string|null $code
- * @return string|array
- */
-if(!function_exists('country')) {
-    function country($code = null) {
-        // Get countries from datasets
-        $array = FileExt::json('country-code.json');
-
-        // Set the country / countries
-        if($code === null) return $array;
-        else {
-            $index = '';
-            foreach($array as $key=>$value) {
-                if($value['code'] == $code) $index = $key;
-            }
-            return array_key_exists($index, $array) ? $array[$index]['name'] : '';
-        }
-    }
-}
-
-/**
- * Get the dial code.
- *
- * @param  string|null $code
- * @return string|array
- */
-if(!function_exists('dial_code')) {
-    function dial_code($code = null) {
-        // Get dial codes from datasets
-        $array = FileExt::json('country-code.json');
-
-        // Set the dial code / dial codes
-        if($code === null) return $array;
-        else {
-            $index = '';
-            foreach($array as $key=>$value) {
-                if($value['code'] == $code) $index = $key;
-            }
-            return array_key_exists($index, $array) ? $array[$index]['dial_code'] : '';
-        }
-    }
-}
-
-/**
- * Get the platform.
- *
- * @param  string|null $code
- * @return string|array
- */
-if(!function_exists('platform')) {
-    function platform($code = null) {
-        // Get platforms from datasets
-        $array = FileExt::json('platform.json');
-
-        // Set the platform / platforms
-        if($code === null) return $array;
-        else {
-            $index = '';
-            foreach($array as $key=>$value) {
-                if($value['key'] == $code) $index = $key;
-            }
-            return array_key_exists($index, $array) ? $array[$index]['name'] : '';
-        }
-    }
-}
-
-/**
- * Get the setting.
+ * Get the setting content by key.
  *
  * @param  string $key
  * @return string
@@ -311,7 +124,7 @@ if(!function_exists('setting')) {
 }
 
 /**
- * Get the meta.
+ * Get the meta content by key.
  *
  * @param  string $key
  * @return string
@@ -515,49 +328,6 @@ if(!function_exists('package')) {
 }
 
 /**
- * Get the MIME by type.
- *
- * @param  string $type
- * @return string
- */
-if(!function_exists('mime')) {
-    function mime($type) {
-        // Get MIME from datasets
-        $array = FileExt::json('mime.json');
-
-        // Get the extension by type
-        $mime = '';
-        foreach($array as $key=>$value) {
-            if($value == $type) $mime = $key;
-        }
-
-        // Return
-        return $mime;
-    }
-}
-
-/**
- * Get the quote.
- *
- * @param  string|null $type
- * @return string
- */
-if(!function_exists('quote')) {
-    function quote($random = null) {
-        // Get quotes from datasets
-        $array = FileExt::json('quote.json');
-
-        // If random
-        if($random === 'random') {
-            return $array[rand(0, count($array)-1)];
-        }
-        else {
-            return $array;
-        }
-    }
-}
-
-/**
  * Set HTML entities from Quill Editor and upload the image.
  *
  * @param  string $html
@@ -682,31 +452,74 @@ if(!function_exists('reverse_color')) {
 }
 
 /**
- * Get the datasets.
+ * Get the user device info.
  *
- * @param  string $category
- * @return array
+ * @return string
  */
-if(!function_exists('datasets')) {
-    function datasets($category) {
-        $array = [
-            'small' => [
-                'gender' => 'Jenis Kelamin',
-                'platform' => 'Platform',
-                'relationship' => 'Hubungan',
-                'religion' => 'Agama',
-                'status' => 'Status'
-            ],
-            'large' => [
-                'bootstrap-icons' => 'Bootstrap Icon',
-                'color' => 'Warna',
-                'country-code' => 'Kode Negara',
-                'mime' => 'MIME',
-                'quote' => 'Kutipan Inspiratif',
-                'timezone' => 'Zona Waktu',
-            ]
+if(!function_exists('device_info')) {
+    function device_info() {
+        // Device type
+        $device_type = '';
+        if(Browser::isMobile()) $device_type = 'Mobile';
+        if(Browser::isTablet()) $device_type = 'Tablet';
+        if(Browser::isDesktop()) $device_type = 'Desktop';
+        if(Browser::isBot()) $device_type = 'Bot';
+
+        $device = [
+            'type' => $device_type,
+            'family' => Browser::deviceFamily(),
+            'model' => Browser::deviceModel(),
+            'grade' => Browser::mobileGrade(),
         ];
 
-        return $array[$category];
+        return json_encode($device);
+    }
+}
+
+/**
+ * Get the user browser info.
+ *
+ * @return string
+ */
+if(!function_exists('browser_info')) {
+    function browser_info() {
+        $browser = [
+            'name' => Browser::browserName(),
+            'family' => Browser::browserFamily(),
+            'version' => Browser::browserVersion(),
+            'engine' => Browser::browserEngine(),
+        ];
+
+        return json_encode($browser);
+    }
+}
+
+/**
+ * Get the user platform info.
+ *
+ * @return string
+ */
+if(!function_exists('platform_info')) {
+    function platform_info() {
+        $platform = [
+            'name' => Browser::platformName(),
+            'family' => Browser::platformFamily(),
+            'version' => Browser::platformVersion(),
+        ];
+
+        return json_encode($platform);
+    }
+}
+
+/**
+ * Get the user location info.
+ *
+ * @param  string $ip
+ * @return string
+ */
+if(!function_exists('location_info')) {
+    function location_info($ip) {
+        $location = Location::get($ip);
+        return $location ? json_encode($location) : '';
     }
 }

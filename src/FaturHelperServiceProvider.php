@@ -6,6 +6,7 @@ use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvid
 use Illuminate\Pagination\Paginator;
 use Illuminate\Routing\Router;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Schema;
 
 class FaturHelperServiceProvider extends ServiceProvider
 {
@@ -17,10 +18,12 @@ class FaturHelperServiceProvider extends ServiceProvider
     public function boot(Router $router)
     {
         // Config
-        config([
-            'app.name' => setting('name'),
-            'app.timezone' => setting('timezone')
-        ]);
+        if(Schema::hasTable('settings')) {
+            config([
+                'app.name' => setting('name'),
+                'app.timezone' => setting('timezone')
+            ]);
+        }
 
         // Add views
         $this->loadViewsFrom(__DIR__.'/../resources/views', 'faturhelper');

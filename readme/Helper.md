@@ -4,23 +4,22 @@ Methods:
 - has_access
 - method
 - role
-- gender
-- status
-- religion
-- relationship
-- country_code
-- platform
+- setting
+- meta
+- menu
+- eval_sidebar
 - slug
 - slugify
 - access_token
 - package
-- mime
-- quote
 - quill
 - hex_to_rgb
 - rgb_to_hsl
 - reverse_color
-- custom_view
+- device_info
+- browser_info
+- platform_info
+- location_info
 
 ## has_access
 
@@ -58,103 +57,24 @@ Get the role ID by key:
 echo role('admin'); // Output: 1
 ```
 
-## gender
+## setting
 
-Get the gender by code:
-
-``` php
-echo gender('L'); // Output: Laki-Laki
-```
-
-The default of parameter is null. If it's null, it will return the gender array:
+Get the setting content by key:
 
 ``` php
-print_r(gender()); // Output: [...]
+echo setting('name'); // Output: FaturHelper
 ```
 
-## status
+## meta
 
-Get the status by code:
+Get the meta content by key:
 
 ``` php
-echo status(1); // Output: Aktif
+echo meta('author'); // Output: Aji Fatur
 ```
+## menu
 
-The default of parameter is null. If it's null, it will return the status array:
-
-``` php
-print_r(status()); // Output: [...]
-```
-
-## religion
-
-Get the religion by code:
-
-``` php
-echo religion(1); // Output: Islam
-```
-
-The default of parameter is null. If it's null, it will return the religion array:
-
-``` php
-print_r(religion()); // Output: [...]
-```
-
-## relationship
-
-Get the relationship by code:
-
-``` php
-echo relationship(1); // Output: Lajang
-```
-
-The default of parameter is null. If it's null, it will return the relationship array:
-
-``` php
-print_r(relationship()); // Output: [...]
-```
-
-## country
-
-Get the country by code:
-
-``` php
-echo country('ID'); // Output: Indonesia
-```
-
-The default of parameter is null. If it's null, it will return the country array:
-
-``` php
-print_r(country()); // Output: [...]
-```
-
-## dial_code
-
-Get the dial code by code:
-
-``` php
-echo dial_code('ID'); // Output: +62
-```
-
-The default of parameter is null. If it's null, it will return the dial code array:
-
-``` php
-print_r(dial_code()); // Output: [...]
-```
-
-## platform
-
-Get the platform by code:
-
-``` php
-echo platform(1); // Output: Facebook
-```
-
-The default of parameter is null. If it's null, it will return the platform array:
-
-``` php
-print_r(platform()); // Output: [...]
-```
+## eval_sidebar
 
 ## slug
 
@@ -203,28 +123,6 @@ The default of parameter is null. If it's null, it will return the package array
 print_r(package()); // Output: [...]
 ```
 
-## mime
-
-Get the mime by type:
-
-``` php
-echo mime('image/png'); // Output: png
-```
-
-## quote
-
-Get the random quote:
-
-``` php
-echo quote('random'); // Output: Living like Larry
-```
-
-The default of parameter is null. If it's null, it will return the quote array:
-
-``` php
-print_r(quote()); // Output: [...]
-```
-
 ## quill
 
 Set HTML entities from Quill Editor and upload the image:
@@ -257,14 +155,34 @@ Reverse the color to be dark or light:
 echo reverse_color('#333333'); // Output: #ffffff
 ```
 
-## custom_view
+## device_info
 
-Custom the view according to the faturhelper.package.view:
+Get the user device info in JSON format:
 
 ``` php
-faturhelper.package.view = '';
-echo custom_view('admin/dashboard'); // Output: admin/dashboard
+echo device_info(); // Output: {"type":"Desktop","family":"Unknown","model":"","grade":""}
+```
 
-faturhelper.package.view = 'faturcms';
-echo custom_view('admin/dashboard'); // Output: faturcms::admin/dashboard
+## browser_info
+
+Get the user browser info in JSON format:
+
+``` php
+echo browser_info(); // Output: {"name":"Opera 83.0.4254","family":"Opera","version":"83.0.4254","engine":"Blink"}
+```
+
+## platform_info
+
+Get the user platform info in JSON format:
+
+``` php
+echo platform_info(); // Output: {"name":"Windows 10","family":"Windows","version":"10"}
+```
+
+## location_info
+
+Get the user location info by IP address in JSON format:
+
+``` php
+echo location_info('127.0.0.1'); // Output: ""
 ```

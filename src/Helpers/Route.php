@@ -1,6 +1,8 @@
 <?php
 
 /**
+ * @var string NAMESPACE
+ * 
  * @method static void auth()
  * @method static void admin()
  * @method static void login()
@@ -26,7 +28,6 @@ use Illuminate\Support\Facades\Route;
 
 class RouteExt
 {
-
     /**
      * The default namespace.
      *

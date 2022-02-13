@@ -1,14 +1,18 @@
 <?php
 
 /**
- * @method static string|null change(string $date)
- * @method static array|null split(string $date)
- * @method static string merge(array $date)
- * @method static int diff(string $from, string $to)
- * @method static string toString(int $time)
- * @method static string elapsed(string $datetime, bool $full)
+ * @var string DATESEPARATOR
+ * @var string TIMESEPARATOR
+ * @var array  MONTHS
+ * 
+ * @method static string|null  change(string $date)
+ * @method static array|null   split(string $date)
+ * @method static string       merge(array $date)
+ * @method static int          diff(string $from, string $to)
+ * @method static string       toString(int $time)
+ * @method static string       elapsed(string $datetime, bool $full)
  * @method static string|array month(int|null $number)
- * @method static string full(string $datetime)
+ * @method static string       full(string $datetime)
  */
 
 namespace Ajifatur\Helpers;
