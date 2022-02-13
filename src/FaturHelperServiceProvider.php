@@ -31,11 +31,13 @@ class FaturHelperServiceProvider extends ServiceProvider
         // Add migrations
         $this->loadMigrationsFrom(__DIR__.'/../migrations');
 
+        // Add middlewares to web
+        $router->pushMiddlewareToGroup('web', \Ajifatur\FaturHelper\Http\Middleware\Logs::class);
+        
         // Add middlewares
         $router->aliasMiddleware('faturhelper.admin', \Ajifatur\FaturHelper\Http\Middleware\Admin::class);
         $router->aliasMiddleware('faturhelper.nonadmin', \Ajifatur\FaturHelper\Http\Middleware\NonAdmin::class);
         $router->aliasMiddleware('faturhelper.guest', \Ajifatur\FaturHelper\Http\Middleware\Guest::class);
-        $router->aliasMiddleware('faturhelper.logs', \Ajifatur\FaturHelper\Http\Middleware\Logs::class);
 
         // Use Bootstrap on paginator
         Paginator::useBootstrap();

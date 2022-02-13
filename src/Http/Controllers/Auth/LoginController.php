@@ -4,6 +4,7 @@ namespace Ajifatur\FaturHelper\Http\Controllers\Auth;
 
 use Auth;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Validator;
 use Laravel\Socialite\Facades\Socialite;
@@ -48,6 +49,10 @@ class LoginController extends \App\Http\Controllers\Controller
 
         // Return if has errors
         if($validator->fails()) {
+            // Add to log
+            $this->authenticationLog($request, $validator->errors()->toJson());
+
+            // Return
             return redirect()->back()->withErrors($validator->errors())->withInput();
         }
         else {
@@ -97,11 +102,36 @@ class LoginController extends \App\Http\Controllers\Controller
                     return redirect('/');
             }
             else {
+                // Add to log
+                $this->authenticationLog($request, 'Attempt failed.');
+
+                // Return
                 return redirect()->back()->withErrors([
                     'message' => 'Tidak ada akun yang cocok dengan username / password yang Anda masukkan!'
                 ])->withInput();
             }
         }
+    }
+
+    /**
+     * Authentication Log.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  string $errors
+     * @return \Illuminate\Http\Response
+     */
+    public function authenticationLog(Request $request, $errors)
+    {
+        Log::build([
+            'driver' => 'single',
+            'path' => storage_path('logs/authentications.log'),
+        ])->error(
+            json_encode([
+                'username' => $request->username,
+                'ip' => $request->ip(),
+                'errors' => $errors
+            ])
+        );
     }
     
     /**

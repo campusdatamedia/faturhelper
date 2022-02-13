@@ -28,54 +28,68 @@
 		<hr>
 		<div class="mb-3">
 			<small class="d-block text-uppercase font-weight-bold text-muted mb-2">Master</small>
-			<ul class="list-unstyled p-0">
-				<li><a href="{{ route('admin.menu.index') }}">Menu</a></li>
-				<li><a href="{{ route('admin.role.index') }}">Role</a></li>
-				<li><a href="{{ route('admin.permission.index') }}">Hak Akses</a></li>
-				<li><a href="{{ route('admin.meta.index') }}">Meta</a></li>
-			</ul>
+			<div class="row">
+				<div class="col-6">
+					<ul class="list-unstyled p-0 mb-0">
+						<li><a href="{{ route('admin.role.index') }}">Role</a></li>
+						<li><a href="{{ route('admin.permission.index') }}">Hak Akses</a></li>
+					</ul>
+				</div>
+				<div class="col-6">
+					<ul class="list-unstyled p-0 mb-0">
+						<li><a href="{{ route('admin.menu.index') }}">Menu</a></li>
+						<li><a href="{{ route('admin.meta.index') }}">Meta</a></li>
+					</ul>
+				</div>
+			</div>
 		</div>
 		<hr>
 		<div class="mb-3">
-			<small class="d-block text-uppercase font-weight-bold text-muted mb-2">Sistem</small>
-			<ul class="list-unstyled p-0">
-				<li><a href="{{ route('admin.setting.index') }}">Pengaturan</a></li>
-				<li><a href="{{ route('admin.system.index') }}">Lingkungan Sistem</a></li>
-				<li><a href="{{ route('admin.database.index') }}">Database</a></li>
-			</ul>
-		</div>
-		<hr>
-		<div class="mb-3">
-			<small class="d-block text-uppercase font-weight-bold text-muted mb-2">Tools</small>
-			<ul class="list-unstyled p-0">
-				<li><a href="{{ route('admin.artisan.index') }}">Artisan</a></li>
-			</ul>
+			<div class="row">
+				<div class="col-6">
+					<small class="d-block text-uppercase font-weight-bold text-muted mb-2">Sistem</small>
+					<ul class="list-unstyled p-0 mb-0">
+						<li><a href="{{ route('admin.setting.index') }}">Pengaturan</a></li>
+						<li><a href="{{ route('admin.system.index') }}">Lingkungan Sistem</a></li>
+						<li><a href="{{ route('admin.database.index') }}">Database</a></li>
+					</ul>
+				</div>
+				<div class="col-6">
+					<small class="d-block text-uppercase font-weight-bold text-muted mb-2">Tools</small>
+					<ul class="list-unstyled p-0 mb-0">
+						<li><a href="{{ route('admin.artisan.index') }}">Artisan</a></li>
+					</ul>
+				</div>
+			</div>
 		</div>
 		<hr>
 		<div class="mb-3">
 			<small class="d-block text-uppercase font-weight-bold text-muted mb-2">Log</small>
-			<ul class="list-unstyled p-0">
+			<ul class="list-unstyled p-0 mb-0">
 				<li><a href="{{ route('admin.log.index') }}" target="_blank">Semua Log</a></li>
 				<li><a href="{{ route('admin.log.activity') }}">Aktivitas</a></li>
 			</ul>
 		</div>
 		<hr>
 		<div class="mb-3">
-			<small class="d-block text-uppercase font-weight-bold text-muted mb-2">Dataset Kecil</small>
-			<ul class="list-unstyled p-0">
-				@foreach(datasets('small') as $key=>$dataset)
-				<li><a href="{{ route('admin.dataset.index', ['json' => $key]) }}">{{ $dataset }}</a></li>
-				@endforeach
-			</ul>
-		</div>
-		<hr>
-		<div class="mb-3">
-			<small class="d-block text-uppercase font-weight-bold text-muted mb-2">Dataset Besar</small>
-			<ul class="list-unstyled p-0">
-				@foreach(datasets('large') as $key=>$dataset)
-				<li><a href="{{ route('admin.dataset.index', ['json' => $key]) }}">{{ $dataset }}</a></li>
-				@endforeach
-			</ul>
+			<div class="row">
+				<div class="col-6">
+					<small class="d-block text-uppercase font-weight-bold text-muted mb-2">Dataset Kecil</small>
+					<ul class="list-unstyled p-0">
+						@foreach(datasets('small') as $key=>$dataset)
+						<li><a href="{{ route('admin.dataset.index', ['json' => $key]) }}">{{ $dataset }}</a></li>
+						@endforeach
+					</ul>
+				</div>
+				<div class="col-6">
+					<small class="d-block text-uppercase font-weight-bold text-muted mb-2">Dataset Besar</small>
+					<ul class="list-unstyled p-0">
+						@foreach(datasets('large') as $key=>$dataset)
+						<li><a href="{{ route('admin.dataset.index', ['json' => $key]) }}">{{ $dataset }}</a></li>
+						@endforeach
+					</ul>
+				</div>
+			</div>
 		</div>
 	</div>
 </div>
