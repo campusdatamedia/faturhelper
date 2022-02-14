@@ -10,6 +10,7 @@
  * @method string|array status(string|null $code)
  * 
  * @method array        bootstrap_icons()
+ * @method string|array color(string|null $name, string|null $type)
  * @method string|array country(string|null $code)
  * @method string|array dial_code(string|null $code)
  * @method string       mime(string $type)
@@ -181,6 +182,42 @@ if(!function_exists('bootstrap_icons')) {
 
         // Return
         return $new_array;
+    }
+}
+
+/**
+ * Get the color.
+ *
+ * @param  string|null $name
+ * @param  string|null $type
+ * @return string|array
+ */
+if(!function_exists('color')) {
+    function color($name = null, $type = null) {
+        // Get colors from datasets
+        $array = FileExt::json('color.json');
+        $array = $array['colors'];
+
+        // Set the color / colors
+        if($name === null)
+            return $array;
+        else {
+            // Get color index
+            $index = '';
+            foreach($array as $key=>$value) {
+                if($value['name'] == $name) $index = $key;
+            }
+
+            // Get color description
+            if($type === 'hex')
+                return array_key_exists($index, $array) ? $array[$index]['hex'] : '';
+            elseif($type === 'rgb')
+                return array_key_exists($index, $array) ? [$array[$index]['r'], $array[$index]['g'], $array[$index]['b']] : [];
+            elseif($type === 'hsl')
+                return array_key_exists($index, $array) ? [$array[$index]['h'], $array[$index]['s'], $array[$index]['l']] : [];
+            else
+                return array_key_exists($index, $array) ? $array[$index] : [];
+        }
     }
 }
 

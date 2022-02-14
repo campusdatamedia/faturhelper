@@ -20,6 +20,7 @@
  * @method static void artisan()
  * @method static void logs()
  * @method static void api()
+ * @method static void apiAuth()
  */
 
 namespace Ajifatur\Helpers;
@@ -297,6 +298,9 @@ class RouteExt
      */
     public static function api()
     {
+        // API routes with authentication
+        self::apiAuth();
+
         // Bootstrap Icons
         Route::get('/dataset/bootstrap-icons', function() {
             return response()->json(bootstrap_icons(), 200);
@@ -306,15 +310,25 @@ class RouteExt
         Route::get('/dataset/country-code', function() {
             return response()->json(country(), 200);
         })->name('api.country-code');
+    }
 
-        // User
-        Route::get('/user/role', self::NAMESPACE.'\API\UserController@role')->name('api.user.role');
-        Route::get('/user/status', self::NAMESPACE.'\API\UserController@status')->name('api.user.status');
+    /**
+     * Set the API routes with authentication.
+     *
+     * @return void
+     */
+    public static function apiAuth()
+    {
+        Route::group(['middleware' => ['faturhelper.api.auth']], function() {
+            // User
+            Route::get('/user/role', self::NAMESPACE.'\API\UserController@role')->name('api.user.role');
+            Route::get('/user/status', self::NAMESPACE.'\API\UserController@status')->name('api.user.status');
 
-        // Visitor
-        Route::get('/visitor/device/type', self::NAMESPACE.'\API\VisitorController@deviceType')->name('api.visitor.device.type');
-        Route::get('/visitor/device/family', self::NAMESPACE.'\API\VisitorController@deviceFamily')->name('api.visitor.device.family');
-        Route::get('/visitor/browser', self::NAMESPACE.'\API\VisitorController@browser')->name('api.visitor.device.browser');
-        Route::get('/visitor/platform', self::NAMESPACE.'\API\VisitorController@platform')->name('api.visitor.device.platform');
+            // Visitor
+            Route::get('/visitor/device/type', self::NAMESPACE.'\API\VisitorController@deviceType')->name('api.visitor.device.type');
+            Route::get('/visitor/device/family', self::NAMESPACE.'\API\VisitorController@deviceFamily')->name('api.visitor.device.family');
+            Route::get('/visitor/browser', self::NAMESPACE.'\API\VisitorController@browser')->name('api.visitor.browser');
+            Route::get('/visitor/platform', self::NAMESPACE.'\API\VisitorController@platform')->name('api.visitor.platform');
+        });
     }
 }

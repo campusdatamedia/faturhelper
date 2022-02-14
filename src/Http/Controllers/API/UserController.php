@@ -15,13 +15,26 @@ class UserController extends \App\Http\Controllers\Controller
         'total' => 0
     ];
 
-    const COLORS = [
-        '808080', // gray
-        '00FF00', // green
-        'FFFF00', // yellow
-        'EE204D', // red
-        '0000FF', // blue
-    ];
+    /**
+     * Get colors / color.
+     * 
+     * @param  string|null $key
+     * @return string
+     */
+    public function getColor($key = null)
+    {
+        $colors = [
+            color('Green', 'hex'),
+            color('Yellow', 'hex'),
+            color('Red', 'hex'),
+            color('Blue', 'hex'),
+            color('Orange', 'hex'),
+            color('Purple', 'hex'),
+            color('Pink', 'hex'),
+        ];
+
+        return $key === null ? $colors : $colors[$key];
+    }
 
     /**
      * Get user role.
@@ -43,7 +56,7 @@ class UserController extends \App\Http\Controllers\Controller
 
             // Push to dataset
             array_push($dataset['labels'], $role->name);
-            array_push($dataset['colors'], self::COLORS[$key + 1]);
+            array_push($dataset['colors'], $this->getColor($key % count($this->getColor())));
             array_push($dataset['data'], $users);
         }
 
@@ -74,7 +87,7 @@ class UserController extends \App\Http\Controllers\Controller
 
             // Push to dataset
             array_push($dataset['labels'], $status['name']);
-            array_push($dataset['colors'], self::COLORS[$key + 1]);
+            array_push($dataset['colors'], $this->getColor($key % count($this->getColor())));
             array_push($dataset['data'], $users);
         }
 
