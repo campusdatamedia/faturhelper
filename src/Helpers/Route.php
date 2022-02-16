@@ -19,6 +19,7 @@
  * @method static void dataset()
  * @method static void artisan()
  * @method static void logs()
+ * @method static void route()
  * @method static void api()
  * @method static void apiAuth()
  */
@@ -66,6 +67,7 @@ class RouteExt
         self::dataset();
         self::artisan();
         self::logs();
+        self::route();
     }
 
     /**
@@ -288,6 +290,18 @@ class RouteExt
             Route::get('/admin/log', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index')->name('admin.log.index');
             Route::get('/admin/log/activity', self::NAMESPACE.'\LogController@activity')->name('admin.log.activity');
             Route::get('/admin/log/authentication', self::NAMESPACE.'\LogController@authentication')->name('admin.log.authentication');
+        });
+    }
+
+    /**
+     * Set the route routes.
+     *
+     * @return void
+     */
+    public static function route()
+    {
+        Route::group(['middleware' => ['faturhelper.admin']], function() {
+            Route::get('/admin/route', self::NAMESPACE.'\RouteController@index')->name('admin.route.index');
         });
     }
 

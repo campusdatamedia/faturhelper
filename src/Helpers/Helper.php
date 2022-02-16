@@ -8,7 +8,6 @@
  * @method string          meta(string $code)
  * @method array           menu()
  * @method void            eval_sidebar(string $condition, string $true, string $false)
- * @method string          slug(string $text)
  * @method string          slugify(string $text, array $array)
  * @method string          access_token()
  * @method array|null      package(string|null $name)
@@ -222,31 +221,6 @@ if(!function_exists('eval_sidebar')) {
 }
 
 /**
- * Get the slug from the text.
- *
- * @param  string $text
- * @return string
- */
-if(!function_exists('slug')) {
-    function slug($text) {
-        // Convert the text to lowercase
-        $result = strtolower($text);
-
-        // Filter text characters
-        $result = preg_replace("/[^a-z0-9\s-]/", "", $result);
-
-        // Trim the text
-        $result = preg_replace("/\s+/", " ",$result);
-
-        // Replace whitespace to dash
-        $result = str_replace(" ", "-", $result);
-
-        // Return
-        return $result;
-    }
-}
-
-/**
  * Slugify the text.
  *
  * @param  string $text
@@ -256,13 +230,13 @@ if(!function_exists('slug')) {
 if(!function_exists('slugify')) {
     function slugify($text, $array) {
         // Convert the text to slug
-        $slug = slug($text);
+        $slug = Str::slug($text);
 
         // Check the slug from exist slugs
         $i = 1;
         while(in_array($slug, $array)) {
             $i++;
-            $slug = slug($text).'-'.$i;
+            $slug = Str::slug($text).'-'.$i;
         }
 
         // Return

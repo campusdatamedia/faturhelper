@@ -26,7 +26,7 @@ class DatabaseController extends \App\Http\Controllers\Controller
         // Get table columns
         foreach($tables as $key=>$table) {
             $tables[$key]->name = $table->{'Tables_in_'.env('DB_DATABASE')};
-            $tables[$key]->columns = Schema::getColumnListing($table->{'Tables_in_'.env('DB_DATABASE')});
+            $tables[$key]->columns = DB::select('DESCRIBE '.$tables[$key]->name);
         }
 
         // View

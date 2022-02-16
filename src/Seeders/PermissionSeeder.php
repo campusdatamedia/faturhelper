@@ -37,6 +37,7 @@ class PermissionSeeder extends Seeder
             ['code' => 'MetaController::index', 'name' => 'Mengelola Meta'],
             ['code' => 'SystemController::index', 'name' => 'Menampilkan Lingkungan Sistem'],
             ['code' => 'DatabaseController::index', 'name' => 'Menampilkan Database'],
+            ['code' => 'RouteController::index', 'name' => 'Menampilkan Route'],
             ['code' => 'ArtisanController::index', 'name' => 'Mengelola Perintah Artisan'],
             ['code' => 'LogController::activity', 'name' => 'Menampilkan Log Aktivitas'],
             ['code' => 'LogController::authentication', 'name' => 'Menampilkan Log Autentikasi'],

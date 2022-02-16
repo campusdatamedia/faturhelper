@@ -12,26 +12,35 @@
 		<div class="card">
             <div class="card-body">
                 <div class="table-responsive">
-                    <table class="table table-sm table-hover table-bordered" id="datatable">
+                    <table class="table table-sm table-bordered">
                         <thead class="bg-light">
                             <tr>
-                                <th>Tabel</th>
-                                <th>Field</th>
+                                <th rowspan="2" width="30">#</th>
+                                <th rowspan="2">Table</th>
+                                <th colspan="6">Field</th>
+                            </tr>
+                            <tr>
+                                <th>Name</th>
+                                <th>Type</th>
+                                <th>Null</th>
+                                <th>Key</th>
+                                <th>Default</th>
+                                <th>Extra</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach($tables as $table)
-                            <tr>
-                                <td>{{ $table->name }}</td>
-                                <td>
-                                    @foreach($table->columns as $key=>$column)
-                                        {{ $column }}
-                                        @if($key < count($table->columns)-1)
-                                        <hr class="my-1">
-                                        @endif
+                            @foreach($tables as $num=>$table)
+                                @foreach($table->columns as $key=>$column)
+                                <tr>
+                                    @if($key == 0)
+                                        <td rowspan="{{ count($table->columns) }}" align="right">{{ ($num + 1) }}</td>
+                                        <td rowspan="{{ count($table->columns) }}">{{ $table->name }}</td>
+                                    @endif
+                                    @foreach($column as $column_attr)
+                                        <td>{{ $column_attr }}</td>
                                     @endforeach
-                                </td>
-                            </tr>
+                                </tr>
+                                @endforeach
                             @endforeach
                         </tbody>
                     </table>
@@ -43,16 +52,10 @@
 
 @endsection
 
-@section('js')
+@section('css')
 
-<script type="text/javascript">
-    // DataTable
-    Spandiv.DataTable("#datatable", {
-        orderAll: true
-    });
-
-    // Button Delete
-    Spandiv.ButtonDelete(".btn-delete", ".form-delete");
-</script>
+<style>
+    .table tr th {text-align: center; vertical-align: middle;}
+</style>
 
 @endsection

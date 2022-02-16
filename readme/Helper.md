@@ -8,7 +8,6 @@ Methods:
 - meta
 - menu
 - eval_sidebar
-- slug
 - slugify
 - access_token
 - package
@@ -75,15 +74,6 @@ echo meta('author'); // Output: Aji Fatur
 ## menu
 
 ## eval_sidebar
-
-## slug
-
-Get the slug from the text:
-
-``` php
-echo slug('Lorem Ipsum Sit Dolor Amet');
-// Output: lorem-ipsum-sit-dolor-amet
-```
 
 ## slugify
 
