@@ -4,11 +4,13 @@ namespace Ajifatur\FaturHelper\Http\Controllers;
 
 use Auth;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use Ajifatur\Helpers\DateTimeExt;
 use Ajifatur\FaturHelper\Models\User;
+use Ajifatur\FaturHelper\Models\UserAvatar;
 
 class UserSettingController extends \App\Http\Controllers\Controller
 {
@@ -175,5 +177,35 @@ class UserSettingController extends \App\Http\Controllers\Controller
                 return redirect()->back()->with(['message' => 'Kata sandi lama yang dimasukkan tidak cocok dengan kata sandi yang dimiliki saat ini.', 'status' => 0]);
             }
         }
+    }
+
+    /**
+     * Update the user avatar.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function updateAvatar(Request $request)
+    {
+        // Upload the image
+        $image = $request->image;
+        $image = str_replace('data:image/png;base64,', '', $image);
+        $image = str_replace(' ', '+', $image);
+        $imageName = date('Y-m-d-H-i-s').'.'.'png';
+        File::put(public_path('assets/images/users'). '/' . $imageName, base64_decode($image));
+
+        // Update the user avatar
+        $user = User::find(Auth::user()->id);
+        $user->avatar = $imageName;
+        $user->save();
+
+        // Save user avatar
+        $user_avatar = new UserAvatar;
+        $user_avatar->user_id = $user->id;
+        $user_avatar->avatar = $user->avatar;
+        $user_avatar->save();
+
+        // Redirect
+        return redirect()->route('admin.profile')->with(['message' => 'Berhasil mengupdate avatar.']);
     }
 }

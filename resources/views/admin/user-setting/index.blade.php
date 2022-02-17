@@ -10,21 +10,30 @@
 <div class="row">
     <div class="col-md-4 col-xl-3">
         <div class="card">
-            <div class="card-body text-center">
-                @if(Auth::user()->avatar != '' && File::exists(public_path('assets/images/users/'.Auth::user()->avatar)))
-                    <img src="{{ asset('assets/images/users/'.Auth::user()->avatar) }}" class="rounded-circle" height="150" width="150" alt="Foto">
-                @else
-                    <div class="d-flex justify-content-center">
-                        <div class="avatar rounded-circle me-2 text-center bg-dark" style="height: 150px; width: 150px; line-height: 150px; cursor: pointer;">
+            <div class="card-body">
+                <div class="d-flex justify-content-center text-center">
+                    @if(Auth::user()->avatar != '' && File::exists(public_path('assets/images/users/'.Auth::user()->avatar)))
+                        <div class="btn-avatar rounded-circle me-2 text-center bg-dark" style="height: 150px; width: 150px; line-height: 150px; cursor: pointer;">
+                            <div class="avatar-overlay"><i class="bi-camera"></i></div>
+                            <img src="{{ asset('assets/images/users/'.Auth::user()->avatar) }}" class="rounded-circle" height="150" width="150" alt="Foto">
+                        </div>
+                    @else
+                        <div class="btn-avatar rounded-circle me-2 text-center bg-dark" style="height: 150px; width: 150px; line-height: 150px; cursor: pointer;">
                             <div class="avatar-overlay"><i class="bi-camera"></i></div>
                             <h2 class="text-white" style="line-height: 150px; font-size: 75px;">{{ strtoupper(substr(Auth::user()->name,0,1)) }}</h2>
                         </div>
-                    </div>
-                @endif
+                    @endif
+                </div>
             </div>
         </div>
     </div>
     <div class="col-md-8 col-xl-9">
+        @if(Session::get('message'))
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <div class="alert-message">{{ Session::get('message') }}</div>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        @endif
         <div class="card">
             <div class="card-header"><h5 class="card-title mb-0">Profil Pengguna</h5></div>
             <div class="card-body">
@@ -71,7 +80,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <p class="text-center">Ukuran 150 x 150 pixel.</p>
+                <p class="text-center">Ukuran 250 x 250 pixel.</p>
                 <!-- <form id="form-upload-image" method="post" action="#" enctype="multipart/form-data"> -->
                     <div class="row">
                         <div class="col-12">
@@ -98,7 +107,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <p class="text-center">Ukuran 150 x 150 pixel.</p>
+                <p class="text-center">Ukuran 250 x 250 pixel.</p>
                 <div class="table-responsive">
                     <div id="croppie"></div>
                 </div>
@@ -110,6 +119,11 @@
         </div>
     </div>
 </div>
+
+<form class="form-croppie" method="post" action="{{ route('admin.settings.avatar.update') }}">
+    @csrf
+    <input type="hidden" name="image">
+</form>
 
 @endsection
 
@@ -134,27 +148,30 @@
                 });
             }
             reader.readAsDataURL(input.files[0]);
+            input.value = null;
         }
     }
 
-    function CroppieResult(croppieObject) {
+    function CroppieSubmit(croppieObject, form) {
         croppieObject.croppie('result', {
-            type: 'base64'
+            type: 'base64',
+            circle: false
         }).then(function(response) {
-            console.log(response);
+            $(form).find("input[name=image]").val(response);
+            $(form).submit();
         });
     }
 </script>
 <script>
     // Init Croppie
     var croppie = Croppie("#croppie", {
-        width: 150,
-        height: 150,
+        width: 250,
+        height: 250,
         type: 'circle'
     });
 
     // Click on Avatar
-    $(document).on("click", ".avatar", function() {
+    $(document).on("click", ".btn-avatar", function() {
         Spandiv.Modal("#modal-image").show();
     });
 
@@ -163,13 +180,12 @@
         CroppieBindFromURL(croppie, this);
         Spandiv.Modal("#modal-image").hide();
         Spandiv.Modal("#modal-croppie").show();
-        $(this).val(null);
     });
 
     // Button Croppie
     $(document).on("click", ".btn-croppie", function(e) {
         e.preventDefault();
-        CroppieResult(croppie);
+        CroppieSubmit(croppie, ".form-croppie");
     });
 </script>
 
@@ -189,8 +205,6 @@
     #modal-image .dropzone-description {text-align: center; font-weight: bold;}
     #modal-image .dropzone-icon {font-size: 2rem;}
     #modal-image .dropzone-input, #modal-image .dropzone-input:focus {position: absolute; width: 100%; height: 150px; outline: none!important; cursor: pointer; opacity: 0;}
-
-    .cr-boundary {border: 3px dashed #bebebe;}
 </style>
 
 @endsection
