@@ -133,6 +133,7 @@ class RouteExt
             Route::post('/admin/settings/account/update', self::NAMESPACE.'\UserSettingController@updateAccount')->name('admin.settings.account.update');
             Route::get('/admin/settings/password', self::NAMESPACE.'\UserSettingController@password')->name('admin.settings.password');
             Route::post('/admin/settings/password/update', self::NAMESPACE.'\UserSettingController@updatePassword')->name('admin.settings.password.update');
+            Route::get('/admin/settings/avatar', self::NAMESPACE.'\UserSettingController@avatar')->name('admin.settings.avatar');
             Route::post('/admin/settings/avatar/update', self::NAMESPACE.'\UserSettingController@updateAvatar')->name('admin.settings.avatar.update');
         });
     }

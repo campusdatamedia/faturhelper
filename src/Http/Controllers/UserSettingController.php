@@ -180,6 +180,23 @@ class UserSettingController extends \App\Http\Controllers\Controller
     }
 
     /**
+     * Get the user avatar.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function avatar(Request $request)
+    {
+        if($request->ajax()) {
+            // Get the user
+            $avatars = Auth::user()->avatars->pluck('avatar')->toArray();
+
+            // Return
+            return response()->json($avatars);
+        }
+    }
+
+    /**
      * Update the user avatar.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -187,23 +204,35 @@ class UserSettingController extends \App\Http\Controllers\Controller
      */
     public function updateAvatar(Request $request)
     {
-        // Upload the image
-        $image = $request->image;
-        $image = str_replace('data:image/png;base64,', '', $image);
-        $image = str_replace(' ', '+', $image);
-        $imageName = date('Y-m-d-H-i-s').'.'.'png';
-        File::put(public_path('assets/images/users'). '/' . $imageName, base64_decode($image));
+        // Make directory if not exists
+        if(!File::exists(public_path('assets/images/users')))
+            File::makeDirectory(public_path('assets/images/users'));
 
-        // Update the user avatar
-        $user = User::find(Auth::user()->id);
-        $user->avatar = $imageName;
-        $user->save();
+        if($request->choose == 1) {
+            // Update the user avatar
+            $user = User::find(Auth::user()->id);
+            $user->avatar = $request->image;
+            $user->save();
+        }
+        else {
+            // Upload the image
+            $image = $request->image;
+            $image = str_replace('data:image/png;base64,', '', $image);
+            $image = str_replace(' ', '+', $image);
+            $imageName = date('Y-m-d-H-i-s').'.'.'png';
+            File::put(public_path('assets/images/users'). '/' . $imageName, base64_decode($image));
 
-        // Save user avatar
-        $user_avatar = new UserAvatar;
-        $user_avatar->user_id = $user->id;
-        $user_avatar->avatar = $user->avatar;
-        $user_avatar->save();
+            // Update the user avatar
+            $user = User::find(Auth::user()->id);
+            $user->avatar = $imageName;
+            $user->save();
+
+            // Save user avatar
+            $user_avatar = new UserAvatar;
+            $user_avatar->user_id = $user->id;
+            $user_avatar->avatar = $user->avatar;
+            $user_avatar->save();
+        }
 
         // Redirect
         return redirect()->route('admin.profile')->with(['message' => 'Berhasil mengupdate avatar.']);
