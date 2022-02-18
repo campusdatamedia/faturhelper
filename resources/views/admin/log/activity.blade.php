@@ -10,11 +10,29 @@
 <div class="row">
     <div class="col-12">
 		<div class="card">
+            <div class="card-header d-sm-flex justify-content-end align-items-center">
+                <div class="mb-sm-0 mb-2">
+                    <select name="month" class="form-select form-select-sm">
+                        @for($m=1; $m<=12; $m++)
+                        <option value="{{ $m }}" {{ $month == $m ? 'selected' : '' }}>{{ \Ajifatur\Helpers\DateTimeExt::month($m) }}</option>
+                        @endfor
+                    </select>
+                </div>
+                <div class="ms-sm-2 ms-0">
+                    <select name="year" class="form-select form-select-sm">
+                        @for($y=date('Y'); $y>=2022; $y--)
+                        <option value="{{ $y }}" {{ $year == $y ? 'selected' : '' }}>{{ $y }}</option>
+                        @endfor
+                    </select>
+                </div>
+            </div>
+            <hr class="my-0">
             <div class="card-body">
                 <div class="table-responsive">
                     <table class="table table-sm table-hover table-bordered" id="datatable">
                         <thead class="bg-light">
                             <tr>
+                                <th width="80">Lingkungan</th>
                                 <th width="80">Waktu</th>
                                 <th width="150">Pengguna</th>
                                 <th>URL</th>
@@ -40,19 +58,24 @@
         serverSide: true,
         orderAll: true,
 		pageLength: 50,
-        url: Spandiv.URL("{{ route('admin.log.activity') }}"),
+        url: Spandiv.URL("{{ route('admin.log.activity') }}", {month: "{{ $month }}", year: "{{ $year }}"}),
         columns: [
+            {data: 'environment', name: 'environment'},
             {data: 'datetime', name: 'datetime'},
             {data: 'user', name: 'user'},
             {data: 'url', name: 'url'},
             {data: 'method', name: 'method'},
             {data: 'ip', name: 'ip'}
         ],
-        order: [0, 'desc']
+        order: [1, 'desc']
     });
 
-    // Button Delete
-    Spandiv.ButtonDelete(".btn-delete", ".form-delete");
+    // Change Month and Year
+    $(document).on("change", "select[name=month], select[name=year]", function() {
+        var month = $("select[name=month]").val();
+        var year = $("select[name=year]").val();
+        window.location.href = Spandiv.URL("{{ route('admin.log.activity') }}", {month: month, year: year});
+    });
 
     // Button Read More
     $(document).on("click", ".btn-read-more", function(e) {

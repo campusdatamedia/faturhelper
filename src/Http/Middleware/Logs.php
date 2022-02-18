@@ -30,7 +30,7 @@ class Logs
         // Save log
         Log::build([
             'driver' => 'single',
-            'path' => storage_path('logs/activities.log'),
+            'path' => storage_path('logs/activities-'.date('Y').'-'.date('m').'.log'),
         ])->info(
             json_encode([
                 'user_id' => $user_id,

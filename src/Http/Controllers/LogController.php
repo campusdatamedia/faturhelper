@@ -9,6 +9,39 @@ use Illuminate\Support\Facades\File;
 class LogController extends \App\Http\Controllers\Controller
 {
     /**
+     * Convert log to array.
+     * 
+     * @param  string  $type
+     * @param  string  $file
+     * @return array
+     */
+    public function logToArray($type, $file)
+    {
+        $logs = [];
+
+        if(File::exists($file)) {
+            // Get log
+            $contents = preg_split('/\r\n|\r|\n/', file_get_contents($file));
+            $contents = is_array($contents) ? array_filter($contents) : [];
+
+            // Get log info
+            if(count($contents) > 0) {
+                foreach($contents as $content) {
+                    $info = explode('.'.strtoupper($type).': ', trim($content));
+                    if(count($info) == 2) {
+                        $log = json_decode($info[1], true); // JSON to Array
+                        $log['datetime'] = substr($info[0],1,19); // Datetime
+                        $log['environment'] = substr($info[0],22); // Environment
+                        array_push($logs, $log); // Push
+                    }
+                }
+            }
+        }
+
+        return $logs;
+    }
+
+    /**
      * Display the activity log.
      * 
      * @param  \Illuminate\Http\Request  $request
@@ -19,33 +52,16 @@ class LogController extends \App\Http\Controllers\Controller
         // Check the access
         has_access(method(__METHOD__), Auth::user()->role_id);
 
+        // Get month and year
+        $month = $request->query('month') ?: date('n');
+        $year = $request->query('year') ?: date('Y');
+
+        // Set month to date('m') format
+        $monthString = strlen($month) == 2 ? $month : '0'.$month;
+
         if($request->ajax()) {
-            // Array log
-            $logs = [];
-
-            if(File::exists(storage_path('logs/activities.log'))) {
-                // Get log
-                $contents = preg_split('/\r\n|\r|\n/', file_get_contents(storage_path('logs/activities.log')));
-                $contents = is_array($contents) ? array_filter($contents) : [];
-
-                // Get log info
-                if(count($contents) > 0) {
-                    foreach($contents as $content) {
-                        $info = explode(' local.INFO: ', trim($content));
-                        if(count($info) == 2) {
-                            $info[0] = str_replace('[','',$info[0]);
-                            $info[0] = str_replace(']','',$info[0]);
-                            $info[1] = json_decode($info[1], true);
-                        }
-                        $log = $info[1];
-                        $log['datetime'] = $info[0];
-                        array_push($logs, $log);
-                    }
-                }
-            }
-
             // Return datatables
-            return datatables()->of($logs)
+            return datatables()->of($this->logToArray('info', storage_path('logs/activities-'.$year.'-'.$monthString.'.log')))
                 ->addColumn('user', '
                     @php $user = \Ajifatur\FaturHelper\Models\User::find($user_id); @endphp
                     @if($user)
@@ -93,7 +109,10 @@ class LogController extends \App\Http\Controllers\Controller
         }
 
         // View
-        return view('faturhelper::admin/log/activity');
+        return view('faturhelper::admin/log/activity', [
+            'month' => $month,
+            'year' => $year,
+        ]);
     }
 
     /**
@@ -108,32 +127,8 @@ class LogController extends \App\Http\Controllers\Controller
         has_access(method(__METHOD__), Auth::user()->role_id);
 
         if($request->ajax()) {
-            // Array log
-            $logs = [];
-
-            if(File::exists(storage_path('logs/authentications.log'))) {
-                // Get log
-                $contents = preg_split('/\r\n|\r|\n/', file_get_contents(storage_path('logs/authentications.log')));
-                $contents = is_array($contents) ? array_filter($contents) : [];
-
-                // Get log info
-                if(count($contents) > 0) {
-                    foreach($contents as $content) {
-                        $info = explode(' local.ERROR: ', trim($content));
-                        if(count($info) == 2) {
-                            $info[0] = str_replace('[','',$info[0]);
-                            $info[0] = str_replace(']','',$info[0]);
-                            $info[1] = json_decode($info[1], true);
-                        }
-                        $log = $info[1];
-                        $log['datetime'] = $info[0];
-                        array_push($logs, $log);
-                    }
-                }
-            }
-
             // Return datatables
-            return datatables()->of($logs)
+            return datatables()->of($this->logToArray('error', storage_path('logs/authentications.log')))
                 ->editColumn('datetime', '
                     <span class="d-none">{{ $datetime }}</span>
                     {{ date("d/m/Y", strtotime($datetime)) }}
