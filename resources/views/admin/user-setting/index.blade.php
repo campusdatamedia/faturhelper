@@ -190,7 +190,7 @@
                     html += '<div class="row">';
                     for(var i=0; i<response.length; i++) {
                         html += '<div class="col-auto text-center">';
-                        html += '<img src="{{ asset("assets/images/users") }}/' + response[i] + '" class="img-thumbnail rounded-circle btn-choose-image" data-image="' + response[i] + '" data-bs-toggle="tooltip" title="Pilih Foto" width="150" style="cursor: pointer;">';
+                        html += '<img src="{{ asset("assets/images/users") }}/' + response[i] + '" class="img-thumbnail rounded-circle mb-2 btn-choose-image" data-image="' + response[i] + '" data-bs-toggle="tooltip" title="Pilih Foto" width="150" style="cursor: pointer;">';
                         html += '</div>';
                     }
                     html += '</div>';

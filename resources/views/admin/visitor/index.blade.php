@@ -1,11 +1,11 @@
 @extends('faturhelper::layouts/admin/main')
 
-@section('title', 'Log Autentikasi')
+@section('title', 'Visitor')
 
 @section('content')
 
 <div class="d-sm-flex justify-content-between align-items-center mb-3">
-    <h1 class="h3 mb-0">Log Autentikasi</h1>
+    <h1 class="h3 mb-0">Visitor</h1>
 </div>
 <div class="row">
     <div class="col-12">
@@ -16,9 +16,10 @@
                         <thead class="bg-light">
                             <tr>
                                 <th width="80">Waktu</th>
-                                <th width="120">Username</th>
-                                <th width="80">IP Address</th>
-                                <th>Error</th>
+                                <th>Pengguna</th>
+                                <th width="180">Device</th>
+                                <th width="180">Browser</th>
+                                <th width="180">Platform</th>
                             </tr>
                         </thead>
                         <tbody></tbody>
@@ -39,15 +40,24 @@
         serverSide: true,
         orderAll: true,
 		pageLength: 50,
-        url: Spandiv.URL("{{ route('admin.log.authentication') }}"),
+        url: Spandiv.URL("{{ route('admin.visitor.index') }}"),
         columns: [
             {data: 'datetime', name: 'datetime'},
-            {data: 'username', name: 'username'},
-            {data: 'ip', name: 'ip'},
-            {data: 'errors', name: 'errors'}
+            {data: 'user', name: 'user'},
+            {data: 'device', name: 'device'},
+            {data: 'browser', name: 'browser'},
+            {data: 'platform', name: 'platform'},
         ],
         order: [0, 'desc']
     });
 </script>
+
+@endsection
+
+@section('css')
+
+<style>
+    #datatable tr td {vertical-align: top;}
+</style>
 
 @endsection
