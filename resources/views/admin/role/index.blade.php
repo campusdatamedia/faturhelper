@@ -29,6 +29,7 @@
                                 <th>Nama</th>
                                 <th width="80">Kode</th>
                                 <th width="80">Sebagai Admin?</th>
+                                <th width="80">Status</th>
                                 <th width="80">Jumlah Pengguna</th>
                                 <th width="80">Jumlah Hak Akses</th>
                                 <th width="60">Opsi</th>
@@ -41,6 +42,7 @@
                                 <td>{{ $role->name }}</td>
                                 <td>{{ $role->code }}</td>
                                 <td><span class="badge {{ $role->is_admin == 1 ? 'bg-success' : 'bg-danger' }}">{{ $role->is_admin == 1 ? 'Ya' : 'Tidak' }}</span></td>
+                                <td><span class="badge {{ $role->is_global == 1 ? 'bg-success' : 'bg-danger' }}">{{ $role->is_global == 1 ? 'Global' : 'Lokal' }}</span></td>
                                 <td align="right">{{ number_format($role->users()->count(),0,',',',') }}</td>
                                 <td align="right">{{ number_format($role->permissions()->count(),0,',',',') }}</td>
                                 <td align="center">

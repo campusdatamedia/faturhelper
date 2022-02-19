@@ -20,6 +20,7 @@
  * @method static void artisan()
  * @method static void logs()
  * @method static void route()
+ * @method static void visitors()
  * @method static void api()
  * @method static void apiAuth()
  */
@@ -68,6 +69,7 @@ class RouteExt
         self::artisan();
         self::logs();
         self::route();
+        self::visitors();
     }
 
     /**
@@ -304,6 +306,18 @@ class RouteExt
     {
         Route::group(['middleware' => ['faturhelper.admin']], function() {
             Route::get('/admin/route', self::NAMESPACE.'\RouteController@index')->name('admin.route.index');
+        });
+    }
+
+    /**
+     * Set the visitor routes.
+     *
+     * @return void
+     */
+    public static function visitors()
+    {
+        Route::group(['middleware' => ['faturhelper.admin']], function() {
+            Route::get('/admin/visitor', self::NAMESPACE.'\VisitorController@index')->name('admin.visitor.index');
         });
     }
 
