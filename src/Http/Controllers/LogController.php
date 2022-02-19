@@ -41,18 +41,18 @@ class LogController extends \App\Http\Controllers\Controller
                         // Push to logs and URLs
                         if($user == 0) {
                             array_push($logs, $log);
-                            if($log['ajax'] === false) array_push($this->URLs, $log['url']);
+                            if(array_key_exists('ajax', $log) && $log['ajax'] === false) array_push($this->URLs, $log['url']);
                         }
                         elseif($user == -1) {
                             if($log['user_id'] == null) {
                                 array_push($logs, $log);
-                                if($log['ajax'] === false) array_push($this->URLs, $log['url']);
+                                if(array_key_exists('ajax', $log) && $log['ajax'] === false) array_push($this->URLs, $log['url']);
                             }
                         }
                         else {
                             if($log['user_id'] == $user) {
                                 array_push($logs, $log);
-                                if($log['ajax'] === false) array_push($this->URLs, $log['url']);
+                                if(array_key_exists('ajax', $log) && $log['ajax'] === false) array_push($this->URLs, $log['url']);
                             }
                         }
 
