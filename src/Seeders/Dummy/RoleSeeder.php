@@ -15,13 +15,13 @@ class RoleSeeder extends Seeder
     public function run()
     {
         $roles = [
-            ['code' => 'super-admin', 'name' => 'Super Admin', 'is_admin' => 1, 'num_order' => 1]
+            ['code' => 'super-admin', 'name' => 'Super Admin', 'is_admin' => 1, 'is_global' => 1, 'num_order' => 1]
         ];
 
         foreach($roles as $role) {
             Role::firstOrCreate(
                 ['code' => $role['code']],
-                ['name' => $role['name'], 'is_admin' => $role['is_admin'], 'num_order' => $role['num_order']]
+                ['name' => $role['name'], 'is_admin' => $role['is_admin'], 'is_global' => $role['is_global'], 'num_order' => $role['num_order']]
             );
         }
     }
