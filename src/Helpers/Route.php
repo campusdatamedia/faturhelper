@@ -293,6 +293,8 @@ class RouteExt
         Route::group(['middleware' => ['faturhelper.admin']], function() {
             Route::get('/admin/log', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index')->name('admin.log.index');
             Route::get('/admin/log/activity', self::NAMESPACE.'\LogController@activity')->name('admin.log.activity');
+            Route::get('/admin/log/activity/user', self::NAMESPACE.'\LogController@activityByUserID')->name('admin.log.activity.user');
+            Route::get('/admin/log/activity/url', self::NAMESPACE.'\LogController@activityByURL')->name('admin.log.activity.url');
             Route::get('/admin/log/authentication', self::NAMESPACE.'\LogController@authentication')->name('admin.log.authentication');
         });
     }

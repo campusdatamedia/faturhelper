@@ -1,11 +1,11 @@
 @extends('faturhelper::layouts/admin/main')
 
-@section('title', 'Log Aktivitas')
+@section('title', 'Log Aktivitas Berdasarkan URL')
 
 @section('content')
 
 <div class="d-sm-flex justify-content-between align-items-center mb-3">
-    <h1 class="h3 mb-0">Log Aktivitas</h1>
+    <h1 class="h3 mb-0">Log Aktivitas Berdasarkan URL</h1>
 </div>
 <div class="row">
     <div class="col-12">
@@ -37,12 +37,8 @@
                     <table class="table table-sm table-hover table-bordered" id="datatable">
                         <thead class="bg-light">
                             <tr>
-                                <th width="80">Lingkungan</th>
-                                <th width="80">Waktu</th>
-                                <th width="150">Pengguna</th>
                                 <th>URL</th>
-                                <th width="70">Method</th>
-                                <th width="80">IP Address</th>
+                                <th width="80">Jumlah</th>
                             </tr>
                         </thead>
                         <tbody></tbody>
@@ -63,14 +59,10 @@
         serverSide: true,
         orderAll: true,
 		pageLength: 50,
-        url: Spandiv.URL("{{ route('admin.log.activity') }}", {user: "{{ $user }}", month: "{{ $month }}", year: "{{ $year }}"}),
+        url: Spandiv.URL("{{ route('admin.log.activity.url') }}", {user: "{{ $user }}", month: "{{ $month }}", year: "{{ $year }}"}),
         columns: [
-            {data: 'environment', name: 'environment'},
-            {data: 'datetime', name: 'datetime'},
-            {data: 'user', name: 'user'},
             {data: 'url', name: 'url'},
-            {data: 'method', name: 'method'},
-            {data: 'ip', name: 'ip'}
+            {data: 'count', name: 'count'},
         ],
         order: [1, 'desc']
     });
@@ -96,7 +88,7 @@
         var user = $("select[name=user]").val();
         var month = $("select[name=month]").val();
         var year = $("select[name=year]").val();
-        window.location.href = Spandiv.URL("{{ route('admin.log.activity') }}", {user: user, month: month, year: year});
+        window.location.href = Spandiv.URL("{{ route('admin.log.activity.url') }}", {user: user, month: month, year: year});
     });
 
     // Button Read More

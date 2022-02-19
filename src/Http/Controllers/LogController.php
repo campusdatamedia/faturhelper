@@ -5,17 +5,22 @@ namespace Ajifatur\FaturHelper\Http\Controllers;
 use Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
+use Ajifatur\FaturHelper\Models\User;
 
 class LogController extends \App\Http\Controllers\Controller
 {
+    public $userIDs = [];
+    public $URLs = [];
+
     /**
      * Convert log to array.
      * 
      * @param  string  $type
      * @param  string  $file
+     * @param  int     $user
      * @return array
      */
-    public function logToArray($type, $file)
+    public function toArray($type, $file, $user = 0)
     {
         $logs = [];
 
@@ -32,7 +37,28 @@ class LogController extends \App\Http\Controllers\Controller
                         $log = json_decode($info[1], true); // JSON to Array
                         $log['datetime'] = substr($info[0],1,19); // Datetime
                         $log['environment'] = substr($info[0],22); // Environment
-                        array_push($logs, $log); // Push
+
+                        // Push to logs and URLs
+                        if($user == 0) {
+                            array_push($logs, $log);
+                            if($log['ajax'] === false) array_push($this->URLs, $log['url']);
+                        }
+                        elseif($user == -1) {
+                            if($log['user_id'] == null) {
+                                array_push($logs, $log);
+                                if($log['ajax'] === false) array_push($this->URLs, $log['url']);
+                            }
+                        }
+                        else {
+                            if($log['user_id'] == $user) {
+                                array_push($logs, $log);
+                                if($log['ajax'] === false) array_push($this->URLs, $log['url']);
+                            }
+                        }
+
+                        // Push to user IDs
+                        if(!in_array($log['user_id'], $this->userIDs))
+                            array_push($this->userIDs, $log['user_id']);
                     }
                 }
             }
@@ -52,7 +78,8 @@ class LogController extends \App\Http\Controllers\Controller
         // Check the access
         has_access(method(__METHOD__), Auth::user()->role_id);
 
-        // Get month and year
+        // Get user, month, year
+        $user = $request->query('user') ?: 0;
         $month = $request->query('month') ?: date('n');
         $year = $request->query('year') ?: date('Y');
 
@@ -60,8 +87,8 @@ class LogController extends \App\Http\Controllers\Controller
         $monthString = strlen($month) == 2 ? $month : '0'.$month;
 
         if($request->ajax()) {
-            // Return datatables
-            return datatables()->of($this->logToArray('info', storage_path('logs/activities-'.$year.'-'.$monthString.'.log')))
+            // DataTables
+            return datatables()->of($this->toArray('info', storage_path('logs/activities-'.$year.'-'.$monthString.'.log'), $user))
                 ->addColumn('user', '
                     @php $user = \Ajifatur\FaturHelper\Models\User::find($user_id); @endphp
                     @if($user)
@@ -110,6 +137,89 @@ class LogController extends \App\Http\Controllers\Controller
 
         // View
         return view('faturhelper::admin/log/activity', [
+            'user' => $user,
+            'month' => $month,
+            'year' => $year,
+        ]);
+    }
+
+    /**
+     * Display the activity log by user ID.
+     * 
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function activityByUserID(Request $request)
+    {
+        if($request->ajax()) {
+            // Get month and year
+            $month = $request->query('month') ?: date('n');
+            $year = $request->query('year') ?: date('Y');
+
+            // Set month to date('m') format
+            $monthString = strlen($month) == 2 ? $month : '0'.$month;
+
+            // Get logs
+            $logs = $this->toArray('info', storage_path('logs/activities-'.$year.'-'.$monthString.'.log'));
+
+            // Get users by ID
+            foreach($this->userIDs as $key=>$user_id) {
+                $this->userIDs[$key] = User::find($user_id);
+            }
+            $this->userIDs = array_values(array_filter($this->userIDs)); // Filter null and reindex
+
+            // Return
+            return response()->json($this->userIDs);
+        }
+    }
+
+    /**
+     * Display the activity log by URL.
+     * 
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function activityByURL(Request $request)
+    {
+        // Check the access
+        has_access(method(__METHOD__), Auth::user()->role_id);
+
+        // Get user, month, year
+        $user = $request->query('user') ?: 0;
+        $month = $request->query('month') ?: date('n');
+        $year = $request->query('year') ?: date('Y');
+
+        // Set month to date('m') format
+        $monthString = strlen($month) == 2 ? $month : '0'.$month;
+
+        if($request->ajax()) {
+            // Get logs
+            $logs = $this->toArray('info', storage_path('logs/activities-'.$year.'-'.$monthString.'.log'), $user);
+
+            // Count URLs
+            $temp = array_count_values($this->URLs);
+            array_walk($temp, function(&$value, $key) {
+                $value = [
+                    'url' => $key,
+                    'count' => $value
+                ];
+            });
+            $this->URLs = array_values($temp);
+
+            // DataTables
+            return datatables()->of($this->URLs)
+                ->editColumn('url', '
+                    <a href="{{ $url }}" target="_blank" style="word-break: break-all;">
+                        {{ $url }}
+                    </a>
+                ')
+                ->rawColumns(['url'])
+                ->make(true);
+        }
+
+        // View
+        return view('faturhelper::admin/log/activity-by-url', [
+            'user' => $user,
             'month' => $month,
             'year' => $year,
         ]);
@@ -127,8 +237,8 @@ class LogController extends \App\Http\Controllers\Controller
         has_access(method(__METHOD__), Auth::user()->role_id);
 
         if($request->ajax()) {
-            // Return datatables
-            return datatables()->of($this->logToArray('error', storage_path('logs/authentications.log')))
+            // DataTables
+            return datatables()->of($this->toArray('error', storage_path('logs/authentications.log')))
                 ->editColumn('datetime', '
                     <span class="d-none">{{ $datetime }}</span>
                     {{ date("d/m/Y", strtotime($datetime)) }}

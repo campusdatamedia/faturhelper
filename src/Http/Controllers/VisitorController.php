@@ -18,7 +18,7 @@ class VisitorController extends \App\Http\Controllers\Controller
     public function index(Request $request)
     {
         // Check the access
-        // has_access(method(__METHOD__), Auth::user()->role_id);
+        has_access(method(__METHOD__), Auth::user()->role_id);
 
         if($request->ajax()) {
             // Get visitors
@@ -72,14 +72,25 @@ class VisitorController extends \App\Http\Controllers\Controller
                 ')
                 ->editColumn('platform', '
                     @if(is_array($platform))
-                        <strong>Tipe:</strong> {{ $platform[\'name\'] }}
+                        <strong>Name:</strong> {{ $platform[\'name\'] }}
                         <hr class="my-1">
                         <strong>Family:</strong> {{ $platform[\'family\'] }}
                         <hr class="my-1">
                         <strong>Version:</strong> {{ $platform[\'version\'] }}
                     @endif
                 ')
-                ->rawColumns(['user', 'datetime', 'device', 'browser', 'platform'])
+                ->editColumn('location', '
+                    @if(is_array($location))
+                        <strong>IP:</strong> {{ $location[\'ip\'] }}
+                        <hr class="my-1">
+                        <strong>Kota:</strong> {{ $location[\'cityName\'] }}
+                        <hr class="my-1">
+                        <strong>Regional:</strong> {{ $location[\'regionName\'] }}
+                        <hr class="my-1">
+                        <strong>Negara:</strong> {{ $location[\'countryName\'] }}
+                    @endif
+                ')
+                ->rawColumns(['user', 'datetime', 'device', 'browser', 'platform', 'location'])
                 ->make(true);
         }
 

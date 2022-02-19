@@ -20,6 +20,7 @@
                                 <th width="180">Device</th>
                                 <th width="180">Browser</th>
                                 <th width="180">Platform</th>
+                                <th width="180">Lokasi</th>
                             </tr>
                         </thead>
                         <tbody></tbody>
@@ -47,6 +48,7 @@
             {data: 'device', name: 'device'},
             {data: 'browser', name: 'browser'},
             {data: 'platform', name: 'platform'},
+            {data: 'location', name: 'location'}
         ],
         order: [0, 'desc']
     });
