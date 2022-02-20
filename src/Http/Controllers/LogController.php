@@ -41,18 +41,21 @@ class LogController extends \App\Http\Controllers\Controller
                         // Push to logs and URLs
                         if($user == 0) {
                             array_push($logs, $log);
-                            if(array_key_exists('ajax', $log) && $log['ajax'] === false) array_push($this->URLs, $log['url']);
+                            if(array_key_exists('ajax', $log) && $log['ajax'] === false)
+                                array_push($this->URLs, $log['url'].' - '.$log['method']);
                         }
                         elseif($user == -1) {
                             if($log['user_id'] == null) {
                                 array_push($logs, $log);
-                                if(array_key_exists('ajax', $log) && $log['ajax'] === false) array_push($this->URLs, $log['url']);
+                                if(array_key_exists('ajax', $log) && $log['ajax'] === false)
+                                    array_push($this->URLs, $log['url'].' - '.$log['method']);
                             }
                         }
                         else {
                             if($log['user_id'] == $user) {
                                 array_push($logs, $log);
-                                if(array_key_exists('ajax', $log) && $log['ajax'] === false) array_push($this->URLs, $log['url']);
+                                if(array_key_exists('ajax', $log) && $log['ajax'] === false)
+                                    array_push($this->URLs, $log['url'].' - '.$log['method']);
                             }
                         }
 
@@ -199,8 +202,10 @@ class LogController extends \App\Http\Controllers\Controller
             // Count URLs
             $temp = array_count_values($this->URLs);
             array_walk($temp, function(&$value, $key) {
+                $explode = explode(" - ", $key);
                 $value = [
-                    'url' => $key,
+                    'url' => $explode[0],
+                    'method' => $explode[1],
                     'count' => $value
                 ];
             });
@@ -209,9 +214,13 @@ class LogController extends \App\Http\Controllers\Controller
             // DataTables
             return datatables()->of($this->URLs)
                 ->editColumn('url', '
-                    <a href="{{ $url }}" target="_blank" style="word-break: break-all;">
+                    @if($method == "GET")
+                        <a href="{{ $url }}" target="_blank" style="word-break: break-all;">
+                            {{ $url }}
+                        </a>
+                    @elseif($method == "POST")
                         {{ $url }}
-                    </a>
+                    @endif
                 ')
                 ->rawColumns(['url'])
                 ->make(true);

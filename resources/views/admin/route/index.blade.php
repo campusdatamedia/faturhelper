@@ -16,12 +16,12 @@
                         <thead class="bg-light">
                             <tr>
                                 <th width="20"></th>
-                                <th>Name</th>
-                                <th>URL</th>
-                                <th>Method</th>
+                                <th width="100">Name</th>
+                                <th width="100">URL</th>
+                                <th width="70">Method</th>
                                 <th>Action</th>
-                                <th>Parameter</th>
-                                <th>Middleware</th>
+                                <th width="70">Parameter</th>
+                                <th width="100">Middleware</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -30,10 +30,10 @@
                                 @if($route != null)
                                     <tr>
                                         <td align="right">{{ $i }}</td>
-                                        <td>{{ $route['name'] }}</td>
-                                        <td>{{ $route['url'] }}</td>
+                                        <td><span style="word-break: break-all;">{{ $route['name'] }}</span></td>
+                                        <td><span style="word-break: break-all;">{{ $route['url'] }}</span></td>
                                         <td>{{ $route['method'] }}</td>
-                                        <td>{{ $route['actionName'] }}</td>
+                                        <td><span style="word-break: break-all;">{{ $route['actionName'] }}</span></td>
                                         <td>
                                             @foreach($route['parameterName'] as $key=>$parameter)
                                                 {{ $parameter }}
@@ -73,5 +73,13 @@
         pageLength: -1
     });
 </script>
+
+@endsection
+
+@section('css')
+
+<style>
+    .table tr td {vertical-align: top!important;}
+</style>
 
 @endsection

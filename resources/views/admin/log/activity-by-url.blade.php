@@ -38,6 +38,7 @@
                         <thead class="bg-light">
                             <tr>
                                 <th>URL</th>
+                                <th width="70">Method</th>
                                 <th width="80">Jumlah</th>
                             </tr>
                         </thead>
@@ -62,9 +63,10 @@
         url: Spandiv.URL("{{ route('admin.log.activity.url') }}", {user: "{{ $user }}", month: "{{ $month }}", year: "{{ $year }}"}),
         columns: [
             {data: 'url', name: 'url'},
+            {data: 'method', name: 'method'},
             {data: 'count', name: 'count'},
         ],
-        order: [1, 'desc']
+        order: [2, 'desc']
     });
 
     // Get users
