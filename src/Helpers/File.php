@@ -140,8 +140,8 @@ class FileExt
     public static function json($path)
     {
         $array = [];
-        if(File::exists(base_path('vendor/ajifatur/faturhelper/json/'.$path))) {
-            $array = json_decode(File::get(base_path('vendor/ajifatur/faturhelper/json/'.$path)), true);
+        if(File::exists(base_path('vendor/campusdatamedia/faturhelper/json/'.$path))) {
+            $array = json_decode(File::get(base_path('vendor/campusdatamedia/faturhelper/json/'.$path)), true);
         }
         return $array;
     }
