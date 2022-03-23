@@ -23,7 +23,10 @@ class PermissionController extends \App\Http\Controllers\Controller
         has_access(method(__METHOD__), Auth::user()->role_id);
 
         // Get permissions
-        $permissions = Permission::orderBy('num_order','asc')->get();
+        if($request->query('default') == 1)
+            $permissions = Permission::where('default','=',1)->orderBy('num_order','asc')->get();
+        else
+            $permissions = Permission::where('default','=',0)->orderBy('num_order','asc')->get();
 
         // Get roles
         $roles = Role::orderBy('num_order','asc')->get();
@@ -70,12 +73,13 @@ class PermissionController extends \App\Http\Controllers\Controller
         }
         else {
             // Get the latest permission
-            $latest_permission = Permission::orderBy('num_order','desc')->first();
+            $latest_permission = Permission::where('default','=',0)->orderBy('num_order','desc')->first();
 
             // Save the permission
             $permission = new Permission;
             $permission->name = $request->name;
             $permission->code = $request->code;
+            $permission->default = 0;
             $permission->num_order = $latest_permission ? $latest_permission->num_order + 1 : 1;
             $permission->save();
 
@@ -97,6 +101,12 @@ class PermissionController extends \App\Http\Controllers\Controller
 
         // Get the permission
         $permission = Permission::findOrFail($id);
+
+        // Check permission whether is default
+        if($permission->default === 1) {
+            // Redirect
+            return redirect()->route('admin.permission.index', ['default' => 1])->with(['message' => 'Tidak bisa mengubah hak akses yang default.']);
+        }
 
         // View
         return view('faturhelper::admin/permission/edit', [
@@ -130,6 +140,7 @@ class PermissionController extends \App\Http\Controllers\Controller
             $permission = Permission::find($request->id);
             $permission->name = $request->name;
             $permission->code = $request->code;
+            $permission->default = 0;
             $permission->save();
 
             // Redirect
@@ -151,6 +162,12 @@ class PermissionController extends \App\Http\Controllers\Controller
         // Get the permission
         $permission = Permission::find($request->id);
 
+        // Check permission whether is default
+        if($permission->default === 1) {
+            // Redirect
+            return redirect()->route('admin.permission.index', ['default' => 1])->with(['message' => 'Tidak bisa menghapus hak akses yang default.']);
+        }
+
         // Delete the permission
         $permission->delete();
 
@@ -170,7 +187,7 @@ class PermissionController extends \App\Http\Controllers\Controller
         has_access(method(__METHOD__), Auth::user()->role_id);
 
         // Get permissions
-        $permissions = Permission::orderBy('num_order','asc')->get();
+        $permissions = Permission::where('default','=',0)->orderBy('num_order','asc')->get();
 
         // View
         return view('faturhelper::admin/permission/reorder', [

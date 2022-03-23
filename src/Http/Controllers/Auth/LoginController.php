@@ -4,11 +4,14 @@ namespace Ajifatur\FaturHelper\Http\Controllers\Auth;
 
 use Auth;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Validator;
 use Laravel\Socialite\Facades\Socialite;
 use Ajifatur\FaturHelper\Models\Role;
 use Ajifatur\FaturHelper\Models\User;
 use Ajifatur\FaturHelper\Models\UserAccount;
+use Ajifatur\FaturHelper\Models\Visitor;
 
 class LoginController extends \App\Http\Controllers\Controller
 {
@@ -46,6 +49,10 @@ class LoginController extends \App\Http\Controllers\Controller
 
         // Return if has errors
         if($validator->fails()) {
+            // Add to log
+            $this->authenticationLog($request, $validator->errors()->toJson());
+
+            // Return
             return redirect()->back()->withErrors($validator->errors())->withInput();
         }
         else {
@@ -76,6 +83,18 @@ class LoginController extends \App\Http\Controllers\Controller
                 $user->last_visit = date('Y-m-d H:i:s');
                 $user->save();
 
+                // Add to visitors
+                if(Schema::hasTable('visitors')) {
+                    $visitor = new Visitor;
+                    $visitor->user_id = $user->id;
+                    $visitor->ip_address = $request->ip();
+                    $visitor->device = device_info();
+                    $visitor->browser = browser_info();
+                    $visitor->platform = platform_info();
+                    $visitor->location = location_info($request->ip());
+                    $visitor->save();
+                }
+
                 // Redirect
                 if($user && $user->role->is_admin == 1)
                     return redirect()->route('admin.dashboard');
@@ -83,11 +102,36 @@ class LoginController extends \App\Http\Controllers\Controller
                     return redirect('/');
             }
             else {
+                // Add to log
+                $this->authenticationLog($request, 'Attempt failed.');
+
+                // Return
                 return redirect()->back()->withErrors([
                     'message' => 'Tidak ada akun yang cocok dengan username / password yang Anda masukkan!'
                 ])->withInput();
             }
         }
+    }
+
+    /**
+     * Authentication Log.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  string $errors
+     * @return \Illuminate\Http\Response
+     */
+    public function authenticationLog(Request $request, $errors)
+    {
+        Log::build([
+            'driver' => 'single',
+            'path' => storage_path('logs/authentications.log'),
+        ])->error(
+            json_encode([
+                'username' => $request->username,
+                'ip' => $request->ip(),
+                'errors' => $errors
+            ])
+        );
     }
     
     /**

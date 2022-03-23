@@ -122,10 +122,6 @@
 <script type="text/javascript">
     // DataTable
     Spandiv.DataTable("#datatable");
-    
-    // Checkbox
-    Spandiv.CheckboxOne();
-    Spandiv.CheckboxAll();
 </script>
 
 @endsection

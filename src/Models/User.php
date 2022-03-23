@@ -53,6 +53,14 @@ class User extends Authenticatable
     {
         return $this->hasMany(UserAvatar::class);
     }
+
+    /**
+     * Get the visits for the user.
+     */
+    public function visits()
+    {
+        return $this->hasMany(Visitor::class);
+    }
     
     /**
      * Get the role that owns the user.

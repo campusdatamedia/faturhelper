@@ -8,6 +8,9 @@
 		<button type="button" class="btn-close btn-close-white text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
 	</div>
 	<div class="offcanvas-body">
+		<div class="d-grid gap-2 mb-3">
+			<a href="https://github.com/ajifatur/faturhelper" class="btn btn-outline-primary btn-lg" target="_blank"><i class="bi-github me-1"></i> Kunjungi Kami</a>
+		</div>
 		<div class="mb-3">
 			<small class="d-block text-uppercase font-weight-bold text-muted mb-2">Tema</small>
 			@php $themes = ['default', 'colored', 'red', 'blue', 'green', 'cyan', 'purple', 'pink', 'gray', 'light']; @endphp
@@ -25,49 +28,64 @@
 		<hr>
 		<div class="mb-3">
 			<small class="d-block text-uppercase font-weight-bold text-muted mb-2">Master</small>
-			<ul class="list-unstyled p-0">
-				<li><a href="{{ route('admin.menu.index') }}">Menu</a></li>
-				<li><a href="{{ route('admin.role.index') }}">Role</a></li>
-				<li><a href="{{ route('admin.permission.index') }}">Hak Akses</a></li>
-				<li><a href="{{ route('admin.meta.index') }}">Meta</a></li>
-			</ul>
+			<div class="row">
+				<div class="col-6"><a href="{{ route('admin.role.index') }}">Role</a></div>
+				<div class="col-6"><a href="{{ route('admin.menu.index') }}">Menu</a></div>
+				<div class="col-6"><a href="{{ route('admin.permission.index') }}">Hak Akses</a></div>
+				<div class="col-6"><a href="{{ route('admin.meta.index') }}">Meta</a></div>
+			</div>
 		</div>
 		<hr>
 		<div class="mb-3">
-			<small class="d-block text-uppercase font-weight-bold text-muted mb-2">Sistem</small>
-			<ul class="list-unstyled p-0">
-				<li><a href="{{ route('admin.system.index') }}">Lingkungan Sistem</a></li>
-				<li><a href="{{ route('admin.database.index') }}">Database</a></li>
-				<li><a href="{{ route('admin.log.index') }}" target="_blank">Log</a></li>
-			</ul>
+			<div class="row">
+				<div class="col-6">
+					<small class="d-block text-uppercase font-weight-bold text-muted mb-2">Sistem</small>
+					<ul class="list-unstyled p-0 mb-0">
+						<li><a href="{{ route('admin.setting.index') }}">Pengaturan</a></li>
+						<li><a href="{{ route('admin.system.index') }}">Lingkungan Sistem</a></li>
+						<li><a href="{{ route('admin.database.index') }}">Database</a></li>
+						<li><a href="{{ route('admin.route.index') }}">Route</a></li>
+					</ul>
+				</div>
+				<div class="col-6">
+					<small class="d-block text-uppercase font-weight-bold text-muted mb-2">Tools</small>
+					<ul class="list-unstyled p-0 mb-0">
+						<li><a href="{{ route('admin.artisan.index') }}">Artisan</a></li>
+					</ul>
+				</div>
+			</div>
 		</div>
 		<hr>
 		<div class="mb-3">
-			<small class="d-block text-uppercase font-weight-bold text-muted mb-2">Tools</small>
-			<ul class="list-unstyled p-0">
-				<li><a href="{{ route('admin.artisan.index') }}">Artisan</a></li>
-			</ul>
+			<small class="d-block text-uppercase font-weight-bold text-muted mb-2">Log</small>
+			<div class="row">
+				<div class="col-6"><a href="{{ route('admin.log.activity') }}">Aktivitas</a></div>
+				<div class="col-6"><a href="{{ route('admin.log.authentication') }}">Autentikasi</a></div>
+				<div class="col-6"><a href="{{ route('admin.log.activity.url') }}">Aktivitas (URL)</a></div>
+				<div class="col-6"><a href="{{ route('admin.visitor.index') }}">Visitor</a></div>
+				<div class="col-6"><a href="{{ route('admin.log.index') }}" target="_blank">Semua Log</a></div>
+			</div>
 		</div>
 		<hr>
 		<div class="mb-3">
-			<small class="d-block text-uppercase font-weight-bold text-muted mb-2">Dataset Kecil</small>
-			<ul class="list-unstyled p-0">
-				@foreach(datasets('small') as $key=>$dataset)
-				<li><a href="{{ route('admin.dataset.index', ['json' => $key]) }}">{{ $dataset }}</a></li>
-				@endforeach
-			</ul>
-		</div>
-		<hr>
-		<div class="mb-3">
-			<small class="d-block text-uppercase font-weight-bold text-muted mb-2">Dataset Besar</small>
-			<ul class="list-unstyled p-0">
-				@foreach(datasets('large') as $key=>$dataset)
-				<li><a href="{{ route('admin.dataset.index', ['json' => $key]) }}">{{ $dataset }}</a></li>
-				@endforeach
-			</ul>
-		</div>
-		<div class="d-grid gap-2 mb-3">
-			<a href="https://github.com/ajifatur/faturhelper" class="btn btn-outline-primary btn-lg" target="_blank"><i class="bi-github me-1"></i> Kunjungi Kami</a>
+			<div class="row">
+				<div class="col-6">
+					<small class="d-block text-uppercase font-weight-bold text-muted mb-2">Dataset Kecil</small>
+					<ul class="list-unstyled p-0">
+						@foreach(datasets('small') as $key=>$dataset)
+						<li><a href="{{ route('admin.dataset.index', ['json' => $key]) }}">{{ $dataset }}</a></li>
+						@endforeach
+					</ul>
+				</div>
+				<div class="col-6">
+					<small class="d-block text-uppercase font-weight-bold text-muted mb-2">Dataset Besar</small>
+					<ul class="list-unstyled p-0">
+						@foreach(datasets('large') as $key=>$dataset)
+						<li><a href="{{ route('admin.dataset.index', ['json' => $key]) }}">{{ $dataset }}</a></li>
+						@endforeach
+					</ul>
+				</div>
+			</div>
 		</div>
 	</div>
 </div>

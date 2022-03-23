@@ -22,7 +22,7 @@ class Permission extends Model
      * @var array
      */
     protected $fillable = [
-        'name', 'code', 'num_order'
+        'name', 'code', 'default', 'num_order'
     ];
 
     /**

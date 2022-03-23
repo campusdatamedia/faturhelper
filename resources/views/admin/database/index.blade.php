@@ -12,30 +12,49 @@
 		<div class="card">
             <div class="card-body">
                 <div class="table-responsive">
-                    <table class="table table-sm table-hover table-bordered" id="datatable">
+                    <table class="table table-sm table-bordered">
                         <thead class="bg-light">
                             <tr>
-                                <th width="30"><input type="checkbox" class="form-check-input checkbox-all"></th>
-                                <th>Tabel</th>
-                                <th>Field</th>
-                                <th width="30">Opsi</th>
+                                <th rowspan="2" width="30">#</th>
+                                <th rowspan="2">Table</th>
+                                <th colspan="6">Field</th>
+                                <th rowspan="2" width="100">Last Update</th>
+                            </tr>
+                            <tr>
+                                <th>Name</th>
+                                <th>Type</th>
+                                <th>Null</th>
+                                <th>Key</th>
+                                <th>Default</th>
+                                <th>Extra</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach($tables as $table)
-                            <tr>
-                                <td align="center"><input type="checkbox" class="form-check-input checkbox-one"></td>
-                                <td>{{ $table->name }}</td>
-                                <td>
-                                    @foreach($table->columns as $key=>$column)
-                                        {{ $column }}
-                                        @if($key < count($table->columns)-1)
-                                        <hr class="my-1">
-                                        @endif
+                            @foreach($tables as $num=>$table)
+                                @foreach($table->columns as $key=>$column)
+                                <tr>
+                                    @if($key == 0)
+                                        <td rowspan="{{ count($table->columns) }}" align="right">{{ ($num + 1) }}</td>
+                                        <td rowspan="{{ count($table->columns) }}">{{ $table->name }}</td>
+                                    @endif
+                                    @foreach($column as $column_attr)
+                                        <td>{{ $column_attr }}</td>
                                     @endforeach
-                                </td>
-                                <td align="center">-</td>
-                            </tr>
+                                    @if($key == 0)
+                                        <td rowspan="{{ count($table->columns) }}">
+                                            @if($table->latest_data)
+                                                {{ date('d/m/Y', strtotime($table->latest_data->updated_at)) }}
+                                                <br>
+                                                <small class="text-muted">{{ date('H:i', strtotime($table->latest_data->updated_at)) }} WIB</small>
+                                            @elseif($table->latest_data === null)
+                                                <span class="text-danger">Empty data.</span>
+                                            @else
+                                                -
+                                            @endif
+                                        </td>
+                                    @endif
+                                </tr>
+                                @endforeach
                             @endforeach
                         </tbody>
                     </table>
@@ -47,18 +66,10 @@
 
 @endsection
 
-@section('js')
+@section('css')
 
-<script type="text/javascript">
-    // DataTable
-    Spandiv.DataTable("#datatable");
-
-    // Button Delete
-    Spandiv.ButtonDelete(".btn-delete", ".form-delete");
-    
-    // Checkbox
-    Spandiv.CheckboxOne();
-    Spandiv.CheckboxAll();
-</script>
+<style>
+    .table tr th {text-align: center; vertical-align: middle;}
+</style>
 
 @endsection

@@ -51,6 +51,26 @@
                             @endif
                         </div>
                     </div>
+                    <div class="row mb-3">
+                        <label class="col-lg-2 col-md-3 col-form-label">Status <span class="text-danger">*</span></label>
+                        <div class="col-lg-10 col-md-9">
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="is_global" id="is_global-1" value="1" {{ old('is_global') == '1' ? 'checked' : '' }}>
+                                <label class="form-check-label" for="is_global-1">
+                                    Global
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="is_global" id="is_global-0" value="0" {{ old('is_global') == '0' ? 'checked' : '' }}>
+                                <label class="form-check-label" for="is_global-0">
+                                    Lokal
+                                </label>
+                            </div>
+                            @if($errors->has('is_global'))
+                            <div class="small text-danger">{{ $errors->first('is_global') }}</div>
+                            @endif
+                        </div>
+                    </div>
                     <hr>
                     <div class="row">
                         <div class="col-lg-2 col-md-3"></div>

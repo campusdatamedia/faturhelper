@@ -16,6 +16,9 @@ class ArtisanController extends \App\Http\Controllers\Controller
      */
     public function index(Request $request)
     {
+        // Check the access
+        has_access(method(__METHOD__), Auth::user()->role_id);
+
         // Set artisans
         $artisans = [
             ['key'=> 'clear-compiled', 'title' => 'Clear Compiled', 'command' => 'php artisan clear-compiled'],

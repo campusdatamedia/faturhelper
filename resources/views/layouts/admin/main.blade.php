@@ -4,7 +4,7 @@
     @include('faturhelper::layouts/admin/_head')
     @yield('css')
 
-    <title>@yield('title') :: {{ config('app.name') }}</title>
+    <title>@yield('title') :: {{ config('app.name') }} {{ setting('tagline') != '' ? ' - '.setting('tagline') : '' }}</title>
 </head>
 <body data-theme="{{ setting('theme') }}">
 	<div class="wrapper">

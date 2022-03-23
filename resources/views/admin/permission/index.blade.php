@@ -9,6 +9,11 @@
     <div class="btn-group">
         <a href="{{ route('admin.permission.create') }}" class="btn btn-sm btn-primary"><i class="bi-plus me-1"></i> Tambah Hak Akses</a>
         <a href="{{ route('admin.permission.reorder') }}" class="btn btn-sm btn-success"><i class="bi-shuffle me-1"></i> Urutkan Hak Akses</a>
+        @if(Request::query('default') == 1)
+            <a href="{{ route('admin.permission.index') }}" class="btn btn-sm btn-secondary"><i class="bi-arrow-left me-1"></i> Kembali</a>
+        @else
+            <a href="{{ route('admin.permission.index', ['default' => 1]) }}" class="btn btn-sm btn-secondary"><i class="bi-lock me-1"></i> Default</a>
+        @endif
     </div>
 </div>
 <div class="row">
@@ -49,7 +54,8 @@
                                     </td>
                                     @foreach($roles as $role)
                                     <td align="center">
-                                        <input class="form-check-input" type="checkbox" data-role="{{ $role->id }}" data-permission="{{ $permission->id }}" {{ in_array($role->id, $permission->roles()->pluck('role_id')->toArray()) ? 'checked' : '' }}>
+                                        <span class="d-none">{{ $permission->num_order }}</span>
+                                        <input class="form-check-input checkbox-role-permission" type="checkbox" data-role="{{ $role->id }}" data-permission="{{ $permission->id }}" {{ in_array($role->id, $permission->roles()->pluck('role_id')->toArray()) ? 'checked' : '' }}>
                                     </td>
                                     @endforeach
                                     <td align="center">
@@ -60,10 +66,6 @@
                                     </td>
                                 </tr>
                                 @endforeach
-                            @else
-                                <tr>
-                                    <td colspan="{{ count($roles) + 2 }}" align="center"><span class="text-danger fst-italic">Tidak ada data.</span></td>
-                                </tr>
                             @endif
                         </tbody>
                     </table>
@@ -94,13 +96,15 @@
 
 <script type="text/javascript">
     // DataTable
-    Spandiv.DataTableRowsGroup("#datatable");
+    Spandiv.DataTable("#datatable", {
+        pageLength: -1
+    });
 
     // Button Delete
     Spandiv.ButtonDelete(".btn-delete", ".form-delete");
 
     // Change Status
-    $(document).on("click", "#datatable .form-check-input", function(e) {
+    $(document).on("click", "#datatable .form-check-input.checkbox-role-permission", function(e) {
         e.preventDefault();
         if(typeof Pace !== "undefined") Pace.restart();
         var permission = $(this).data("permission");

@@ -1,6 +1,8 @@
 <?php
 
 /**
+ * @var string NAMESPACE
+ * 
  * @method static void auth()
  * @method static void admin()
  * @method static void login()
@@ -16,8 +18,11 @@
  * @method static void database()
  * @method static void dataset()
  * @method static void artisan()
- * @method static void log()
+ * @method static void logs()
+ * @method static void route()
+ * @method static void visitors()
  * @method static void api()
+ * @method static void apiAuth()
  */
 
 namespace Ajifatur\Helpers;
@@ -26,7 +31,6 @@ use Illuminate\Support\Facades\Route;
 
 class RouteExt
 {
-
     /**
      * The default namespace.
      *
@@ -63,7 +67,9 @@ class RouteExt
         self::database();
         self::dataset();
         self::artisan();
-        self::log();
+        self::logs();
+        self::route();
+        self::visitors();
     }
 
     /**
@@ -129,6 +135,8 @@ class RouteExt
             Route::post('/admin/settings/account/update', self::NAMESPACE.'\UserSettingController@updateAccount')->name('admin.settings.account.update');
             Route::get('/admin/settings/password', self::NAMESPACE.'\UserSettingController@password')->name('admin.settings.password');
             Route::post('/admin/settings/password/update', self::NAMESPACE.'\UserSettingController@updatePassword')->name('admin.settings.password.update');
+            Route::get('/admin/settings/avatar', self::NAMESPACE.'\UserSettingController@avatar')->name('admin.settings.avatar');
+            Route::post('/admin/settings/avatar/update', self::NAMESPACE.'\UserSettingController@updateAvatar')->name('admin.settings.avatar.update');
         });
     }
 
@@ -208,7 +216,7 @@ class RouteExt
     public static function settings()
     {
         Route::group(['middleware' => ['faturhelper.admin']], function() {
-            // Route::get('/admin/setting', self::NAMESPACE.'\MetaController@index')->name('admin.setting.index');
+            Route::get('/admin/setting', self::NAMESPACE.'\SettingController@index')->name('admin.setting.index');
             Route::post('/admin/setting/update', self::NAMESPACE.'\SettingController@update')->name('admin.setting.update');
         });
     }
@@ -280,10 +288,38 @@ class RouteExt
      *
      * @return void
      */
-    public static function log()
+    public static function logs()
     {
         Route::group(['middleware' => ['faturhelper.admin']], function() {
             Route::get('/admin/log', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index')->name('admin.log.index');
+            Route::get('/admin/log/activity', self::NAMESPACE.'\LogController@activity')->name('admin.log.activity');
+            Route::get('/admin/log/activity/user', self::NAMESPACE.'\LogController@activityByUserID')->name('admin.log.activity.user');
+            Route::get('/admin/log/activity/url', self::NAMESPACE.'\LogController@activityByURL')->name('admin.log.activity.url');
+            Route::get('/admin/log/authentication', self::NAMESPACE.'\LogController@authentication')->name('admin.log.authentication');
+        });
+    }
+
+    /**
+     * Set the route routes.
+     *
+     * @return void
+     */
+    public static function route()
+    {
+        Route::group(['middleware' => ['faturhelper.admin']], function() {
+            Route::get('/admin/route', self::NAMESPACE.'\RouteController@index')->name('admin.route.index');
+        });
+    }
+
+    /**
+     * Set the visitor routes.
+     *
+     * @return void
+     */
+    public static function visitors()
+    {
+        Route::group(['middleware' => ['faturhelper.admin']], function() {
+            Route::get('/admin/visitor', self::NAMESPACE.'\VisitorController@index')->name('admin.visitor.index');
         });
     }
 
@@ -294,8 +330,8 @@ class RouteExt
      */
     public static function api()
     {
-        // Update the system
-        // Route::post('/system/update', self::NAMESPACE.'\SystemController@update')->name('api.system.update');
+        // API routes with authentication
+        self::apiAuth();
 
         // Bootstrap Icons
         Route::get('/dataset/bootstrap-icons', function() {
@@ -306,5 +342,25 @@ class RouteExt
         Route::get('/dataset/country-code', function() {
             return response()->json(country(), 200);
         })->name('api.country-code');
+    }
+
+    /**
+     * Set the API routes with authentication.
+     *
+     * @return void
+     */
+    public static function apiAuth()
+    {
+        Route::group(['middleware' => ['faturhelper.api.auth']], function() {
+            // User
+            Route::get('/user/role', self::NAMESPACE.'\API\UserController@role')->name('api.user.role');
+            Route::get('/user/status', self::NAMESPACE.'\API\UserController@status')->name('api.user.status');
+
+            // Visitor
+            Route::get('/visitor/device/type', self::NAMESPACE.'\API\VisitorController@deviceType')->name('api.visitor.device.type');
+            Route::get('/visitor/device/family', self::NAMESPACE.'\API\VisitorController@deviceFamily')->name('api.visitor.device.family');
+            Route::get('/visitor/browser', self::NAMESPACE.'\API\VisitorController@browser')->name('api.visitor.browser');
+            Route::get('/visitor/platform', self::NAMESPACE.'\API\VisitorController@platform')->name('api.visitor.platform');
+        });
     }
 }

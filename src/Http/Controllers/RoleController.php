@@ -56,7 +56,8 @@ class RoleController extends \App\Http\Controllers\Controller
         $validator = Validator::make($request->all(), [
             'name' => 'required|max:200',
             'code' => 'required|alpha_dash|unique:roles',
-            'is_admin' => 'required'
+            'is_admin' => 'required',
+            'is_global' => 'required'
         ]);
         
         // Check errors
@@ -73,6 +74,7 @@ class RoleController extends \App\Http\Controllers\Controller
             $role->name = $request->name;
             $role->code = $request->code;
             $role->is_admin = $request->is_admin;
+            $role->is_global = $request->is_global;
             $role->num_order = $latest_role ? $latest_role->num_order + 1 : 1;
             $role->save();
 
@@ -94,6 +96,12 @@ class RoleController extends \App\Http\Controllers\Controller
 
         // Get the role
         $role = Role::findOrFail($id);
+
+        // Check role code
+        if($role->code == 'super-admin') {
+            // Redirect
+            return redirect()->route('admin.role.index')->with(['message' => 'Tidak bisa mengubah Super Admin.']);
+        }
 
         // Check role hierarchy
         if($role->num_order >= Auth::user()->role->num_order) {
@@ -122,7 +130,8 @@ class RoleController extends \App\Http\Controllers\Controller
             'code' => [
                 'required', 'alpha_dash', Rule::unique('roles')->ignore($request->id, 'id')
             ],
-            'is_admin' => 'required'
+            'is_admin' => 'required',
+            'is_global' => 'required'
         ]);
         
         // Check errors
@@ -136,6 +145,7 @@ class RoleController extends \App\Http\Controllers\Controller
             $role->name = $request->name;
             $role->code = $request->code;
             $role->is_admin = $request->is_admin;
+            $role->is_global = $request->is_global;
             $role->save();
 
             // Redirect
@@ -156,6 +166,12 @@ class RoleController extends \App\Http\Controllers\Controller
         
         // Get the role
         $role = Role::find($request->id);
+
+        // Check role code
+        if($role->code == 'super-admin') {
+            // Redirect
+            return redirect()->route('admin.role.index')->with(['message' => 'Tidak bisa menghapus Super Admin.']);
+        }
 
         // Check role hierarchy
         if($role->num_order >= Auth::user()->role->num_order) {

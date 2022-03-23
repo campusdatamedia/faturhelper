@@ -54,8 +54,7 @@
             success: function(response) {
                 $("#modal-artisan").find(".bash-command").text("> " + command);
                 $("#modal-artisan").find(".bash-output").text(response);
-                var modal = bootstrap.Modal.getOrCreateInstance(document.querySelector("#modal-artisan"));
-                modal.show();
+                Spandiv.Modal("#modal-artisan").show();
             }
         });
     });

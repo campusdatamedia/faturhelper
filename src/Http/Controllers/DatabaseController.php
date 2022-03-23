@@ -18,7 +18,7 @@ class DatabaseController extends \App\Http\Controllers\Controller
     public function index(Request $request)
     {
         // Check the access
-        // has_access(method(__METHOD__), Auth::user()->role_id);
+        has_access(method(__METHOD__), Auth::user()->role_id);
 
         // Get tables
         $tables = DB::select('SHOW TABLES');
@@ -26,7 +26,8 @@ class DatabaseController extends \App\Http\Controllers\Controller
         // Get table columns
         foreach($tables as $key=>$table) {
             $tables[$key]->name = $table->{'Tables_in_'.env('DB_DATABASE')};
-            $tables[$key]->columns = Schema::getColumnListing($table->{'Tables_in_'.env('DB_DATABASE')});
+            $tables[$key]->columns = DB::select('DESCRIBE '.$tables[$key]->name);
+            $tables[$key]->latest_data = Schema::hasColumn($tables[$key]->name, 'updated_at') ? DB::table($tables[$key]->name)->latest('updated_at')->first() : false;
         }
 
         // View
