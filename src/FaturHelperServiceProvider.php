@@ -73,8 +73,8 @@ class FaturHelperServiceProvider extends ServiceProvider
      */
     protected function loadHelpers()
     {
-        if(File::exists(base_path('vendor/ajifatur/faturhelper/src/Helpers'))) {
-            foreach(glob(base_path('vendor/ajifatur/faturhelper/src').'/Helpers/*.php') as $filename) {
+        if(File::exists(base_path('vendor/campusdatamedia/faturhelper/src/Helpers'))) {
+            foreach(glob(base_path('vendor/campusdatamedia/faturhelper/src').'/Helpers/*.php') as $filename) {
                 require_once $filename;
             }
         }
