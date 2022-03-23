@@ -1,10 +1,10 @@
 # FaturHelper
 
 <p align="center">
-  <a href="https://packagist.org/packages/ajifatur/faturhelper"><img src="https://poser.pugx.org/ajifatur/faturhelper/d/total.svg" alt="Total Downloads"></a>
-  <a href="https://packagist.org/packages/ajifatur/faturhelper"><img src="https://poser.pugx.org/ajifatur/faturhelper/v/stable.svg" alt="Latest Stable Version"></a>
-  <a href="https://packagist.org/packages/ajifatur/faturhelper"><img src="https://poser.pugx.org/ajifatur/faturhelper/license.svg" alt="License"></a>
-  <a href="https://github.com/ajifatur/faturhelper/actions/workflows/main.yml"><img src="https://github.com/ajifatur/faturhelper/actions/workflows/main.yml/badge.svg?branch=master" alt="GitHub Action"></a>
+  <a href="https://packagist.org/packages/campusdatamedia/faturhelper"><img src="https://poser.pugx.org/campusdatamedia/faturhelper/d/total.svg" alt="Total Downloads"></a>
+  <a href="https://packagist.org/packages/campusdatamedia/faturhelper"><img src="https://poser.pugx.org/campusdatamedia/faturhelper/v/stable.svg" alt="Latest Stable Version"></a>
+  <a href="https://packagist.org/packages/campusdatamedia/faturhelper"><img src="https://poser.pugx.org/campusdatamedia/faturhelper/license.svg" alt="License"></a>
+  <a href="https://github.com/campusdatamedia/faturhelper/actions/workflows/main.yml"><img src="https://github.com/campusdatamedia/faturhelper/actions/workflows/main.yml/badge.svg?branch=master" alt="GitHub Action"></a>
   <a href="https://wakatime.com/@ajifatur"><img src="https://wakatime.com/badge/user/7096d127-6916-4f3e-add2-b7f5ca9e1b66/project/f840f725-5b03-4345-809c-24f1142d91ae.svg" alt="WakaTime"></a>
 </p>
 
@@ -24,7 +24,7 @@ FaturHelper is the project that contains some helpers/functions/methods to help 
 Run this script into your CLI:
 
 ```sh
-composer require ajifatur/faturhelper
+composer require campusdatamedia/faturhelper
 ```
 
 ### Configuration:
@@ -32,8 +32,8 @@ composer require ajifatur/faturhelper
 Add this script into `app/Providers/AppServiceProvider.php` inside of `register` method:
 
 ``` php
-if(File::exists(base_path('vendor/ajifatur/faturhelper/src'))) {
-    foreach(glob(base_path('vendor/ajifatur/faturhelper/src').'/Helpers/*.php') as $filename) {
+if(File::exists(base_path('vendor/campusdatamedia/faturhelper/src'))) {
+    foreach(glob(base_path('vendor/campusdatamedia/faturhelper/src').'/Helpers/*.php') as $filename) {
         require_once $filename;
     }
 }
@@ -46,7 +46,7 @@ if(File::exists(base_path('vendor/ajifatur/faturhelper/src'))) {
 Run this script into your CLI:
 
 ```sh
-composer require ajifatur/faturhelper
+composer require campusdatamedia/faturhelper
 ```
 
 ### Configuration:
@@ -66,7 +66,7 @@ php artisan faturhelper:install
 ### Enjoy!
 
 ## Docs
-- [Helper](https://github.com/ajifatur/faturhelper/blob/master/readme/Helper.md)
-- [Helper: Dataset](https://github.com/ajifatur/faturhelper/blob/master/readme/Dataset.md)
-- [Helper: DateTime](https://github.com/ajifatur/faturhelper/blob/master/readme/DateTime.md)
-- [Helper: File](https://github.com/ajifatur/faturhelper/blob/master/readme/File.md)
+- [Helper](https://github.com/campusdatamedia/faturhelper/blob/master/readme/Helper.md)
+- [Helper: Dataset](https://github.com/campusdatamedia/faturhelper/blob/master/readme/Dataset.md)
+- [Helper: DateTime](https://github.com/campusdatamedia/faturhelper/blob/master/readme/DateTime.md)
+- [Helper: File](https://github.com/campusdatamedia/faturhelper/blob/master/readme/File.md)
